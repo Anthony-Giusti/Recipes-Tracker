@@ -1,0 +1,40 @@
+{
+  "notes": [
+    {
+      "title": "Complete my ninja training",
+      "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.",
+      "category": "work",
+      "id": 2
+    },
+    {
+      "title": "Elit ullamco occaecat proident nostrud amet sunt incididunt.",
+      "details": "Voluptate nisi commodo eiusmod occaecat et excepteur anim dolore ipsum dolore aliqua minim.",
+      "category": "work",
+      "id": 3
+    },
+    {
+      "title": "fjajkajfa ",
+      "details": "beep beep beep",
+      "category": "beep",
+      "id": 4
+    },
+    {
+      "title": "GRIGIAOGA",
+      "details": "asdasdagaweg awegaweg gawegwegwae ewafw ",
+      "category": "reminders",
+      "id": 5
+    },
+    {
+      "title": " ggawergaw ",
+      "details": "wgwagweagaweg",
+      "category": "todos",
+      "id": 6
+    },
+    {
+      "title": "beep2",
+      "details": "beep beep beep beep beep beep beep beep beep beep beep beep beep ",
+      "category": "todos",
+      "id": 7
+    }
+  ]
+}
