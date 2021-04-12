@@ -21,6 +21,9 @@ export default makeStyles((theme) => ({
   option: {
     marginTop: 10,
     marginBottom: 10,
+    '&:focus': {
+      borderColor: red,
+    },
   },
   titleContainer: {
     display: 'flex',

@@ -9,7 +9,7 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 import useStyles from './Step-STYLES';
 
-const Step = ({ step, editStep, moveStepOrderUp, moveStepOrderDown }) => {
+const Step = ({ step, editStep, moveStepOrderUp, moveStepOrderDown, deleteStep }) => {
   const [currentlyEditing, setCurrentlyEditing] = useState(false);
   const classes = useStyles();
 
@@ -31,7 +31,6 @@ const Step = ({ step, editStep, moveStepOrderUp, moveStepOrderDown }) => {
           ) : (
             <Typography>{step.step}</Typography>
           )}
-          {/* <Typography>{step.step}</Typography> */}
         </div>
         <div className={classes.cardInterface}>
           <div className={classes.cardInterfacePanel}>
@@ -47,7 +46,7 @@ const Step = ({ step, editStep, moveStepOrderUp, moveStepOrderDown }) => {
             ) : (
               <Button endIcon={<EditIcon />} onClick={() => setCurrentlyEditing(true)} />
             )}
-            <Button endIcon={<DeleteIcon />} />
+            <Button endIcon={<DeleteIcon onClick={() => deleteStep(step)} />} />
           </div>
         </div>
       </Container>

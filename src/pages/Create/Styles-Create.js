@@ -4,7 +4,7 @@ import { grey } from '@material-ui/core/colors';
 export default makeStyles({
   btn: {
     fontSize: 60,
-    backgroundColor: 'violet',
+    // backgroundColor: 'violet',
     '&:hover': {
       backgroundColor: 'red',
     },

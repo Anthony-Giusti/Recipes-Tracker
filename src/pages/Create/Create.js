@@ -35,7 +35,7 @@ export default function Create() {
   const [dietTags, setDietTags] = useState([]);
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [ingredientsWidgetsData, setIngredientsWidgetsData] = useState([]);
-  const [ingredientsError, setIngredientsError] = useState(false);
+  const [ingredientsErrors, setIngredientsErrors] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsUnits, setIngredientsUnits] = useState([]);
   const [ingredientsQuantities, setIngredientsQuantities] = useState([]);
@@ -67,6 +67,7 @@ export default function Create() {
           category,
           dietTags,
           ingredients,
+          steps,
         }),
       }).then(() => history.push('/'));
     }
@@ -149,8 +150,8 @@ export default function Create() {
         name: formatName(ingredient.name),
         units: formatUnits(ingredient.possibleUnits),
         comment: null,
-        unit: null,
-        quantity: null,
+        unit: ingredient.possibleUnits[0],
+        quantity: 1,
       };
       setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
       setIngredientsWidgetsData((prevIngredientWidgets) => [
@@ -195,6 +196,7 @@ export default function Create() {
     if (step.order === 1) {
       return;
     }
+    console.log(step);
     const moveDown = steps[step.order - 2];
     const newSteps = steps.filter(
       (element) => element.id !== step.id && element.id !== moveDown.id
@@ -207,6 +209,10 @@ export default function Create() {
   };
 
   const moveStepOrderDown = (step) => {
+    if (step.order === steps.length) {
+      return;
+    }
+    console.log(step);
     const moveUp = steps[step.order];
     const newSteps = steps.filter((element) => element.id !== step.id && element.id !== moveUp.id);
     step.order += 1;
@@ -216,7 +222,13 @@ export default function Create() {
     setSteps(newSteps);
   };
 
-  const deleteStep = (step) => {};
+  const deleteStep = (step) => {
+    const newSteps = steps.filter((element) => element.id !== step.id);
+    for (let i = 0; i < newSteps.length; i += 1) {
+      newSteps[i].order = i + 1;
+    }
+    setSteps(newSteps);
+  };
 
   return (
     <Container>
@@ -227,7 +239,7 @@ export default function Create() {
         component="h2"
         gutterBottom
       >
-        Create a New Note
+        Create a New Recipe
       </Typography>
 
       <form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -398,6 +410,7 @@ export default function Create() {
                 editStep={editStep}
                 moveStepOrderUp={moveStepOrderUp}
                 moveStepOrderDown={moveStepOrderDown}
+                deleteStep={deleteStep}
               />
             ))}
           </div>
