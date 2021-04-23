@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#f4f4f4',
   },
   appbar: {
-    width: `calc(100% - ${drawerWidth}px)`,
+    // width: `calc(100% - ${drawerWidth}px)`,
   },
   toolbar: theme.mixins.toolbar,
   date: {
@@ -78,7 +78,7 @@ const Layout = ({ children }) => {
           <Avatar src="/Beep.jpg" className={classes.avatar} />
         </Toolbar>
       </AppBar>
-      <Drawer
+      {/* <Drawer
         className={classes.drawer}
         variant="permanent"
         anchor="left"
@@ -102,7 +102,7 @@ const Layout = ({ children }) => {
             </ListItem>
           ))}
         </List>
-      </Drawer>
+      </Drawer> */}
       <div className={classes.page}>
         <div className={classes.toolbar} />
         {children}

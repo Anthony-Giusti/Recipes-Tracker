@@ -1,17 +1,18 @@
 import { makeStyles } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
+import { blue, red } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   card: {
     marginTop: 20,
     marginBottom: 20,
+    // minWidth: '45%',
   },
   x: {
     padding: 10,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: 550,
+    width: '100%',
   },
   options: {
     // marginTop: 20,
@@ -45,6 +46,7 @@ export default makeStyles((theme) => ({
     width: 10,
     margin: 0,
   },
+
   icon: {
     margin: 0,
     background: red,

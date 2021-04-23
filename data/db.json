@@ -1,40 +1,360 @@
 {
-  "notes": [
+  "recipes": [
     {
-      "title": "Complete my ninja training",
-      "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.",
-      "category": "work",
-      "id": 2
+      "title": "Freezer-Friendly Breakfast Burritos",
+      "details": "Easy and delicious vegan breakfast burritos that are loaded with breakfast potatoes, tofu scramble, homemade pinto beans and more! Plus, these burritos are freezer-friendly, so they make for the perfect make-ahead meal.",
+      "imageURL": "https://sweetsimplevegan.com/wp-content/uploads/2018/04/Freezer_Friendly_Breakfast_Burritos_Sweet_Simple_Vegan_WM-2-768x1151.jpg",
+      "categories": {
+        "raw": [
+          "main course"
+        ],
+        "formatted": [
+          "Main Course"
+        ]
+      },
+      "dietTags": {
+        "raw": [
+          "vegan",
+          "vegetarian"
+        ],
+        "formatted": [
+          "Vegan",
+          "Vegetarian"
+        ]
+      },
+      "intolerances": {
+        "raw": [
+          "soy"
+        ],
+        "formatted": [
+          "Soy"
+        ]
+      },
+      "ingredients": [
+        {
+          "id": 16213,
+          "category": "Refrigerated;Produce;Ethnic Foods",
+          "name": "Tofu",
+          "units": [
+            "Package",
+            "Piece",
+            "Slice",
+            "G",
+            "Block",
+            "OZ",
+            "Cup",
+            "Serving"
+          ],
+          "comment": "Scramble",
+          "unit": "Package",
+          "quantity": 1
+        },
+        {
+          "id": 11352,
+          "category": "Produce",
+          "name": "Potato",
+          "units": [
+            "Small",
+            "Large",
+            "Piece",
+            "Potato Medium",
+            "G",
+            "Medium",
+            "Potato Large",
+            "OZ",
+            "Cup",
+            "Potato Small"
+          ],
+          "comment": null,
+          "unit": "Potato Medium",
+          "quantity": 2
+        },
+        {
+          "id": 11233,
+          "category": "Produce",
+          "name": "Kale",
+          "units": [
+            "Head",
+            "Handful",
+            "Piece",
+            "Leave",
+            "G",
+            "Rib",
+            "Sprig",
+            "Bunch",
+            "OZ",
+            "Cup"
+          ],
+          "comment": "Or sub with raw spinach",
+          "unit": "Cup",
+          "quantity": 3
+        },
+        {
+          "id": 1009,
+          "category": "Cheese",
+          "name": "Cheddar Cheese",
+          "units": [
+            "Cubic Inch",
+            "Slice",
+            "G",
+            "Ounce",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Follow Your Heart Vegan Cheese",
+          "unit": "Cup",
+          "quantity": 1
+        }
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "order": 1,
+          "step": "Preheat oven to 425°F and line a large baking sheet with parchment paper or a silicone baking mat."
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "step": "Add all of the ingredients for the breakfast potatoes into a large bowl and toss well to fully coat. Evenly distribute onto the baking sheet and place into the oven for 30 minutes, or until the potatoes are fully cooked through. Set aside and cool to room temperature."
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "step": "Warm up the tortillas*. To assemble the burritos, add about 1/4 cup each of beans and tofu scramble, about 1/2 a cup of greens, and a tablespoon or two of shredded cheese."
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "step": "Roll the burrito up tightly by"
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "step": "In a medium pan over medium heat, add in 2-3 burritos (as many as comfortable fit) and toast for a few minutes on each side, or until golden brown and crunchy. Toasting the burritos is optional but recommended as it helps hold the burritos together and gives them a nice crunch."
+        },
+        {
+          "id": 7,
+          "order": 6,
+          "step": "We then wrap our burritos in a sheet of parchment paper and then with a sheet of aluminum foil. The parchment paper isn’t necessary, it is just personal preference. You can place them in a freezer-safe bag and then into the freezer or just directly into the freezer, your choice."
+        },
+        {
+          "id": 8,
+          "order": 7,
+          "step": "When ready to eat, remove the wrapping(s) from the burrito and place it onto a microwave safe plate. Microwave for 2-3 minutes, or until warmed through. Alternatively, you can warm it in an oven at 350°F for about 12 to 15 minutes. "
+        }
+      ],
+      "id": 9
     },
     {
-      "title": "Elit ullamco occaecat proident nostrud amet sunt incididunt.",
-      "details": "Voluptate nisi commodo eiusmod occaecat et excepteur anim dolore ipsum dolore aliqua minim.",
-      "category": "work",
-      "id": 3
-    },
-    {
-      "title": "fjajkajfa ",
-      "details": "beep beep beep",
-      "category": "beep",
-      "id": 4
-    },
-    {
-      "title": "GRIGIAOGA",
-      "details": "asdasdagaweg awegaweg gawegwegwae ewafw ",
-      "category": "reminders",
-      "id": 5
-    },
-    {
-      "title": " ggawergaw ",
-      "details": "wgwagweagaweg",
-      "category": "todos",
-      "id": 6
-    },
-    {
-      "title": "beep2",
-      "details": "beep beep beep beep beep beep beep beep beep beep beep beep beep ",
-      "category": "todos",
-      "id": 7
+      "title": "Freezer-Friendly Breakfast Burritos",
+      "details": "Easy and delicious vegan breakfast burritos that are loaded with breakfast potatoes, tofu scramble, homemade pinto beans and more! Plus, these burritos are freezer-friendly, so they make for the perfect make-ahead meal.",
+      "imageURL": "https://sweetsimplevegan.com/wp-content/uploads/2018/04/Freezer_Friendly_Breakfast_Burritos_Sweet_Simple_Vegan_WM-2-768x1151.jpg",
+      "categories": {
+        "raw": [
+          "main course",
+          "dessert",
+          "salad",
+          "breakfast",
+          "appetizer",
+          "marinade",
+          "fingerfood",
+          "sauce",
+          "snack",
+          "drink",
+          "soup",
+          "beverage",
+          "bread"
+        ],
+        "formatted": [
+          "Main Course",
+          "Dessert",
+          "Salad",
+          "Breakfast",
+          "Appetizer",
+          "Marinade",
+          "Fingerfood",
+          "Sauce",
+          "Snack",
+          "Drink",
+          "Soup",
+          "Beverage",
+          "Bread"
+        ]
+      },
+      "dietTags": {
+        "raw": [
+          "vegan",
+          "vegetarian",
+          "gluten free",
+          "ketogenic",
+          "lacto-vegetarian",
+          "ovo-vegetarian",
+          "lactose free",
+          "paleo",
+          "primal",
+          "whole30"
+        ],
+        "formatted": [
+          "Vegan",
+          "Vegetarian",
+          "Gluten Free",
+          "Ketogenic",
+          "Lacto-vegetarian",
+          "Ovo-vegetarian",
+          "Lactose Free",
+          "Paleo",
+          "Primal",
+          "Whole30"
+        ]
+      },
+      "intolerances": {
+        "raw": [
+          "soy",
+          "wheat",
+          "tree nut",
+          "sulfite",
+          "shellfish",
+          "sesame",
+          "seafood",
+          "peanut",
+          "grain",
+          "gluten",
+          "dairy",
+          "egg"
+        ],
+        "formatted": [
+          "Soy",
+          "Wheat",
+          "Tree Nut",
+          "Sulfite",
+          "Shellfish",
+          "Sesame",
+          "Seafood",
+          "Peanut",
+          "Grain",
+          "Gluten",
+          "Dairy",
+          "Egg"
+        ]
+      },
+      "ingredients": [
+        {
+          "id": 16213,
+          "category": "Refrigerated;Produce;Ethnic Foods",
+          "name": "Tofu",
+          "units": [
+            "Package",
+            "Piece",
+            "Slice",
+            "G",
+            "Block",
+            "OZ",
+            "Cup",
+            "Serving"
+          ],
+          "comment": "Scramble",
+          "unit": "Package",
+          "quantity": 1
+        },
+        {
+          "id": 11352,
+          "category": "Produce",
+          "name": "Potato",
+          "units": [
+            "Small",
+            "Large",
+            "Piece",
+            "Potato Medium",
+            "G",
+            "Medium",
+            "Potato Large",
+            "OZ",
+            "Cup",
+            "Potato Small"
+          ],
+          "comment": null,
+          "unit": "Potato Medium",
+          "quantity": 2
+        },
+        {
+          "id": 11233,
+          "category": "Produce",
+          "name": "Kale",
+          "units": [
+            "Head",
+            "Handful",
+            "Piece",
+            "Leave",
+            "G",
+            "Rib",
+            "Sprig",
+            "Bunch",
+            "OZ",
+            "Cup"
+          ],
+          "comment": "Or sub with raw spinach",
+          "unit": "Cup",
+          "quantity": 3
+        },
+        {
+          "id": 1009,
+          "category": "Cheese",
+          "name": "Cheddar Cheese",
+          "units": [
+            "Cubic Inch",
+            "Slice",
+            "G",
+            "Ounce",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Follow Your Heart Vegan Cheese",
+          "unit": "Cup",
+          "quantity": 1
+        }
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "order": 1,
+          "step": "Preheat oven to 425°F and line a large baking sheet with parchment paper or a silicone baking mat."
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "step": "Add all of the ingredients for the breakfast potatoes into a large bowl and toss well to fully coat. Evenly distribute onto the baking sheet and place into the oven for 30 minutes, or until the potatoes are fully cooked through. Set aside and cool to room temperature."
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "step": "Warm up the tortillas*. To assemble the burritos, add about 1/4 cup each of beans and tofu scramble, about 1/2 a cup of greens, and a tablespoon or two of shredded cheese."
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "step": "Roll the burrito up tightly by"
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "step": "In a medium pan over medium heat, add in 2-3 burritos (as many as comfortable fit) and toast for a few minutes on each side, or until golden brown and crunchy. Toasting the burritos is optional but recommended as it helps hold the burritos together and gives them a nice crunch."
+        },
+        {
+          "id": 7,
+          "order": 6,
+          "step": "We then wrap our burritos in a sheet of parchment paper and then with a sheet of aluminum foil. The parchment paper isn’t necessary, it is just personal preference. You can place them in a freezer-safe bag and then into the freezer or just directly into the freezer, your choice."
+        },
+        {
+          "id": 8,
+          "order": 7,
+          "step": "When ready to eat, remove the wrapping(s) from the burrito and place it onto a microwave safe plate. Microwave for 2-3 minutes, or until warmed through. Alternatively, you can warm it in an oven at 350°F for about 12 to 15 minutes. "
+        }
+      ],
+      "id": 10
     }
   ]
 }

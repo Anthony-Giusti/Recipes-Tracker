@@ -5,28 +5,40 @@ import {
   Button,
   Select,
   FormControl,
-  InputLabel,
   MenuItem,
   TextField,
-  makeStyles,
   Container,
+  Menu,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useEffect, useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
+
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import useStyles from './Ingredient_STYLES';
 
 const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => {
   const classes = useStyles();
-  const [commentAdded, setCommentAdded] = useState(false);
+  const [commentAdded, setCommentAdded] = useState(!!ingredient.comment);
   const [quantityError, setQuantityError] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   let commentField;
   let quantityField;
 
   const addComment = (comment) => {
+    if (comment === '') {
+      return;
+    }
     changeIngredientValue(ingredient.id, 'comment', comment);
     setCommentAdded(true);
+  };
+
+  const deleteComment = () => {
+    changeIngredientValue(ingredient.id, 'comment', null);
+    commentField.value = '';
+    setCommentAdded(false);
   };
 
   const handleUnitChange = (value) => {
@@ -42,33 +54,28 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
     }
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <Card className={classes.card}>
+    <Card>
       <Container className={classes.x}>
         <div className={classes.titleContainer}>
           <Typography variant="h6" className={classes.title}>
             {ingredient.name}
           </Typography>
         </div>
-        <FormControl className={classes.unit}>
-          <Select
-            label="Unit"
-            variant="outlined"
-            defaultValue={ingredient.units[0]}
-            onChange={(e) => handleUnitChange(e.target.value)}
-          >
-            {ingredient.units.map((unit) => (
-              <MenuItem value={unit} key={`${ingredient}-${unit}`}>
-                {unit}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
         <FormControl className={classes.option}>
           <TextField
             label="Quantity"
+            color="secondary"
             type="number"
-            defaultValue={1}
+            defaultValue={ingredient.quantity ? ingredient.quantity : 1}
             inputProps={{ min: 1, max: 9999 }}
             InputLabelProps={{
               shrink: true,
@@ -82,6 +89,22 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
           />
         </FormControl>
 
+        <FormControl className={classes.unit}>
+          <Select
+            // label="Unit"
+            variant="outlined"
+            color="secondary"
+            defaultValue={ingredient.unit ? ingredient.unit : ingredient.units[0]}
+            onChange={(e) => handleUnitChange(e.target.value)}
+          >
+            {ingredient.units.map((unit) => (
+              <MenuItem value={unit} key={`${ingredient}-${unit}`}>
+                {unit}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
         <Button
           className={classes.delete}
           endIcon={<DeleteIcon className={classes.icon} />}
@@ -90,6 +113,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
       </Container>
       <Container className={classes.comment}>
         <TextField
+          defaultValue={ingredient.comment}
           className={classes.commentTextField}
           id={`${ingredient.name}-comment`}
           label={commentAdded ? 'Edit Comment' : 'Add Comment (Optional)'}
@@ -98,7 +122,42 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
             commentField = ref;
           }}
         />
-        <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
+
+        {commentAdded ? (
+          <Button
+            endIcon={<MoreVertIcon />}
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={handleClick}
+          />
+        ) : (
+          <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
+        )}
+
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              deleteComment();
+            }}
+          >
+            Delete Comment
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleClose();
+              addComment(commentField.value);
+            }}
+          >
+            Confirm Edit
+          </MenuItem>
+        </Menu>
       </Container>
     </Card>
   );
