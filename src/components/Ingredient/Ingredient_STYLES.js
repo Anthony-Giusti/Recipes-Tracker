@@ -54,6 +54,13 @@ export default makeStyles((theme) => ({
   comment: {
     display: 'flex',
     justifyContent: 'space-between',
+    height: '4em',
+  },
+  commentDisplay: {
+    flexGrow: '1',
+    display: 'flex',
+    alignItems: 'center',
+    paddingLeft: '1em',
   },
   commentTextField: {
     flexGrow: 1,

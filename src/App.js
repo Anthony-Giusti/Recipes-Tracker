@@ -36,7 +36,6 @@ function App() {
 
   const handleCurrentRecipe = (recipe) => {
     setCurrentRecipe(recipe);
-    console.log(history);
     history.push('/edit');
   };
 

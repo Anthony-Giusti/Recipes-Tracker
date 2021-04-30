@@ -18,20 +18,19 @@ export default makeStyles({
     marginBottom: 20,
     display: 'block',
   },
-  // ingredientsSeach: {
-  //   marginTop: '1em',
-  //   marginBottom: '1em',
-  //   padding: '1em',
-  // },
+  cookTime: {
+    display: 'flex',
+  },
+  cookTimeTitle: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '1em',
+  },
+
   ingredientSearchField: {
     maxWidth: 200,
   },
-  // searchResults: {
-  //   display: 'flex',
-  //   flexDirection: 'row',
-  //   flexWrap: 'wrap',
-  //   padding: 0,
-  // },
+
   searchResultsItem: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -58,6 +57,12 @@ export default makeStyles({
   },
   checkBoxOptions: {
     flexDirection: 'row',
+  },
+  URLField: {
+    // display: 'flex',
+  },
+  addImageURLBtn: {
+    borderRadius: '0',
   },
   ingredients: {
     marginBottom: '1em',

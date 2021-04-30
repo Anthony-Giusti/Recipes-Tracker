@@ -9,29 +9,48 @@ import {
   TextField,
   Container,
   Menu,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AddIcon from '@material-ui/icons/Add';
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import MenuIcon from '@material-ui/icons/Menu';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 import useStyles from './Ingredient_STYLES';
 
 const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => {
   const classes = useStyles();
+  const [defaultUnit] = useState(ingredient.unit);
+  const [units] = useState(ingredient.units);
+  const [editingComment, setEditingComment] = useState(false);
   const [commentAdded, setCommentAdded] = useState(!!ingredient.comment);
   const [quantityError, setQuantityError] = useState(false);
+  const [ingMenuAnchor, setIngMenuAnchor] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [customUnitMenuOpen, setCustomUnitMeuOpen] = useState(false);
+  const [customUnit, setCustomUnit] = useState('');
+  const [customUnitAdded, setCustomUnitAdded] = useState(false);
+  // const [customUnitDialogOpen, setCustomUnitDialogOpen] = useState(false);
 
   let commentField;
   let quantityField;
+  let unitField;
+  let customUnitField;
 
   const addComment = (comment) => {
     if (comment === '') {
       return;
     }
     changeIngredientValue(ingredient.id, 'comment', comment);
+    setEditingComment(false);
     setCommentAdded(true);
   };
 
@@ -46,7 +65,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
   };
 
   const handleQunatityChange = (value) => {
-    if (value <= 0 || value > 9999) {
+    if (value < 0 || value > 9999) {
       quantityField.value = 1;
     } else {
       setQuantityError(false);
@@ -54,12 +73,30 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
     }
   };
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleIngMenuOpen = (event) => {
+    setIngMenuAnchor(event.currentTarget);
+  };
+
+  const handleMenuClose = (anchor) => {
+    anchor(null);
+  };
+
+  const handleCustomUnit = () => {
+    setCustomUnitMeuOpen(false);
+    changeIngredientValue(ingredient.id, 'unit', customUnitField.value);
+    setCustomUnitAdded(true);
+    setCustomUnit(customUnitField.value);
+  };
+
+  const handleRemoveCustomUnit = () => {
+    setCustomUnitMeuOpen(false);
+    changeIngredientValue(ingredient.id, 'unit', ingredient.units[0]);
+    setCustomUnitAdded(false);
+    setCustomUnit('');
   };
 
   return (
@@ -90,29 +127,57 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
         </FormControl>
 
         <FormControl className={classes.unit}>
-          <Select
-            // label="Unit"
-            variant="outlined"
-            color="secondary"
-            defaultValue={ingredient.unit ? ingredient.unit : ingredient.units[0]}
-            onChange={(e) => handleUnitChange(e.target.value)}
-          >
-            {ingredient.units.map((unit) => (
-              <MenuItem value={unit} key={`${ingredient}-${unit}`}>
-                {unit}
-              </MenuItem>
-            ))}
-          </Select>
+          {customUnitAdded ? (
+            <Typography>{customUnit}</Typography>
+          ) : (
+            <Select
+              label="Unit"
+              variant="outlined"
+              color="secondary"
+              inputRef={(ref) => {
+                unitField = ref;
+              }}
+              defaultValue={defaultUnit}
+              onChange={(e) => handleUnitChange(e.target.value)}
+            >
+              {units.map((unit) => (
+                <MenuItem value={unit} key={`${ingredient}-${unit}`}>
+                  {unit}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
         </FormControl>
-
-        <Button
-          className={classes.delete}
-          endIcon={<DeleteIcon className={classes.icon} />}
-          onClick={() => removeIngredient(ingredient)}
-        />
+        <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleIngMenuOpen}>
+          <MenuIcon />
+        </IconButton>
       </Container>
+
       <Container className={classes.comment}>
-        <TextField
+        {editingComment ? (
+          <div className={classes.commentEdit}>
+            <TextField
+              defaultValue={ingredient.comment}
+              className={classes.commentTextField}
+              id={`${ingredient.name}-comment`}
+              label={commentAdded ? 'Edit Comment' : 'Add Comment'}
+              variant="filled"
+              inputRef={(ref) => {
+                commentField = ref;
+              }}
+            />
+            <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
+          </div>
+        ) : (
+          <Button onClick={() => setEditingComment(true)}>
+            {commentAdded ? 'Edit Comment' : 'Add Comment'}
+          </Button>
+        )}
+        <div className={classes.commentDisplay}>
+          {!editingComment && <Typography>{ingredient.comment}</Typography>}
+        </div>
+
+        {/* <TextField
           defaultValue={ingredient.comment}
           className={classes.commentTextField}
           id={`${ingredient.name}-comment`}
@@ -121,9 +186,9 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
           inputRef={(ref) => {
             commentField = ref;
           }}
-        />
+        /> */}
 
-        {commentAdded ? (
+        {/* {commentAdded ? (
           <Button
             endIcon={<MoreVertIcon />}
             aria-controls="simple-menu"
@@ -132,33 +197,94 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
           />
         ) : (
           <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
-        )}
+        )} */}
 
-        <Menu
-          id="simple-menu"
-          anchorEl={anchorEl}
-          keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              deleteComment();
-            }}
-          >
-            Delete Comment
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              handleClose();
-              addComment(commentField.value);
-            }}
-          >
-            Confirm Edit
-          </MenuItem>
-        </Menu>
+        {/* INGREDIENT MENU  */}
       </Container>
+
+      <Menu
+        id="ingredient-options"
+        anchorEl={ingMenuAnchor}
+        keepMounted
+        open={Boolean(ingMenuAnchor)}
+        onClose={() => handleMenuClose(setIngMenuAnchor)}
+      >
+        {customUnitAdded ? (
+          <MenuItem
+            onClick={() => {
+              handleMenuClose(setIngMenuAnchor);
+              handleRemoveCustomUnit();
+            }}
+          >
+            Remove Custom Unit
+          </MenuItem>
+        ) : (
+          <MenuItem
+            onClick={() => {
+              handleMenuClose(setIngMenuAnchor);
+              setCustomUnitMeuOpen(true);
+            }}
+          >
+            Add Custom Unit
+          </MenuItem>
+        )}
+        <MenuItem onClick={() => removeIngredient(ingredient)}>Delete This Ingredient</MenuItem>
+      </Menu>
+
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            deleteComment();
+          }}
+        >
+          Delete Comment
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            addComment(commentField.value);
+          }}
+        >
+          Confirm Edit
+        </MenuItem>
+      </Menu>
+
+      {/* CUSTOM UNIT DIALOG BOX */}
+
+      <Dialog
+        open={customUnitMenuOpen}
+        onClose={() => setCustomUnitMeuOpen(false)}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add Custom Unit</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="custom unit"
+            type="custom unit"
+            fullWidth
+            inputRef={(ref) => {
+              customUnitField = ref;
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCustomUnitMeuOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleCustomUnit} color="primary">
+            Add Unit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };

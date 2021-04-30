@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import Masonry from 'react-masonry-css';
-import RecipeCard from '../../components/RecipeCard';
+import RecipeCard from '../../components/RecipeCard/RecipeCard.jsx';
 import RecipeModal from './RecipeModal/RecipeModal';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
@@ -26,6 +26,7 @@ const Recipes = ({ getIngredientObject, handleCheckBoxValueChange, handleCurrent
   const [recipes, setRecipes] = useState([]);
   const [displayedRecipe, setDisplayedRecipe] = useState();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
 
@@ -35,22 +36,23 @@ const Recipes = ({ getIngredientObject, handleCheckBoxValueChange, handleCurrent
     });
   }, []);
 
-  const handleDelete = async (id) => {
-    // await fetch(`http://localhost:8000/recipes/${id}`, {
-    //   method: 'DELETE',
-    // });
-    // const newRecipes = recipes.filter((recipe) => recipe.id !== id);
-    // setRecipes(newRecipes);
-    alert('deleting happens here...');
+  const handleDelete = async () => {
+    await fetch(`http://localhost:8000/recipes/${deleteId}`, {
+      method: 'DELETE',
+    });
+    const newRecipes = recipes.filter((recipe) => recipe.id !== deleteId);
+    setRecipes(newRecipes);
     setDeleteDialogOpen(false);
   };
 
-  const handleDeleteOpen = () => {
+  const handleDeleteOpen = (id) => {
     setDeleteDialogOpen(true);
+    setDeleteId(id);
   };
 
   const handleDeleteClose = () => {
     setDeleteDialogOpen(false);
+    setDeleteId(null);
   };
 
   const handleModalOpen = (recipe) => {
@@ -91,7 +93,7 @@ const Recipes = ({ getIngredientObject, handleCheckBoxValueChange, handleCurrent
         <RecipeModal
           getIngredientObject={getIngredientObject}
           modalOpen={modalOpen}
-          handleModalClose={handleModalClose}
+          modalClose={handleModalClose}
           recipe={displayedRecipe}
           handleCheckBoxValueChange={handleCheckBoxValueChange}
           handleCurrentRecipe={handleCurrentRecipe}
@@ -102,8 +104,9 @@ const Recipes = ({ getIngredientObject, handleCheckBoxValueChange, handleCurrent
 
       <Dialog
         open={deleteDialogOpen}
+        onClose={handleDeleteClose}
         aria-labelledby="delete-dialog"
-        aria-describedby="deletes-recipe"
+        aria-describedby="delete-recipe"
       >
         <DialogTitle id="alert-dialog-title">Permanently delete this recipe?</DialogTitle>
         <DialogActions>

@@ -5,11 +5,11 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <div>
     <Router>
       <App />
     </Router>
-  </React.StrictMode>,
+  </div>,
   document.getElementById('root')
 );
 

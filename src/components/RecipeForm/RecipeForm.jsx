@@ -2,13 +2,18 @@
 import {
   Button,
   FormControl,
+  FormGroup,
   FormHelperText,
+  IconButton,
   Paper,
   TextField,
   Typography,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+
 import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import ImageIcon from '@material-ui/icons/Image';
 
 import RecipeCheckBoxes from '../RecipeCheckBoxes/RecipeCheckBoxes';
 import IngredientsSearch from '../IngredientsSearch/IngredientsSearch';
@@ -16,19 +21,24 @@ import Step from '../../pages/Create/Step/Step';
 
 import useStyles from './Styles-RecipeForm';
 
-const RecipeForm = ({ recipe, submit }) => {
-  const [title, setTitle] = useState('');
-  const [details, setDetails] = useState('');
-  const [imageURL, setImageURL] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [dietTags, setDietTags] = useState([]);
-  const [intolerances, setIntolerances] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [steps, setSteps] = useState([]);
+const RecipeForm = ({ recipe, submit, submitBtnText }) => {
+  const [title, setTitle] = useState(recipe ? recipe.title : '');
+  const [details, setDetails] = useState(recipe ? recipe.details : '');
+  const [imageURLs, setImageURLs] = useState(recipe ? recipe.imageURLs : new Array(6).fill(''));
+  const [sourceURL, setSourceURL] = useState(recipe ? recipe.sourceURLs : '');
+  const [imageURLBoxes, setImageURLBoxes] = useState(recipe ? recipe.imageURLs.length : 0);
+  const [cookTime, setCookTime] = useState(recipe ? recipe.cookTime : { hours: 0, minutes: 0 });
+  const [categories, setCategories] = useState(recipe ? recipe.categories.raw : []);
+  const [dietTags, setDietTags] = useState(recipe ? recipe.dietTags.raw : []);
+  const [intolerances, setIntolerances] = useState(recipe ? recipe.intolerances.raw : []);
+  const [ingredients, setIngredients] = useState(recipe ? recipe.ingredients : []);
+  const [steps, setSteps] = useState(recipe ? recipe.steps : []);
   const [stepId, setStepId] = useState(0);
 
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
+  const [imageURLErrors, setImageURLErrors] = useState(new Array(6).fill(false));
+  const [sourceURLError, setSourceURLError] = useState(false);
   const [categoryError, setCategoryError] = useState(false);
   const [ingredientsError, setIngredientsError] = useState(false);
   const [stepsError, setStepsError] = useState(false);
@@ -36,22 +46,12 @@ const RecipeForm = ({ recipe, submit }) => {
 
   const classes = useStyles();
 
-  useEffect(() => {
-    if (recipe) {
-      setTitle(recipe.title);
-      setDetails(recipe.details);
-      setImageURL(recipe.imageURL);
-      setCategories(recipe.categories.raw);
-      setDietTags(recipe.dietTags.raw);
-      setIntolerances(recipe.intolerances.raw);
-      setIngredients(recipe.ingredients);
-      setSteps(recipe.steps);
-    }
-  }, [recipe]);
-
   let recipeTitleField;
   let recipeDetailsField;
-  let imageURLField;
+  let sourceURLField;
+  let cookTimeMinutesField;
+  let cookTimeHoursField;
+  const imageURLFields = [];
   let newStepField;
 
   const formatName = (name) => {
@@ -65,55 +65,46 @@ const RecipeForm = ({ recipe, submit }) => {
     return words;
   };
 
-  // const formatTags = (tags) => tags.map((tag) => formatName(tag)).join(' • ');
-
-  const formatUnits = (units) => {
-    const formattedUnits = [];
-    units.forEach((unit) => {
-      if (unit.length < 3) {
-        formattedUnits.push(unit.toUpperCase());
-      } else {
-        formattedUnits.push(formatName(unit));
-      }
-    });
-    return formattedUnits;
+  const formatUnit = (unit) => {
+    if (unit.length < 3) {
+      return unit.toUpperCase();
+    }
+    return formatName(unit);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setTitleError(false);
-    setDetailsError(false);
-    setCategoryError(false);
-    setIngredientsError(false);
-    setStepsError(false);
+  const formatCookTime = (hours, minutes) => {
+    const hoursPlural = hours > 1 ? 's' : '';
+    const minutesPlural = minutes > 1 ? 's' : '';
 
-    if (recipeTitleField === '') setTitleError(true);
-    if (recipeDetailsField === '') setDetailsError(true);
-    if (categories.length === 0) setCategoryError(true);
-    if (ingredients.length === 0) setIngredientsError(true);
-    if (steps.length === 0) setStepsError(true);
-
-    if (title && details && categories.length > 0 && ingredients.length > 0 && steps.length > 0) {
-      submit({
-        title: recipeTitleField.value,
-        details: recipeDetailsField.value,
-        imageURL: imageURLField.value,
-        categories: {
-          raw: categories,
-          formatted: categories.map((category) => formatName(category)),
-        },
-        dietTags: {
-          raw: dietTags,
-          formatted: dietTags.map((dietTag) => formatName(dietTag)),
-        },
-        intolerances: {
-          raw: intolerances,
-          formatted: intolerances.map((intolerance) => formatName(intolerance)),
-        },
-        ingredients,
-        steps,
-      });
+    if (hours && minutes) {
+      return `${hours} hour${hoursPlural} and ${minutes} minute${minutesPlural}`;
     }
+    if (hours) {
+      return `${hours} hour${hoursPlural}`;
+    }
+    if (minutes) {
+      return `${minutes} minute${minutesPlural}`;
+    }
+  };
+
+  const validateURLs = (urls) => {
+    const check = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    ); // fragment locator
+
+    if (Array.isArray(urls)) {
+      return urls.map((url) => !check.test(url.value));
+    }
+    if (urls.value === '') {
+      return true;
+    }
+    return !check.test(urls.value);
   };
 
   const handleCheckBoxValueChange = (newValue, setValues) => {
@@ -144,15 +135,28 @@ const RecipeForm = ({ recipe, submit }) => {
     }
   };
 
+  const handleImageURLBoxAdd = () => {
+    if (imageURLBoxes < 5) {
+      setImageURLBoxes(imageURLBoxes + 1);
+    }
+  };
+
+  const handleImageURlBoxRemove = () => {
+    if (imageURLBoxes > 0) {
+      setImageURLBoxes(imageURLBoxes - 1);
+    }
+  };
+
   const handleIngredientAdd = (ingredient) => {
     if (ingredients.every((element) => element.id !== ingredient.id)) {
       const newIngredient = {
         id: ingredient.id,
         category: ingredient.aisle,
         name: formatName(ingredient.name),
-        units: formatUnits(ingredient.possibleUnits),
+        // units: formatUnits(possibleUnits.possibleUnits),
+        units: ingredient.possibleUnits.map((unit) => formatUnit(unit)),
         comment: null,
-        unit: ingredient.possibleUnits[0],
+        unit: formatUnit(ingredient.possibleUnits[0]),
         quantity: 1,
       };
       setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
@@ -167,6 +171,10 @@ const RecipeForm = ({ recipe, submit }) => {
   const changeIngredientValue = (ingredientID, property, value) => {
     const alteredIngredient = ingredients.find((ingredient) => ingredientID === ingredient.id);
     alteredIngredient[property] = value;
+
+    // if (property === 'unit' && !alteredIngredient.units.includes(value)) {
+    //   alteredIngredient.units.push(value);
+    // }
 
     const newIngredients = ingredients;
     const index = ingredients.findIndex((ingredient) => ingredient.id === ingredientID);
@@ -234,13 +242,91 @@ const RecipeForm = ({ recipe, submit }) => {
     setSteps(newSteps);
   };
 
+  const handleHoursChange = (value) => {
+    if (value < 0) {
+      cookTimeHoursField.value = 1;
+    } else if (value > 99) {
+      cookTimeHoursField.value = 99;
+    }
+  };
+
+  const handleMinutesChange = (value) => {
+    if (value < 0) {
+      cookTimeMinutesField.value = 1;
+    } else if (value > 59) {
+      cookTimeMinutesField.value = 59;
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTitleError(false);
+    setDetailsError(false);
+    setCategoryError(false);
+    setIngredientsError(false);
+    setStepsError(false);
+
+    if (recipeTitleField.value === '') setTitleError(true);
+    if (recipeDetailsField.value === '') setDetailsError(true);
+    if (categories.length === 0) setCategoryError(true);
+    if (ingredients.length === 0) setIngredientsError(true);
+    if (steps.length === 0) setStepsError(true);
+    setImageURLErrors(validateURLs(imageURLFields));
+
+    setSourceURLError(() => {
+      if (sourceURLField.value === '') {
+        return false;
+      }
+      return validateURLs(sourceURLField.value);
+    });
+
+    if (
+      !titleError &&
+      !detailsError &&
+      !categoryError &&
+      !ingredientsError &&
+      !stepsError &&
+      imageURLErrors.every((error) => !error)
+    ) {
+      submit({
+        title: recipeTitleField.value,
+        details: recipeDetailsField.value,
+        cookTime: {
+          hours: cookTimeHoursField.value,
+          minutes: cookTimeMinutesField.value,
+          formatted: formatCookTime(cookTimeHoursField.value, cookTimeMinutesField.value),
+        },
+        soureURL: sourceURLField.value,
+        imageURLs: imageURLFields.map((url) => url.value),
+        categories: {
+          raw: categories,
+          formatted: categories.map((category) => formatName(category)),
+        },
+        dietTags: {
+          raw: dietTags,
+          formatted: dietTags.map((dietTag) => formatName(dietTag)),
+        },
+        intolerances: {
+          raw: intolerances,
+          formatted: intolerances.map((intolerance) => formatName(intolerance)),
+        },
+        ingredients,
+        steps,
+      });
+    }
+  };
+
+  // ================================================================================= //
+  // ================================================================================= //
+  // ================================================================================= //
+
   return (
     <form noValidate autoComplete="off" onSubmit={handleSubmit}>
       {/* RECIPE NAME FIELD */}
       <TextField
         className={classes.field}
         name="name"
-        defaultValue={recipe.title}
+        defaultValue={title}
         label="Recipe Name"
         variant="outlined"
         color="secondary"
@@ -257,7 +343,7 @@ const RecipeForm = ({ recipe, submit }) => {
       <TextField
         className={classes.field}
         name="summary"
-        defaultValue={recipe.details}
+        defaultValue={details}
         label="Summary"
         variant="outlined"
         color="secondary"
@@ -271,22 +357,98 @@ const RecipeForm = ({ recipe, submit }) => {
         error={detailsError}
       />
 
-      {/* IMAGEURL FIELD */}
+      {/* SOURCE URL FIELD */}
 
       <TextField
         className={classes.field}
-        name="imageURL"
-        defaultValue={imageURL}
-        label="Image URL"
+        name="sourceURL"
+        defaultValue={sourceURL}
+        label="Source URL"
         variant="outlined"
         color="secondary"
         multiline
         row={4}
-        inputRef={(ref) => {
-          imageURLField = ref;
-        }}
         fullWidth
+        helperText="Invalid URL please fix and resubmit or remove"
+        inputRef={(ref) => {
+          sourceURLField = ref;
+        }}
+        error={sourceURLError}
       />
+
+      {/* COOK TIME FIELDS */}
+
+      <div className={classes.cookTime}>
+        <div className={classes.cookTimeTitle}>
+          <Typography variant="h5">Total Cook Time:</Typography>
+        </div>
+
+        <TextField
+          className={classes.field}
+          name="cookTimeHours"
+          defaultValue={Number(cookTime.hours)}
+          label="Hours"
+          variant="outlined"
+          color="secondary"
+          type="number"
+          onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
+          inputProps={{ min: 0, max: 99 }}
+          inputRef={(ref) => {
+            cookTimeHoursField = ref;
+          }}
+        />
+
+        <TextField
+          className={classes.field}
+          name="cookTimeMinutes"
+          defaultValue={cookTime.minutes}
+          label="Minutes"
+          variant="outlined"
+          color="secondary"
+          type="number"
+          onChange={(e) => handleMinutesChange(parseInt(e.target.value, 10))}
+          inputProps={{ min: 0, max: 59 }}
+          inputRef={(ref) => {
+            cookTimeMinutesField = ref;
+          }}
+        />
+      </div>
+
+      {/* IMAGE URL FIELDS */}
+
+      <div>
+        <Button
+          endIcon={<AddIcon />}
+          className={classes.addImageURLBtn}
+          onClick={() => handleImageURLBoxAdd()}
+        >
+          Add images (maximum of 6)
+        </Button>
+        <IconButton onClick={() => handleImageURlBoxRemove()}>
+          <RemoveIcon />
+        </IconButton>
+        {[...Array(imageURLBoxes)].map((value, index) => (
+          <TextField
+            key={index}
+            className={classes.field}
+            name={`extraImageURL ${index}`}
+            defaultValue={imageURLs[index]}
+            label="Image URL"
+            variant="outlined"
+            color="secondary"
+            multiline
+            row={4}
+            helperText={
+              imageURLErrors[index] ? 'Invalid URL please fix and resubmit or remove' : ''
+            }
+            inputRef={(ref) => {
+              imageURLFields[index] = ref;
+            }}
+            error={imageURLErrors[index]}
+            fullWidth
+          />
+        ))}
+      </div>
 
       {/* RECIPES CHECKBOXES */}
 
@@ -337,7 +499,6 @@ const RecipeForm = ({ recipe, submit }) => {
           </div>
           {stepsError && <FormHelperText>You must have at least one step</FormHelperText>}
         </FormControl>
-        {console.log(steps)}
         <div>
           {steps.map((step) => (
             <Step
@@ -351,13 +512,14 @@ const RecipeForm = ({ recipe, submit }) => {
           ))}
         </div>
       </Paper>
+
       <br />
       <br />
 
       {/* SUBMIT BUTTON */}
 
       <Button variant="contained" type="submit" color="primary" endIcon={<AddIcon />}>
-        Add Recipe
+        {submitBtnText}
       </Button>
     </form>
   );

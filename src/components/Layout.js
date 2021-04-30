@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +13,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { useHistory, useLocation } from 'react-router';
 import { format } from 'date-fns';
 import Avatar from '@material-ui/core/Avatar';
+import AddIcon from '@material-ui/icons/Add';
+import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 
 const drawerWidth = 240;
 
@@ -71,6 +73,12 @@ const Layout = ({ children }) => {
     <div className={classes.root}>
       <AppBar className={classes.appbar} elevation={0}>
         <Toolbar>
+          <Button onClick={() => history.push('/')} endIcon={<ViewComfyIcon />}>
+            View Your Recipes
+          </Button>
+          <Button onClick={() => history.push('/create')} endIcon={<AddIcon />}>
+            Create New Recipe
+          </Button>
           <Typography className={classes.date}>
             Today is the {format(new Date(), 'do MMMM Y')}
           </Typography>

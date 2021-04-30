@@ -12,6 +12,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-masonry-css": "^1.0.16",
+    "react-material-ui-carousel": "^2.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",

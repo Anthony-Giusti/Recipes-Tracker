@@ -23,6 +23,7 @@ const IngredientsSearch = ({
   handleIngredientAdd,
   handleIngredientRemove,
   changeIngredientValue,
+  addCustomUnit,
 }) => {
   const classes = useStyles();
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
