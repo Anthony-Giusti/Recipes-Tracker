@@ -1,47 +1,56 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import {
-  Container,
-  Grid,
-  Paper,
-  makeStyles,
-  Button,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from '@material-ui/core';
-import Modal from '@material-ui/core/Modal';
+import PropTypes from 'prop-types';
 import Masonry from 'react-masonry-css';
+
+import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Drawer from '@material-ui/core/Drawer';
+
 import RecipeCard from '../../components/RecipeCard/RecipeCard.jsx';
 import RecipeModal from './RecipeModal/RecipeModal';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
+import {
+  categoryOptions,
+  dietTagOptions,
+  intoleranceOptions,
+} from '../../components/RecipeCheckBoxes/_data';
+
 import useStyles from './Styles-Recipes';
 
-const Recipes = ({ getIngredientObject, handleCheckBoxValueChange, handleCurrentRecipe }) => {
-  const [recipes, setRecipes] = useState([]);
+const Recipes = ({
+  fileredRecipes,
+  resetFilterTags,
+  deleteRecipe,
+  getIngredientObject,
+  handleCheckBoxValueChange,
+  handleCurrentRecipe,
+  fetchRecipes,
+}) => {
   const [displayedRecipe, setDisplayedRecipe] = useState();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [filteredTags, setFilteredTags] = useState({
+    categories: [],
+    dietTags: [],
+    intolerances: [],
+  });
+  const [categoryBoxesChecked, setCategoryBoxesChecked] = useState(
+    new Array(categoryOptions.length).fill(false)
+  );
   const classes = useStyles();
 
   useEffect(() => {
-    fetch('http://localhost:8000/recipes').then((response) => {
-      response.json().then((data) => setRecipes(data));
-    });
+    resetFilterTags();
+    fetchRecipes();
   }, []);
 
   const handleDelete = async () => {
-    await fetch(`http://localhost:8000/recipes/${deleteId}`, {
-      method: 'DELETE',
-    });
-    const newRecipes = recipes.filter((recipe) => recipe.id !== deleteId);
-    setRecipes(newRecipes);
+    deleteRecipe(deleteId);
     setDeleteDialogOpen(false);
   };
 
@@ -77,7 +86,7 @@ const Recipes = ({ getIngredientObject, handleCheckBoxValueChange, handleCurrent
         className={classes.myMasonryGrid}
         columnClassName={classes.myMasonryGridColumn}
       >
-        {recipes.map((recipe) => (
+        {fileredRecipes.map((recipe) => (
           <div className={classes.masonryGridItem} key={recipe.id}>
             <RecipeCard
               handleDeleteOpen={handleDeleteOpen}
@@ -118,8 +127,20 @@ const Recipes = ({ getIngredientObject, handleCheckBoxValueChange, handleCurrent
           </Button>
         </DialogActions>
       </Dialog>
+      <Drawer />
     </Container>
   );
+};
+
+Recipes.propTypes = {
+  // recipes: PropTypes.array,
+  fileredRecipes: PropTypes.array,
+  resetFilterTags: PropTypes.func,
+  deleteRecipe: PropTypes.func,
+  getIngredientObject: PropTypes.func,
+  handleCheckBoxValueChange: PropTypes.func,
+  handleCurrentRecipe: PropTypes.func,
+  fetchRecipes: PropTypes.func,
 };
 
 export default Recipes;

@@ -18,10 +18,15 @@ export default makeStyles({
     marginBottom: 20,
     display: 'block',
   },
-  cookTime: {
+  yieldCookTimeContainer: {
     display: 'flex',
+    flexWrap: 'wrap',
   },
-  cookTimeTitle: {
+  yieldCookTime: {
+    display: 'flex',
+    marginRight: '1em',
+  },
+  yieldCookTimeTitle: {
     display: 'flex',
     alignItems: 'center',
     marginRight: '1em',

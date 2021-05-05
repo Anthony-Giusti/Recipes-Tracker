@@ -1,19 +1,16 @@
-/* eslint-disable react/prop-types */
-import {
-  Button,
-  FormControl,
-  FormGroup,
-  FormHelperText,
-  IconButton,
-  Paper,
-  TextField,
-  Typography,
-} from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import ImageIcon from '@material-ui/icons/Image';
 
 import RecipeCheckBoxes from '../RecipeCheckBoxes/RecipeCheckBoxes';
 import IngredientsSearch from '../IngredientsSearch/IngredientsSearch';
@@ -22,18 +19,20 @@ import Step from '../../pages/Create/Step/Step';
 import useStyles from './Styles-RecipeForm';
 
 const RecipeForm = ({ recipe, submit, submitBtnText }) => {
-  const [title, setTitle] = useState(recipe ? recipe.title : '');
-  const [details, setDetails] = useState(recipe ? recipe.details : '');
-  const [imageURLs, setImageURLs] = useState(recipe ? recipe.imageURLs : new Array(6).fill(''));
-  const [sourceURL, setSourceURL] = useState(recipe ? recipe.sourceURLs : '');
+  const [title] = useState(recipe ? recipe.title : '');
+  const [details] = useState(recipe ? recipe.details : '');
+  const [servings] = useState(recipe ? recipe.servings : 1);
+  const [sourceURL] = useState(recipe ? recipe.sourceURLs : '');
+  const [imageURLs] = useState(recipe ? recipe.imageURLs : new Array(6).fill(''));
   const [imageURLBoxes, setImageURLBoxes] = useState(recipe ? recipe.imageURLs.length : 0);
-  const [cookTime, setCookTime] = useState(recipe ? recipe.cookTime : { hours: 0, minutes: 0 });
+  const [cookTime] = useState(recipe ? recipe.cookTime : { hours: 0, minutes: 0 });
   const [categories, setCategories] = useState(recipe ? recipe.categories.raw : []);
   const [dietTags, setDietTags] = useState(recipe ? recipe.dietTags.raw : []);
   const [intolerances, setIntolerances] = useState(recipe ? recipe.intolerances.raw : []);
   const [ingredients, setIngredients] = useState(recipe ? recipe.ingredients : []);
   const [steps, setSteps] = useState(recipe ? recipe.steps : []);
   const [stepId, setStepId] = useState(0);
+  const [additionalNotes] = useState(recipe ? recipe.additionalNotes : '');
 
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
@@ -48,11 +47,13 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
 
   let recipeTitleField;
   let recipeDetailsField;
+  let servingsField;
   let sourceURLField;
   let cookTimeMinutesField;
   let cookTimeHoursField;
   const imageURLFields = [];
   let newStepField;
+  let addtionalNotesField;
 
   const formatName = (name) => {
     const words = name.split(' ');
@@ -76,13 +77,13 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     const hoursPlural = hours > 1 ? 's' : '';
     const minutesPlural = minutes > 1 ? 's' : '';
 
-    if (hours && minutes) {
+    if (hours > 0 && minutes > 0) {
       return `${hours} hour${hoursPlural} and ${minutes} minute${minutesPlural}`;
     }
-    if (hours) {
+    if (hours > 0) {
       return `${hours} hour${hoursPlural}`;
     }
-    if (minutes) {
+    if (minutes > 0) {
       return `${minutes} minute${minutesPlural}`;
     }
   };
@@ -155,6 +156,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         name: formatName(ingredient.name),
         // units: formatUnits(possibleUnits.possibleUnits),
         units: ingredient.possibleUnits.map((unit) => formatUnit(unit)),
+        customUnit: false,
         comment: null,
         unit: formatUnit(ingredient.possibleUnits[0]),
         quantity: 1,
@@ -172,15 +174,17 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     const alteredIngredient = ingredients.find((ingredient) => ingredientID === ingredient.id);
     alteredIngredient[property] = value;
 
-    // if (property === 'unit' && !alteredIngredient.units.includes(value)) {
-    //   alteredIngredient.units.push(value);
-    // }
-
     const newIngredients = ingredients;
     const index = ingredients.findIndex((ingredient) => ingredient.id === ingredientID);
     newIngredients.splice(index, 1, alteredIngredient);
 
     setIngredients(newIngredients);
+  };
+
+  const handleCustomUnit = (ingredientID, state, value) => {
+    const alteredIngredient = ingredients.find((ingredient) => ingredientID === ingredient.id);
+    alteredIngredient.unit = value;
+    alteredIngredient.customUnit = state;
   };
 
   const addNewStep = (newStep) => {
@@ -312,6 +316,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         },
         ingredients,
         steps,
+        addtionalNotes: addtionalNotesField.value,
       });
     }
   };
@@ -369,49 +374,72 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         multiline
         row={4}
         fullWidth
-        helperText="Invalid URL please fix and resubmit or remove"
+        helperText={sourceURLError ? 'Invalid URL please fix and resubmit or remove' : ''}
         inputRef={(ref) => {
           sourceURLField = ref;
         }}
         error={sourceURLError}
       />
 
-      {/* COOK TIME FIELDS */}
-
-      <div className={classes.cookTime}>
-        <div className={classes.cookTimeTitle}>
-          <Typography variant="h5">Total Cook Time:</Typography>
+      {/* SERVINGS */}
+      <div className={classes.yieldCookTimeContainer}>
+        <div className={classes.yieldCookTime}>
+          <div className={classes.yieldCookTimeTitle}>
+            <Typography variant="h5">Yield:</Typography>
+          </div>
+          <TextField
+            className={classes.field}
+            name="cookTimeHours"
+            defaultValue={Number(servings)}
+            label="Servings"
+            variant="outlined"
+            color="secondary"
+            type="number"
+            onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
+            inputProps={{ min: 1, max: 99 }}
+            inputRef={(ref) => {
+              servingsField = ref;
+            }}
+          />
         </div>
 
-        <TextField
-          className={classes.field}
-          name="cookTimeHours"
-          defaultValue={Number(cookTime.hours)}
-          label="Hours"
-          variant="outlined"
-          color="secondary"
-          type="number"
-          onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
-          inputProps={{ min: 0, max: 99 }}
-          inputRef={(ref) => {
-            cookTimeHoursField = ref;
-          }}
-        />
+        {/* COOK TIME FIELDS */}
 
-        <TextField
-          className={classes.field}
-          name="cookTimeMinutes"
-          defaultValue={cookTime.minutes}
-          label="Minutes"
-          variant="outlined"
-          color="secondary"
-          type="number"
-          onChange={(e) => handleMinutesChange(parseInt(e.target.value, 10))}
-          inputProps={{ min: 0, max: 59 }}
-          inputRef={(ref) => {
-            cookTimeMinutesField = ref;
-          }}
-        />
+        <div className={classes.yieldCookTime}>
+          <div className={classes.yieldCookTimeTitle}>
+            <Typography variant="h5">Total Cook Time:</Typography>
+          </div>
+
+          <TextField
+            className={classes.field}
+            name="cookTimeHours"
+            defaultValue={Number(cookTime.hours)}
+            label="Hours"
+            variant="outlined"
+            color="secondary"
+            type="number"
+            onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
+            inputProps={{ min: 0, max: 99 }}
+            inputRef={(ref) => {
+              cookTimeHoursField = ref;
+            }}
+          />
+
+          <TextField
+            className={classes.field}
+            name="cookTimeMinutes"
+            defaultValue={cookTime.minutes}
+            label="Minutes"
+            variant="outlined"
+            color="secondary"
+            type="number"
+            onChange={(e) => handleMinutesChange(parseInt(e.target.value, 10))}
+            inputProps={{ min: 0, max: 59 }}
+            inputRef={(ref) => {
+              cookTimeMinutesField = ref;
+            }}
+          />
+        </div>
       </div>
 
       {/* IMAGE URL FIELDS */}
@@ -468,6 +496,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         changeIngredientValue={changeIngredientValue}
         handleIngredientAdd={handleIngredientAdd}
         handleIngredientRemove={handleIngredientRemove}
+        handleCustomUnit={handleCustomUnit}
       />
 
       {/* STEPS */}
@@ -516,6 +545,23 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       <br />
       <br />
 
+      {/* ADDITIONAL NOTES */}
+
+      <TextField
+        className={classes.field}
+        name="additional notes"
+        defaultValue={additionalNotes}
+        label="Additional Notes"
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        multiline
+        row={4}
+        inputRef={(ref) => {
+          addtionalNotesField = ref;
+        }}
+      />
+
       {/* SUBMIT BUTTON */}
 
       <Button variant="contained" type="submit" color="primary" endIcon={<AddIcon />}>
@@ -523,6 +569,12 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       </Button>
     </form>
   );
+};
+
+RecipeForm.propTypes = {
+  recipe: PropTypes.object,
+  submit: PropTypes.func,
+  submitBtnText: PropTypes.string,
 };
 
 export default RecipeForm;

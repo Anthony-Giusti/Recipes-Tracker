@@ -12,6 +12,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%',
   },
   options: {
@@ -55,6 +56,14 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     height: '4em',
+  },
+  commentDisplayed: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  commentEdit: {
+    display: 'flex',
+    width: '100%',
   },
   commentDisplay: {
     flexGrow: '1',

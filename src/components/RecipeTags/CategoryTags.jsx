@@ -1,6 +1,10 @@
 /* eslint-disable react/prop-types */
-import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 import useStyles from './Styles-Tags';
 
 const CategoryTags = ({ catergories }) => {
@@ -17,6 +21,10 @@ const CategoryTags = ({ catergories }) => {
       ))}
     </Grid>
   );
+};
+
+CategoryTags.propTypes = {
+  catergories: PropTypes.object,
 };
 
 export default CategoryTags;

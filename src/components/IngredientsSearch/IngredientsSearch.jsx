@@ -1,15 +1,14 @@
-/* eslint-disable react/prop-types */
-import {
-  Button,
-  Container,
-  FormControl,
-  FormHelperText,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-} from '@material-ui/core';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -23,7 +22,7 @@ const IngredientsSearch = ({
   handleIngredientAdd,
   handleIngredientRemove,
   changeIngredientValue,
-  addCustomUnit,
+  handleCustomUnit,
 }) => {
   const classes = useStyles();
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
@@ -93,6 +92,7 @@ const IngredientsSearch = ({
         {ingredients.map((ingredient) => (
           <Grid item xs={12} md={6} key={ingredient.id}>
             <Ingredient
+              handleCustomUnit={handleCustomUnit}
               ingredient={ingredient}
               removeIngredient={handleIngredientRemove}
               changeIngredientValue={changeIngredientValue}
@@ -102,6 +102,15 @@ const IngredientsSearch = ({
       </Grid>
     </Paper>
   );
+};
+
+IngredientsSearch.propTypes = {
+  ingredientsError: PropTypes.bool,
+  ingredients: PropTypes.array,
+  handleIngredientAdd: PropTypes.func,
+  handleIngredientRemove: PropTypes.func,
+  changeIngredientValue: PropTypes.func,
+  handleCustomUnit: PropTypes.func,
 };
 
 export default IngredientsSearch;

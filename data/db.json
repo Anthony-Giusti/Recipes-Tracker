@@ -695,6 +695,426 @@
         }
       ],
       "id": 27
+    },
+    {
+      "title": "Instant Pot Vegetarian Chili Mac",
+      "details": "Ultra hearty and satisfying, this Easy Instant Pot Vegetarian Chili Mac is the perfect game day meal, just in time for the Super Bowl! ",
+      "cookTime": {
+        "hours": "0",
+        "minutes": "35",
+        "formatted": "35 minutes"
+      },
+      "soureURL": "",
+      "imageURLs": [
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-4-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-1-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-6-2.jpg"
+      ],
+      "categories": {
+        "raw": [
+          "main course"
+        ],
+        "formatted": [
+          "Main Course"
+        ]
+      },
+      "dietTags": {
+        "raw": [
+          "vegetarian"
+        ],
+        "formatted": [
+          "Vegetarian"
+        ]
+      },
+      "intolerances": {
+        "raw": [
+          "wheat",
+          "dairy"
+        ],
+        "formatted": [
+          "Wheat",
+          "Dairy"
+        ]
+      },
+      "ingredients": [
+        {
+          "id": 4053,
+          "category": "Oil, Vinegar, Salad Dressing",
+          "name": "Olive Oil",
+          "units": [
+            "Spoonful",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Tablespoon",
+          "quantity": 1
+        },
+        {
+          "id": 10511282,
+          "category": "Produce",
+          "name": "Yellow Onion",
+          "units": [
+            "Small",
+            "Large",
+            "Tbsp Chopped",
+            "Ring",
+            "G",
+            "Medium",
+            "OZ",
+            "Teaspoon",
+            "Serving",
+            "Tablespoon",
+            "Piece",
+            "Slice",
+            "Cup"
+          ],
+          "comment": "Diced",
+          "unit": "Medium",
+          "quantity": 1
+        },
+        {
+          "id": 11821,
+          "category": "Produce",
+          "name": "Red Bell Pepper",
+          "units": [
+            "Small",
+            "Large",
+            "Piece",
+            "Ring",
+            "G",
+            "Medium",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Diced",
+          "unit": "Medium",
+          "quantity": 1
+        },
+        {
+          "id": 11979,
+          "category": "Canned and Jarred;Produce;Ethnic Foods",
+          "name": "Jalapeno",
+          "units": [
+            "Pepper",
+            "Piece",
+            "G",
+            "Jar",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Minced",
+          "unit": "Pepper",
+          "quantity": 1
+        },
+        {
+          "id": 2009,
+          "category": "Spices and Seasonings",
+          "name": "Chili Powder",
+          "units": [
+            "Pinch",
+            "Piece",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Tablespoon",
+          "quantity": 2
+        },
+        {
+          "id": 1002014,
+          "category": "Spices and Seasonings",
+          "name": "Cumin",
+          "units": [
+            "Pinch",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Teaspoon",
+          "quantity": 2
+        },
+        {
+          "id": 1052009,
+          "category": "Spices and Seasonings",
+          "name": "Chipotle Powder",
+          "units": [
+            "Pinch",
+            "Piece",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Teaspoon",
+          "quantity": 1
+        },
+        {
+          "id": 2047,
+          "category": "Spices and Seasonings",
+          "name": "Salt",
+          "units": [
+            "Pinch",
+            "G",
+            "OZ",
+            "Dash",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Tablespoon",
+          "quantity": 1
+        },
+        {
+          "id": 11215,
+          "category": "Produce",
+          "name": "Garlic",
+          "units": [
+            "Clove",
+            "Head",
+            "Piece",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Minced",
+          "unit": "Clove",
+          "quantity": 1
+        },
+        {
+          "id": 11531,
+          "category": "Canned and Jarred",
+          "name": "Can Diced Tomatoes",
+          "units": [
+            "Small",
+            "Can",
+            "Large",
+            "Piece",
+            "G",
+            "Medium",
+            "OZ",
+            "Cup",
+            "Tablespoon"
+          ],
+          "comment": "15 Ounce",
+          "unit": "Can",
+          "quantity": 1
+        },
+        {
+          "id": 11549,
+          "category": "Pasta and Rice",
+          "name": "Tomato Sauce",
+          "units": [
+            "Can",
+            "G",
+            "Tin",
+            "Jar",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "15 Ounce",
+          "unit": "Tin",
+          "quantity": 1
+        },
+        {
+          "id": 16015,
+          "category": "Pasta and Rice;Canned and Jarred",
+          "name": "Black Beans",
+          "units": [
+            "Can",
+            "G",
+            "Tin",
+            "OZ",
+            "Cup",
+            "Serving"
+          ],
+          "comment": "15 Ounce. Drained and rinsed.",
+          "unit": "Can",
+          "quantity": 1
+        },
+        {
+          "id": 16033,
+          "category": "Pasta and Rice;Canned and Jarred",
+          "name": "Kidney Beans",
+          "units": [
+            "G",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "15 Ounce. Drained and rinsed.",
+          "unit": "Can",
+          "quantity": 1
+        },
+        {
+          "id": 10120499,
+          "category": "Pasta and Rice",
+          "name": "Elbow Pasta",
+          "units": [
+            "Package",
+            "G",
+            "Box",
+            "OZ",
+            "Cup",
+            "Serving"
+          ],
+          "comment": "Whole Wheat",
+          "unit": "Cup",
+          "quantity": 2
+        },
+        {
+          "id": 6615,
+          "category": "Canned and Jarred",
+          "name": "Vegetable Broth",
+          "units": [
+            "Quart",
+            "Can",
+            "Carton",
+            "G",
+            "Tin",
+            "Box",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Cup",
+          "quantity": 2
+        },
+        {
+          "id": 1031009,
+          "category": "Cheese",
+          "name": "Sharp Cheddar",
+          "units": [
+            "Cubic Inch",
+            "Slice",
+            "G",
+            "Ounce",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Shredded.",
+          "unit": "Cup",
+          "quantity": 1
+        },
+        {
+          "id": 1001025,
+          "category": "Cheese",
+          "name": "Monterey Jack",
+          "units": [
+            "Cubic Inch",
+            "Package",
+            "Slice",
+            "G",
+            "Ounce",
+            "OZ",
+            "Cup",
+            "Tablespoon"
+          ],
+          "comment": "Shredded",
+          "unit": "Cup",
+          "quantity": 1
+        },
+        {
+          "id": 1256,
+          "category": "Milk, Eggs, Other Dairy",
+          "name": "Greek Yogurt",
+          "units": [
+            "Container",
+            "Tub",
+            "G",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Optional",
+          "unit": "Container",
+          "quantity": 1
+        },
+        {
+          "id": 11165,
+          "category": "Produce;Spices and Seasonings",
+          "name": "Cilantro",
+          "units": [
+            "Handful",
+            "Piece",
+            "G",
+            "Sprig",
+            "Bunch",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Optional",
+          "unit": "Handful",
+          "quantity": 1
+        }
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "order": 1,
+          "step": "Add olive oil to Instant Pot and set to sauté function for 1 minute to allow oil to heat up. Add onion, bell pepper, jalapeno pepper, chili powder, cumin, chipotle powder and salt and stir to combine. Set sauté function for 5 minutes. Add in garlic and set to sauté for 1 minute."
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "step": "Add diced tomatoes, tomato sauce, black beans, kidney beans, elbow pasta and vegetable broth and stir to combine."
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "step": "Secure lid onto Instant Pot and set to pressure cook/manual for 5 minutes."
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "step": "Use quick release valve to release steam."
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "step": "Once pressure is released, open lid and stir in cheeses until melted and combined."
+        },
+        {
+          "id": 6,
+          "order": 6,
+          "step": "Optional: serve with chopped cilantro and dollop of Greek yogurt."
+        }
+      ],
+      "addtionalNotes": "",
+      "id": 35
     }
   ]
 }

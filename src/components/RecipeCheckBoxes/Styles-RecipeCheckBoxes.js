@@ -5,9 +5,11 @@ export default makeStyles({
   formControl: {
     display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   checkBoxGroup: {
-    // background: '#ede8ea',
+    flexBasis: '20em',
+    flexGrow: '1',
     background: grey[200],
     padding: 10,
     margin: 5,

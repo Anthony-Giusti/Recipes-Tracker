@@ -1,14 +1,19 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import { Button, CardMedia, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
-import Divider from '@material-ui/core/Divider';
-import Carousel from 'react-material-ui-carousel';
-import { DeleteOutlined } from '@material-ui/icons';
+import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
+import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
+
+import Carousel from 'react-material-ui-carousel';
+
 import useStyles from './Styles';
 
 const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
@@ -17,14 +22,7 @@ const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
   return (
     <div>
       <Card elevation={1}>
-        <CardHeader
-          // action={
-          //   <IconButton aria-label="settings" onClick={() => handleDeleteOpen(recipe.id)}>
-          //     <DeleteOutlined />
-          //   </IconButton>
-          // }
-          title={recipe.title}
-        />
+        <CardHeader title={recipe.title} />
 
         {/* IMAGES */}
         {recipe.imageURLs.length === 1 && (
@@ -87,6 +85,7 @@ const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
             </Grid>
           )}
 
+          {/* BOTTOM BUTTONS */}
           <span>
             <IconButton onClick={() => handleModalOpen(recipe)}>
               <ZoomOutMapIcon />
@@ -99,6 +98,12 @@ const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
       </Card>
     </div>
   );
+};
+
+RecipeCard.propTypes = {
+  recipe: PropTypes.object,
+  handleModalOpen: PropTypes.func,
+  handleDeleteOpen: PropTypes.func,
 };
 
 export default RecipeCard;

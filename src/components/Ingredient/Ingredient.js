@@ -1,32 +1,29 @@
-/* eslint-disable react/prop-types */
-import {
-  Card,
-  Typography,
-  Button,
-  Select,
-  FormControl,
-  MenuItem,
-  TextField,
-  Container,
-  Menu,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from '@material-ui/core';
 import React, { useState } from 'react';
-import AddIcon from '@material-ui/icons/Add';
+import PropTypes from 'prop-types';
 
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Container from '@material-ui/core/Container';
+import Menu from '@material-ui/core/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import AddIcon from '@material-ui/icons/Add';
+import Divider from '@material-ui/core/Divider';
+
 import MenuIcon from '@material-ui/icons/Menu';
-import DeleteIcon from '@material-ui/icons/Delete';
-import RemoveIcon from '@material-ui/icons/Remove';
+import Remove from '@material-ui/icons/Remove';
 
 import useStyles from './Ingredient_STYLES';
 
-const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => {
+const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handleCustomUnit }) => {
   const classes = useStyles();
   const [defaultUnit] = useState(ingredient.unit);
   const [units] = useState(ingredient.units);
@@ -37,8 +34,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
   const [anchorEl, setAnchorEl] = useState(null);
   const [customUnitMenuOpen, setCustomUnitMeuOpen] = useState(false);
   const [customUnit, setCustomUnit] = useState('');
-  const [customUnitAdded, setCustomUnitAdded] = useState(false);
-  // const [customUnitDialogOpen, setCustomUnitDialogOpen] = useState(false);
+  const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnit);
 
   let commentField;
   let quantityField;
@@ -85,16 +81,16 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
     anchor(null);
   };
 
-  const handleCustomUnit = () => {
+  const handleAddCustomUnit = () => {
     setCustomUnitMeuOpen(false);
-    changeIngredientValue(ingredient.id, 'unit', customUnitField.value);
+    handleCustomUnit(ingredient.id, true, customUnitField.value);
     setCustomUnitAdded(true);
     setCustomUnit(customUnitField.value);
   };
 
   const handleRemoveCustomUnit = () => {
     setCustomUnitMeuOpen(false);
-    changeIngredientValue(ingredient.id, 'unit', ingredient.units[0]);
+    handleCustomUnit(ingredient.id, false, ingredient.units[0]);
     setCustomUnitAdded(false);
     setCustomUnit('');
   };
@@ -153,9 +149,12 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
         </IconButton>
       </Container>
 
+      <Divider />
+
       <Container className={classes.comment}>
         {editingComment ? (
           <div className={classes.commentEdit}>
+            <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
             <TextField
               defaultValue={ingredient.comment}
               className={classes.commentTextField}
@@ -166,38 +165,23 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
                 commentField = ref;
               }}
             />
-            <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
           </div>
         ) : (
-          <Button onClick={() => setEditingComment(true)}>
-            {commentAdded ? 'Edit Comment' : 'Add Comment'}
-          </Button>
+          <div className={classes.commentDisplayed}>
+            {commentAdded ? (
+              <IconButton>
+                <MenuIcon />
+              </IconButton>
+            ) : (
+              <Button onClick={() => setEditingComment(true)}>Add Comment</Button>
+            )}
+          </div>
         )}
-        <div className={classes.commentDisplay}>
-          {!editingComment && <Typography>{ingredient.comment}</Typography>}
-        </div>
-
-        {/* <TextField
-          defaultValue={ingredient.comment}
-          className={classes.commentTextField}
-          id={`${ingredient.name}-comment`}
-          label={commentAdded ? 'Edit Comment' : 'Add Comment (Optional)'}
-          variant="filled"
-          inputRef={(ref) => {
-            commentField = ref;
-          }}
-        /> */}
-
-        {/* {commentAdded ? (
-          <Button
-            endIcon={<MoreVertIcon />}
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          />
-        ) : (
-          <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
-        )} */}
+        {!editingComment && ingredient.comment && (
+          <div className={classes.commentDisplay}>
+            <Typography>{`(${ingredient.comment})`}</Typography>
+          </div>
+        )}
 
         {/* INGREDIENT MENU  */}
       </Container>
@@ -280,13 +264,20 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue }) => 
           <Button onClick={() => setCustomUnitMeuOpen(false)} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCustomUnit} color="primary">
+          <Button onClick={handleAddCustomUnit} color="primary">
             Add Unit
           </Button>
         </DialogActions>
       </Dialog>
     </Card>
   );
+};
+
+Ingredient.propTypes = {
+  ingredient: PropTypes.object,
+  removeIngredient: PropTypes.func,
+  changeIngredientValue: PropTypes.func,
+  handleCustomUnit: PropTypes.func,
 };
 
 export default Ingredient;

@@ -1,14 +1,14 @@
-/* eslint-disable react/prop-types */
-import {
-  Checkbox,
-  Container,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
-  FormLabel,
-} from '@material-ui/core';
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import Checkbox from '@material-ui/core/Checkbox';
+import Container from '@material-ui/core/Container';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormLabel from '@material-ui/core/FormLabel';
+
 import useStyles from './Styles-RecipeCheckBoxes';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './_data';
@@ -21,6 +21,7 @@ const RecipeCheckBoxes = ({
   intolerances,
 }) => {
   const classes = useStyles();
+
   return (
     <FormControl component="fieldset" className={classes.formControl}>
       {/* CATEGORY TAGS */}
@@ -91,6 +92,14 @@ const RecipeCheckBoxes = ({
       </Container>
     </FormControl>
   );
+};
+
+RecipeCheckBoxes.propTypes = {
+  categoryError: PropTypes.bool,
+  handleCheckBoxValueChange: PropTypes.func,
+  categories: PropTypes.array,
+  dietTags: PropTypes.array,
+  intolerances: PropTypes.array,
 };
 
 export default RecipeCheckBoxes;
