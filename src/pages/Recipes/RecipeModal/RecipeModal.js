@@ -30,12 +30,10 @@ import IntoleranceTags from '../../../components/RecipeTags/IntoleranceTags';
 
 import useStyles from './Styles-RecipeModal';
 
-const RecipeModal = ({ modalOpen, modalClose, recipe, children, handleCurrentRecipe }) => {
+const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe }) => {
   const classes = useStyles();
 
   const history = useHistory();
-
-  console.log(children);
 
   const enterEditingMode = () => {
     handleCurrentRecipe(recipe);
@@ -85,7 +83,8 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, children, handleCurrentRec
                 {recipe.ingredients.map((ingredient) => (
                   <ListItem divider key={ingredient.id}>
                     <ListItemText>
-                      {ingredient.name} - {ingredient.quantity} {ingredient.unit}{' '}
+                      {ingredient.name} - {ingredient.quantity}{' '}
+                      {ingredient.customUnitAdded ? ingredient.customUnit : ingredient.unit}{' '}
                       {ingredient.comment && `(${ingredient.comment})`}
                     </ListItemText>
                   </ListItem>

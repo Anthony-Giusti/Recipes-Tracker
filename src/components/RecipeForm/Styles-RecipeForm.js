@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import { grey } from '@material-ui/core/colors';
+import Theme from '../../Themes/Theme';
 
 export default makeStyles({
   btn: {
@@ -12,6 +13,10 @@ export default makeStyles({
   title: {
     textDecoration: 'underline',
     marginBottom: '20',
+  },
+  paper: {
+    margin: '1em 0',
+    padding: '1em',
   },
   field: {
     marginTop: 20,
@@ -71,6 +76,14 @@ export default makeStyles({
   },
   ingredients: {
     marginBottom: '1em',
+  },
+  addStepBtn: {
+    borderRadius: '10%',
+    color: 'white',
+    background: Theme.palette.primary.main,
+    '&:hover': {
+      background: Theme.palette.secondary.main,
+    },
   },
   newStepContainer: {
     width: '100%',

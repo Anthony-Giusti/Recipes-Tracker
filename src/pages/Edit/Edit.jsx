@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import { Typography } from '@material-ui/core';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
+
+import Typography from '@material-ui/core/Typography';
 
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
@@ -29,6 +29,10 @@ const Edit = ({ currentRecipe }) => {
   ) : (
     'Select a recipe first in order to Edit'
   );
+};
+
+Edit.propTypes = {
+  currentRecipe: PropTypes.object,
 };
 
 export default Edit;

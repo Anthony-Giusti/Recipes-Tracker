@@ -26,10 +26,10 @@ const Layout = ({ children, filteredTags, filterRecipes }) => {
     <div className={classes.root}>
       <AppBar className={classes.appbar} elevation={0}>
         <Toolbar>
-          <Button onClick={() => history.push('/')} endIcon={<ViewComfyIcon />}>
+          <Button variant="contained" onClick={() => history.push('/')} endIcon={<ViewComfyIcon />}>
             View Your Recipes
           </Button>
-          <Button onClick={() => history.push('/create')} endIcon={<AddIcon />}>
+          <Button variant="contained" onClick={() => history.push('/create')} endIcon={<AddIcon />}>
             Create New Recipe
           </Button>
 

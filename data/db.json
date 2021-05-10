@@ -1115,6 +1115,776 @@
       ],
       "addtionalNotes": "",
       "id": 35
+    },
+    {
+      "title": "Instant Pot Vegetarian Chili Mac",
+      "details": "Ultra hearty and satisfying, this Easy Instant Pot Vegetarian Chili Mac is the perfect game day meal, just in time for the Super Bowl! ",
+      "cookTime": {
+        "hours": "0",
+        "minutes": "35",
+        "formatted": "35 minutes"
+      },
+      "soureURL": "",
+      "imageURLs": [
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-4-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-1-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-6-2.jpg"
+      ],
+      "categories": {
+        "raw": [
+          "main course"
+        ],
+        "formatted": [
+          "Main Course"
+        ]
+      },
+      "dietTags": {
+        "raw": [
+          "vegetarian"
+        ],
+        "formatted": [
+          "Vegetarian"
+        ]
+      },
+      "intolerances": {
+        "raw": [
+          "wheat",
+          "dairy"
+        ],
+        "formatted": [
+          "Wheat",
+          "Dairy"
+        ]
+      },
+      "ingredients": [
+        {
+          "id": 4053,
+          "category": "Oil, Vinegar, Salad Dressing",
+          "name": "Olive Oil",
+          "units": [
+            "Spoonful",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Tablespoon",
+          "quantity": 1
+        },
+        {
+          "id": 10511282,
+          "category": "Produce",
+          "name": "Yellow Onion",
+          "units": [
+            "Small",
+            "Large",
+            "Tbsp Chopped",
+            "Ring",
+            "G",
+            "Medium",
+            "OZ",
+            "Teaspoon",
+            "Serving",
+            "Tablespoon",
+            "Piece",
+            "Slice",
+            "Cup"
+          ],
+          "comment": "Diced",
+          "unit": "Medium",
+          "quantity": 1
+        },
+        {
+          "id": 11821,
+          "category": "Produce",
+          "name": "Red Bell Pepper",
+          "units": [
+            "Small",
+            "Large",
+            "Piece",
+            "Ring",
+            "G",
+            "Medium",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Diced",
+          "unit": "Medium",
+          "quantity": 1
+        },
+        {
+          "id": 11979,
+          "category": "Canned and Jarred;Produce;Ethnic Foods",
+          "name": "Jalapeno",
+          "units": [
+            "Pepper",
+            "Piece",
+            "G",
+            "Jar",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Minced",
+          "unit": "Pepper",
+          "quantity": 1
+        },
+        {
+          "id": 2009,
+          "category": "Spices and Seasonings",
+          "name": "Chili Powder",
+          "units": [
+            "Pinch",
+            "Piece",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Tablespoon",
+          "quantity": 2
+        },
+        {
+          "id": 1002014,
+          "category": "Spices and Seasonings",
+          "name": "Cumin",
+          "units": [
+            "Pinch",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Teaspoon",
+          "quantity": 2
+        },
+        {
+          "id": 1052009,
+          "category": "Spices and Seasonings",
+          "name": "Chipotle Powder",
+          "units": [
+            "Pinch",
+            "Piece",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Teaspoon",
+          "quantity": 1
+        },
+        {
+          "id": 2047,
+          "category": "Spices and Seasonings",
+          "name": "Salt",
+          "units": [
+            "Pinch",
+            "G",
+            "OZ",
+            "Dash",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Tablespoon",
+          "quantity": 1
+        },
+        {
+          "id": 11215,
+          "category": "Produce",
+          "name": "Garlic",
+          "units": [
+            "Clove",
+            "Head",
+            "Piece",
+            "G",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Minced",
+          "unit": "Clove",
+          "quantity": 1
+        },
+        {
+          "id": 11531,
+          "category": "Canned and Jarred",
+          "name": "Can Diced Tomatoes",
+          "units": [
+            "Small",
+            "Can",
+            "Large",
+            "Piece",
+            "G",
+            "Medium",
+            "OZ",
+            "Cup",
+            "Tablespoon"
+          ],
+          "comment": "15 Ounce",
+          "unit": "Can",
+          "quantity": 1
+        },
+        {
+          "id": 11549,
+          "category": "Pasta and Rice",
+          "name": "Tomato Sauce",
+          "units": [
+            "Can",
+            "G",
+            "Tin",
+            "Jar",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "15 Ounce",
+          "unit": "Tin",
+          "quantity": 1
+        },
+        {
+          "id": 16015,
+          "category": "Pasta and Rice;Canned and Jarred",
+          "name": "Black Beans",
+          "units": [
+            "Can",
+            "G",
+            "Tin",
+            "OZ",
+            "Cup",
+            "Serving"
+          ],
+          "comment": "15 Ounce. Drained and rinsed.",
+          "unit": "Can",
+          "quantity": 1
+        },
+        {
+          "id": 10120499,
+          "category": "Pasta and Rice",
+          "name": "Elbow Pasta",
+          "units": [
+            "Package",
+            "G",
+            "Box",
+            "OZ",
+            "Cup",
+            "Serving"
+          ],
+          "comment": "Whole Wheat",
+          "unit": "Cup",
+          "quantity": 2
+        },
+        {
+          "id": 6615,
+          "category": "Canned and Jarred",
+          "name": "Vegetable Broth",
+          "units": [
+            "Quart",
+            "Can",
+            "Carton",
+            "G",
+            "Tin",
+            "Box",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": null,
+          "unit": "Cup",
+          "quantity": 2
+        },
+        {
+          "id": 1031009,
+          "category": "Cheese",
+          "name": "Sharp Cheddar",
+          "units": [
+            "Cubic Inch",
+            "Slice",
+            "G",
+            "Ounce",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Shredded.",
+          "unit": "Cup",
+          "quantity": 1
+        },
+        {
+          "id": 1001025,
+          "category": "Cheese",
+          "name": "Monterey Jack",
+          "units": [
+            "Cubic Inch",
+            "Package",
+            "Slice",
+            "G",
+            "Ounce",
+            "OZ",
+            "Cup",
+            "Tablespoon"
+          ],
+          "comment": "Shredded",
+          "unit": "Cup",
+          "quantity": 1
+        },
+        {
+          "id": 1256,
+          "category": "Milk, Eggs, Other Dairy",
+          "name": "Greek Yogurt",
+          "units": [
+            "Container",
+            "Tub",
+            "G",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Optional",
+          "unit": "Container",
+          "quantity": 1
+        },
+        {
+          "id": 11165,
+          "category": "Produce;Spices and Seasonings",
+          "name": "Cilantro",
+          "units": [
+            "Handful",
+            "Piece",
+            "G",
+            "Sprig",
+            "Bunch",
+            "OZ",
+            "Teaspoon",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Optional",
+          "unit": "Handful",
+          "quantity": 1
+        },
+        {
+          "id": 16033,
+          "category": "Pasta and Rice;Canned and Jarred",
+          "name": "Kidney Beans",
+          "units": [
+            "G",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "unit": "G",
+          "customUnit": "Can",
+          "customUnitAdded": true,
+          "comment": "15 Ounce. Drained and rinsed",
+          "quantity": 1
+        }
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "order": 1,
+          "step": "Add olive oil to Instant Pot and set to sauté function for 1 minute to allow oil to heat up. Add onion, bell pepper, jalapeno pepper, chili powder, cumin, chipotle powder and salt and stir to combine. Set sauté function for 5 minutes. Add in garlic and set to sauté for 1 minute."
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "step": "Add diced tomatoes, tomato sauce, black beans, kidney beans, elbow pasta and vegetable broth and stir to combine."
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "step": "Secure lid onto Instant Pot and set to pressure cook/manual for 5 minutes."
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "step": "Use quick release valve to release steam."
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "step": "Once pressure is released, open lid and stir in cheeses until melted and combined."
+        },
+        {
+          "id": 6,
+          "order": 6,
+          "step": "Optional: serve with chopped cilantro and dollop of Greek yogurt."
+        }
+      ],
+      "addtionalNotes": "",
+      "id": 36
+    },
+    {
+      "title": "Instant Pot Vegetarian Chili Mac",
+      "details": "Ultra hearty and satisfying, this Easy Instant Pot Vegetarian Chili Mac is the perfect game day meal, just in time for the Super Bowl! ",
+      "cookTime": {
+        "hours": "0",
+        "minutes": "35",
+        "formatted": "35 minutes"
+      },
+      "soureURL": "",
+      "imageURLs": [
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-4-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-1-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-6-2.jpg"
+      ],
+      "categories": {
+        "raw": [
+          "main course"
+        ],
+        "formatted": [
+          "Main Course"
+        ]
+      },
+      "dietTags": {
+        "raw": [
+          "vegetarian"
+        ],
+        "formatted": [
+          "Vegetarian"
+        ]
+      },
+      "intolerances": {
+        "raw": [
+          "wheat",
+          "dairy"
+        ],
+        "formatted": [
+          "Wheat",
+          "Dairy"
+        ]
+      },
+      "ingredients": [
+        {
+          "id": 16033,
+          "category": "Pasta and Rice;Canned and Jarred",
+          "name": "Kidney Beans",
+          "units": [
+            "G",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "unit": "G",
+          "customUnit": "Can",
+          "customUnitAdded": true,
+          "comment": "15 Ounce. Drained and rinsed",
+          "quantity": 1
+        }
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "order": 1,
+          "step": "Add olive oil to Instant Pot and set to sauté function for 1 minute to allow oil to heat up. Add onion, bell pepper, jalapeno pepper, chili powder, cumin, chipotle powder and salt and stir to combine. Set sauté function for 5 minutes. Add in garlic and set to sauté for 1 minute."
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "step": "Add diced tomatoes, tomato sauce, black beans, kidney beans, elbow pasta and vegetable broth and stir to combine."
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "step": "Secure lid onto Instant Pot and set to pressure cook/manual for 5 minutes."
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "step": "Use quick release valve to release steam."
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "step": "Once pressure is released, open lid and stir in cheeses until melted and combined."
+        },
+        {
+          "id": 6,
+          "order": 6,
+          "step": "Optional: serve with chopped cilantro and dollop of Greek yogurt."
+        }
+      ],
+      "addtionalNotes": "",
+      "id": 37
+    },
+    {
+      "title": "Instant Pot Vegetarian Chili Mac",
+      "details": "Ultra hearty and satisfying, this Easy Instant Pot Vegetarian Chili Mac is the perfect game day meal, just in time for the Super Bowl! ",
+      "cookTime": {
+        "hours": "0",
+        "minutes": "35",
+        "formatted": "35 minutes"
+      },
+      "soureURL": "",
+      "imageURLs": [
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-4-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-1-2.jpg",
+        "https://karalydon.com/wp-content/uploads/2018/02/Instant-Pot-Vegetarian-Chili-Mac-6-2.jpg"
+      ],
+      "categories": {
+        "raw": [
+          "main course"
+        ],
+        "formatted": [
+          "Main Course"
+        ]
+      },
+      "dietTags": {
+        "raw": [
+          "vegetarian"
+        ],
+        "formatted": [
+          "Vegetarian"
+        ]
+      },
+      "intolerances": {
+        "raw": [
+          "wheat",
+          "dairy"
+        ],
+        "formatted": [
+          "Wheat",
+          "Dairy"
+        ]
+      },
+      "ingredients": [
+        {
+          "id": 16033,
+          "category": "Pasta and Rice;Canned and Jarred",
+          "name": "Kidney Beans",
+          "units": [
+            "G",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "unit": "G",
+          "customUnit": "Can",
+          "customUnitAdded": true,
+          "comment": "15 Ounce. Drained and rinsed",
+          "quantity": 1
+        }
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "order": 1,
+          "step": "Add olive oil to Instant Pot and set to sauté function for 1 minute to allow oil to heat up. Add onion, bell pepper, jalapeno pepper, chili powder, cumin, chipotle powder and salt and stir to combine. Set sauté function for 5 minutes. Add in garlic and set to sauté for 1 minute."
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "step": "Add diced tomatoes, tomato sauce, black beans, kidney beans, elbow pasta and vegetable broth and stir to combine."
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "step": "Secure lid onto Instant Pot and set to pressure cook/manual for 5 minutes."
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "step": "Use quick release valve to release steam."
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "step": "Once pressure is released, open lid and stir in cheeses until melted and combined."
+        },
+        {
+          "id": 6,
+          "order": 6,
+          "step": "Optional: serve with chopped cilantro and dollop of Greek yogurt."
+        }
+      ],
+      "addtionalNotes": "",
+      "id": 38
+    },
+    {
+      "title": "Freezer-Friendly Breakfast Burritos",
+      "details": "Easy and delicious vegan breakfast burritos that are loaded with breakfast potatoes, tofu scramble, homemade pinto beans and more! Plus, these burritos are freezer-friendly, so they make for the perfect make-ahead meal.",
+      "servings": "1",
+      "cookTime": {
+        "hours": "2",
+        "minutes": "30",
+        "formatted": "2 hours and 30 minutes"
+      },
+      "soureURL": "",
+      "imageURLs": [
+        "https://healthyhappylife.com/wp-content/uploads/2013/06/k-breakfast-burrito-vegan2.png",
+        "https://sweetsimplevegan.com/wp-content/uploads/2018/04/Freezer_Friendly_Breakfast_Burritos_Sweet_Simple_Vegan_WM-2-copy.jpg",
+        "https://elavegan.com/wp-content/uploads/2019/01/eating-vegan-breakfast-burritos.jpg",
+        "https://149366112.v2.pressablecdn.com/wp-content/uploads/2019/08/freezer-breakfast-burritos-e1566314803281.jpg"
+      ],
+      "categories": {
+        "raw": [
+          "main course"
+        ],
+        "formatted": [
+          "Main Course"
+        ]
+      },
+      "dietTags": {
+        "raw": [
+          "vegan",
+          "vegetarian"
+        ],
+        "formatted": [
+          "Vegan",
+          "Vegetarian"
+        ]
+      },
+      "intolerances": {
+        "raw": [
+          "soy"
+        ],
+        "formatted": [
+          "Soy"
+        ]
+      },
+      "ingredients": [
+        {
+          "id": 16213,
+          "category": "Refrigerated;Produce;Ethnic Foods",
+          "name": "Tofu",
+          "units": [
+            "Package",
+            "Piece",
+            "Slice",
+            "G",
+            "Block",
+            "OZ",
+            "Cup",
+            "Serving"
+          ],
+          "comment": "Scramble",
+          "unit": "Package",
+          "quantity": 1
+        },
+        {
+          "id": 11352,
+          "category": "Produce",
+          "name": "Potato",
+          "units": [
+            "Small",
+            "Large",
+            "Piece",
+            "Potato Medium",
+            "G",
+            "Medium",
+            "Potato Large",
+            "OZ",
+            "Cup",
+            "Potato Small"
+          ],
+          "comment": null,
+          "unit": "Potato Medium",
+          "quantity": 2
+        },
+        {
+          "id": 11233,
+          "category": "Produce",
+          "name": "Kale",
+          "units": [
+            "Head",
+            "Handful",
+            "Piece",
+            "Leave",
+            "G",
+            "Rib",
+            "Sprig",
+            "Bunch",
+            "OZ",
+            "Cup"
+          ],
+          "comment": "Or sub with raw spinach",
+          "unit": "Cup",
+          "quantity": 3
+        },
+        {
+          "id": 1009,
+          "category": "Cheese",
+          "name": "Cheddar Cheese",
+          "units": [
+            "Cubic Inch",
+            "Slice",
+            "G",
+            "Ounce",
+            "OZ",
+            "Cup",
+            "Serving",
+            "Tablespoon"
+          ],
+          "comment": "Follow Your Heart Vegan Cheese",
+          "unit": "Cup",
+          "quantity": 1
+        }
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "order": 1,
+          "step": "Preheat oven to 425°F and line a large baking sheet with parchment paper or a silicone baking mat."
+        },
+        {
+          "id": 2,
+          "order": 2,
+          "step": "Add all of the ingredients for the breakfast potatoes into a large bowl and toss well to fully coat. Evenly distribute onto the baking sheet and place into the oven for 30 minutes, or until the potatoes are fully cooked through. Set aside and cool to room temperature."
+        },
+        {
+          "id": 3,
+          "order": 3,
+          "step": "Warm up the tortillas*. To assemble the burritos, add about 1/4 cup each of beans and tofu scramble, about 1/2 a cup of greens, and a tablespoon or two of shredded cheese."
+        },
+        {
+          "id": 4,
+          "order": 4,
+          "step": "Roll the burrito up tightly by"
+        },
+        {
+          "id": 5,
+          "order": 5,
+          "step": "In a medium pan over medium heat, add in 2-3 burritos (as many as comfortable fit) and toast for a few minutes on each side, or until golden brown and crunchy. Toasting the burritos is optional but recommended as it helps hold the burritos together and gives them a nice crunch."
+        },
+        {
+          "id": 7,
+          "order": 6,
+          "step": "We then wrap our burritos in a sheet of parchment paper and then with a sheet of aluminum foil. The parchment paper isn’t necessary, it is just personal preference. You can place them in a freezer-safe bag and then into the freezer or just directly into the freezer, your choice."
+        },
+        {
+          "id": 8,
+          "order": 7,
+          "step": "When ready to eat, remove the wrapping(s) from the burrito and place it onto a microwave safe plate. Microwave for 2-3 minutes, or until warmed through. Alternatively, you can warm it in an oven at 350°F for about 12 to 15 minutes. "
+        }
+      ],
+      "addtionalNotes": "",
+      "id": 39
     }
   ]
 }

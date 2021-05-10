@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core/';
 import { useState } from 'react';
 import { useHistory } from 'react-router';
 
@@ -8,27 +8,13 @@ import Create from './pages/Create/Create';
 import Edit from './pages/Edit/Edit';
 
 import Layout from './pages/Layout/Layout';
+import Theme from './Themes/Theme';
 
 import {
   categoryOptions,
   dietTagOptions,
   intoleranceOptions,
 } from './components/RecipeCheckBoxes/_data';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      // main: '#fefefe',
-      main: '#648dae',
-    },
-    secondary: {
-      main: '#1976d2',
-    },
-    selected: {
-      main: '#81c784',
-    },
-  },
-});
 
 function App() {
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
@@ -43,13 +29,46 @@ function App() {
 
   const history = useHistory();
 
+  // const fetchRecipes = () => {
+  //   fetch('http://localhost:8000/recipes').then((response) => {
+  //     response.json().then((data) => {
+  //       console.log(data);
+  //       setRecipes(data);
+  //       setFilteredRecipes(data);
+  //     });
+  //   });
+  // };
+
   const fetchRecipes = () => {
-    fetch('http://localhost:8000/recipes').then((response) => {
+    fetch(
+      'https://storage.googleapis.com/storage/v1/b/recipe-app-ag/o/recipes.json?alt=media'
+    ).then((response) => {
       response.json().then((data) => {
-        setRecipes(data);
-        setFilteredRecipes(data);
+        console.log([data]);
+        setRecipes([data]);
+        setFilteredRecipes([data]);
       });
     });
+  };
+
+  const addRecipe = (recipe) => {
+    let returnedData = [];
+    fetch(
+      'https://storage.googleapis.com/storage/v1/b/recipe-app-ag/o/recipes.json?alt=media'
+    ).then((response) => {
+      response.json().then((data) => {
+        returnedData = data;
+      });
+    });
+
+    fetch(
+      ' https://storage.googleapis.com/upload/storage/v1/b/recipe-app-ag/o?name=recipes.json&uploadType=media',
+      {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify(recipe),
+      }
+    ).then((response) => console.log(response));
   };
 
   const deleteRecipe = async (recipeId) => {
@@ -66,7 +85,6 @@ function App() {
 
   const filterRecipes = () => {
     const filteredRecipes = [];
-    console.log(filteredTags);
 
     recipes.forEach((recipe) => {
       if (
@@ -155,7 +173,7 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={Theme}>
       <>
         <Layout filteredTags={filteredTags} filterRecipes={filterTags}>
           <Switch>
@@ -175,6 +193,7 @@ function App() {
             </Route>
             <Route path="/create">
               <Create
+                addRecipe={addRecipe}
                 ingredientsSearch={ingredientsSearch}
                 handleIngreidentSearch={handleIngreidentSearch}
               />

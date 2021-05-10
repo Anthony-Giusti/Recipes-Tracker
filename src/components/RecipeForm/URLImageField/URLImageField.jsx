@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { TextField } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
 import React from 'react';
 
 import useStyles from '../Styles-RecipeForm';

@@ -41,6 +41,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [categoryError, setCategoryError] = useState(false);
   const [ingredientsError, setIngredientsError] = useState(false);
   const [stepsError, setStepsError] = useState(false);
+  const [currentlyEditing, setCurrentlyEditing] = useState(false);
   //   const history = useHistory();
 
   const classes = useStyles();
@@ -154,11 +155,11 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         id: ingredient.id,
         category: ingredient.aisle,
         name: formatName(ingredient.name),
-        // units: formatUnits(possibleUnits.possibleUnits),
         units: ingredient.possibleUnits.map((unit) => formatUnit(unit)),
-        customUnit: false,
-        comment: null,
         unit: formatUnit(ingredient.possibleUnits[0]),
+        customUnit: null,
+        customUnitAdded: false,
+        comment: null,
         quantity: 1,
       };
       setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
@@ -183,8 +184,8 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
 
   const handleCustomUnit = (ingredientID, state, value) => {
     const alteredIngredient = ingredients.find((ingredient) => ingredientID === ingredient.id);
-    alteredIngredient.unit = value;
-    alteredIngredient.customUnit = state;
+    alteredIngredient.customUnit = value;
+    alteredIngredient.customUnitAdded = state;
   };
 
   const addNewStep = (newStep) => {
@@ -194,7 +195,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     setSteps((prevSteps) => [
       ...prevSteps,
       {
-        id: stepId + 1,
+        id: steps.length === 0 ? 1 : Math.max(...steps.map((step) => step.id)) + 1,
         order: prevSteps.length === 0 ? 1 : prevSteps.length + 1,
         step: newStep,
       },
@@ -290,11 +291,13 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       !categoryError &&
       !ingredientsError &&
       !stepsError &&
+      !currentlyEditing &&
       imageURLErrors.every((error) => !error)
     ) {
       submit({
         title: recipeTitleField.value,
         details: recipeDetailsField.value,
+        servings: servingsField.value,
         cookTime: {
           hours: cookTimeHoursField.value,
           minutes: cookTimeMinutesField.value,
@@ -390,7 +393,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
           <TextField
             className={classes.field}
             name="cookTimeHours"
-            defaultValue={Number(servings)}
+            defaultValue={servings}
             label="Servings"
             variant="outlined"
             color="secondary"
@@ -444,17 +447,11 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
 
       {/* IMAGE URL FIELDS */}
 
-      <div>
-        <Button
-          endIcon={<AddIcon />}
-          className={classes.addImageURLBtn}
-          onClick={() => handleImageURLBoxAdd()}
-        >
-          Add images (maximum of 6)
-        </Button>
-        <IconButton onClick={() => handleImageURlBoxRemove()}>
-          <RemoveIcon />
-        </IconButton>
+      <Paper className={classes.paper}>
+        <div>
+          <Typography variant="h3">Images</Typography>
+          <Typography variant="p">(Optional)</Typography>
+        </div>
         {[...Array(imageURLBoxes)].map((value, index) => (
           <TextField
             key={index}
@@ -476,35 +473,69 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
             fullWidth
           />
         ))}
-      </div>
+        <span>
+          <Button
+            endIcon={<AddIcon />}
+            className={classes.addImageURLBtn}
+            onClick={() => handleImageURLBoxAdd()}
+          >
+            Add images (maximum of 6)
+          </Button>
+          <IconButton onClick={() => handleImageURlBoxRemove()}>
+            <RemoveIcon />
+          </IconButton>
+        </span>
+      </Paper>
 
       {/* RECIPES CHECKBOXES */}
 
-      <RecipeCheckBoxes
-        categoryError={categoryError}
-        handleCheckBoxValueChange={handleCheckBoxValueChange}
-        categories={categories}
-        dietTags={dietTags}
-        intolerances={intolerances}
-      />
+      <Paper className={classes.paper}>
+        <RecipeCheckBoxes
+          categoryError={categoryError}
+          handleCheckBoxValueChange={handleCheckBoxValueChange}
+          categories={categories}
+          dietTags={dietTags}
+          intolerances={intolerances}
+        />
+      </Paper>
 
       {/* INGREDIENTS SEARCH */}
 
-      <IngredientsSearch
-        ingredientsError={ingredientsError}
-        ingredients={ingredients}
-        changeIngredientValue={changeIngredientValue}
-        handleIngredientAdd={handleIngredientAdd}
-        handleIngredientRemove={handleIngredientRemove}
-        handleCustomUnit={handleCustomUnit}
-      />
+      <Paper className={classes.paper}>
+        <div>
+          <Typography variant="h3" gutterBottom>
+            Ingredients
+          </Typography>
+        </div>
+        <IngredientsSearch
+          ingredientsError={ingredientsError}
+          ingredients={ingredients}
+          changeIngredientValue={changeIngredientValue}
+          handleIngredientAdd={handleIngredientAdd}
+          handleIngredientRemove={handleIngredientRemove}
+          handleCustomUnit={handleCustomUnit}
+        />
+      </Paper>
 
       {/* STEPS */}
 
-      <Paper className={classes.steps}>
+      <Paper className={classes.paper}>
         <Typography variant="h3" gutterBottom>
           Steps
         </Typography>
+
+        <div>
+          {steps.map((step) => (
+            <Step
+              step={step}
+              key={step.id}
+              editStep={editStep}
+              moveStepOrderUp={moveStepOrderUp}
+              moveStepOrderDown={moveStepOrderDown}
+              deleteStep={deleteStep}
+            />
+          ))}
+        </div>
 
         <FormControl error={stepsError} className={classes.newStepContainer}>
           <div className={classes.newStep}>
@@ -524,22 +555,15 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
                 newStepField = ref;
               }}
             />
-            <Button endIcon={<AddIcon />} onClick={() => addNewStep(newStepField.value)} />
+            <IconButton
+              className={classes.addStepBtn}
+              onClick={() => addNewStep(newStepField.value)}
+            >
+              <AddIcon />
+            </IconButton>
           </div>
           {stepsError && <FormHelperText>You must have at least one step</FormHelperText>}
         </FormControl>
-        <div>
-          {steps.map((step) => (
-            <Step
-              step={step}
-              key={step.id}
-              editStep={editStep}
-              moveStepOrderUp={moveStepOrderUp}
-              moveStepOrderDown={moveStepOrderDown}
-              deleteStep={deleteStep}
-            />
-          ))}
-        </div>
       </Paper>
 
       <br />

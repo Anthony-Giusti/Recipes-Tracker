@@ -31,10 +31,10 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
   const [commentAdded, setCommentAdded] = useState(!!ingredient.comment);
   const [quantityError, setQuantityError] = useState(false);
   const [ingMenuAnchor, setIngMenuAnchor] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [commentMenuAnchor, setCommentMenuAnchor] = useState(null);
   const [customUnitMenuOpen, setCustomUnitMeuOpen] = useState(false);
-  const [customUnit, setCustomUnit] = useState('');
-  const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnit);
+  const [customUnit, setCustomUnit] = useState(ingredient.customUnit);
+  const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnitAdded);
 
   let commentField;
   let quantityField;
@@ -52,7 +52,6 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
 
   const deleteComment = () => {
     changeIngredientValue(ingredient.id, 'comment', null);
-    commentField.value = '';
     setCommentAdded(false);
   };
 
@@ -69,8 +68,8 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
     }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCommentMenuOpen = (event) => {
+    setCommentMenuAnchor(event.currentTarget);
   };
 
   const handleIngMenuOpen = (event) => {
@@ -96,7 +95,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
   };
 
   return (
-    <Card>
+    <Card className={classes.ingredient}>
       <Container className={classes.x}>
         <div className={classes.titleContainer}>
           <Typography variant="h6" className={classes.title}>
@@ -149,43 +148,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
         </IconButton>
       </Container>
 
-      <Divider />
-
-      <Container className={classes.comment}>
-        {editingComment ? (
-          <div className={classes.commentEdit}>
-            <Button endIcon={<AddIcon />} onClick={() => addComment(commentField.value)} />
-            <TextField
-              defaultValue={ingredient.comment}
-              className={classes.commentTextField}
-              id={`${ingredient.name}-comment`}
-              label={commentAdded ? 'Edit Comment' : 'Add Comment'}
-              variant="filled"
-              inputRef={(ref) => {
-                commentField = ref;
-              }}
-            />
-          </div>
-        ) : (
-          <div className={classes.commentDisplayed}>
-            {commentAdded ? (
-              <IconButton>
-                <MenuIcon />
-              </IconButton>
-            ) : (
-              <Button onClick={() => setEditingComment(true)}>Add Comment</Button>
-            )}
-          </div>
-        )}
-        {!editingComment && ingredient.comment && (
-          <div className={classes.commentDisplay}>
-            <Typography>{`(${ingredient.comment})`}</Typography>
-          </div>
-        )}
-
-        {/* INGREDIENT MENU  */}
-      </Container>
-
+      {/* INGREDIENT MENU  */}
       <Menu
         id="ingredient-options"
         anchorEl={ingMenuAnchor}
@@ -215,30 +178,73 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
         <MenuItem onClick={() => removeIngredient(ingredient)}>Delete This Ingredient</MenuItem>
       </Menu>
 
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            deleteComment();
-          }}
+      <Divider />
+
+      <Container className={classes.comment}>
+        {editingComment ? (
+          <div className={classes.commentEdit}>
+            <IconButton
+              color="primary"
+              className={classes.addCommentBtn}
+              onClick={() => addComment(commentField.value)}
+            >
+              <AddIcon />
+            </IconButton>
+
+            <TextField
+              defaultValue={ingredient.comment}
+              className={classes.commentTextField}
+              id={`${ingredient.name}-comment`}
+              label={commentAdded ? 'Edit Comment' : 'Add Comment'}
+              variant="filled"
+              inputRef={(ref) => {
+                commentField = ref;
+              }}
+            />
+          </div>
+        ) : (
+          <div className={classes.commentDisplayed}>
+            {commentAdded ? (
+              <IconButton onClick={handleCommentMenuOpen}>
+                <MenuIcon />
+              </IconButton>
+            ) : (
+              <Button onClick={() => setEditingComment(true)}>Add Comment</Button>
+            )}
+          </div>
+        )}
+        {!editingComment && ingredient.comment && (
+          <div className={classes.commentDisplay}>
+            <Typography>{`(${ingredient.comment})`}</Typography>
+          </div>
+        )}
+
+        {/* COMMENT MENU */}
+        <Menu
+          id="simple-menu"
+          anchorEl={commentMenuAnchor}
+          keepMounted
+          open={Boolean(commentMenuAnchor)}
+          onClose={() => handleMenuClose(setCommentMenuAnchor)}
         >
-          Delete Comment
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            addComment(commentField.value);
-          }}
-        >
-          Confirm Edit
-        </MenuItem>
-      </Menu>
+          <MenuItem
+            onClick={() => {
+              handleMenuClose(setCommentMenuAnchor);
+              deleteComment();
+            }}
+          >
+            Delete Comment
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleMenuClose(setCommentMenuAnchor);
+              setEditingComment(true);
+            }}
+          >
+            Edit Comment
+          </MenuItem>
+        </Menu>
+      </Container>
 
       {/* CUSTOM UNIT DIALOG BOX */}
 

@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
@@ -26,6 +25,7 @@ const IngredientsSearch = ({
 }) => {
   const classes = useStyles();
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
+  const [resultsFound, setResultsFound] = useState(null);
 
   const key = process.env.REACT_APP_SPOONACULAR_KEY;
 
@@ -39,6 +39,11 @@ const IngredientsSearch = ({
       .then((response) => response.json())
       .then((data) => {
         setIngredientsSearch(data);
+        if (data.length === 0) {
+          setResultsFound(false);
+        } else {
+          setResultsFound(true);
+        }
       });
   };
 
@@ -47,17 +52,14 @@ const IngredientsSearch = ({
   };
 
   return (
-    <Paper className={classes.ingredientsSearch}>
-      <Typography variant="h3" gutterBottom>
-        Ingredients
-      </Typography>
-
+    <>
       <FormControl error={ingredientsError}>
         <TextField
           className={classes.ingredientSearchField}
           label="Seach Ingredients"
           onChange={(e) => searchIngredients(e.target.value)}
         />
+        {!resultsFound && <Typography>No Results Found</Typography>}
         {ingredientsError && <FormHelperText>You must have at least one ingredient</FormHelperText>}
         <Container className={classes.searchResults}>
           {ingredientsSearch.map((ingredient) =>
@@ -100,7 +102,7 @@ const IngredientsSearch = ({
           </Grid>
         ))}
       </Grid>
-    </Paper>
+    </>
   );
 };
 

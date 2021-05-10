@@ -1,11 +1,12 @@
 import { makeStyles } from '@material-ui/core';
 import { blue, red } from '@material-ui/core/colors';
 
-export default makeStyles((theme) => ({
-  card: {
+export default makeStyles(() => ({
+  ingredient: {
     marginTop: 20,
     marginBottom: 20,
     // minWidth: '45%',
+    // background: '#8ECAFA',
   },
   x: {
     padding: 10,
@@ -55,7 +56,11 @@ export default makeStyles((theme) => ({
   comment: {
     display: 'flex',
     justifyContent: 'space-between',
-    height: '4em',
+    height: '3em',
+  },
+  addCommentBtn: {
+    borderRadius: '0',
+    backgroundColor: 'primary',
   },
   commentDisplayed: {
     display: 'flex',
@@ -73,5 +78,6 @@ export default makeStyles((theme) => ({
   },
   commentTextField: {
     flexGrow: 1,
+    height: '100%',
   },
 }));

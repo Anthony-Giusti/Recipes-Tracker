@@ -8,16 +8,11 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Drawer from '@material-ui/core/Drawer';
+import Typography from '@material-ui/core/Typography';
 
 import RecipeCard from '../../components/RecipeCard/RecipeCard.jsx';
 import RecipeModal from './RecipeModal/RecipeModal';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
-
-import {
-  categoryOptions,
-  dietTagOptions,
-  intoleranceOptions,
-} from '../../components/RecipeCheckBoxes/_data';
 
 import useStyles from './Styles-Recipes';
 
@@ -34,14 +29,6 @@ const Recipes = ({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [filteredTags, setFilteredTags] = useState({
-    categories: [],
-    dietTags: [],
-    intolerances: [],
-  });
-  const [categoryBoxesChecked, setCategoryBoxesChecked] = useState(
-    new Array(categoryOptions.length).fill(false)
-  );
   const classes = useStyles();
 
   useEffect(() => {
@@ -97,6 +84,7 @@ const Recipes = ({
           </div>
         ))}
       </Masonry>
+      {fileredRecipes.length === 0 && <Typography>No Recipes Found</Typography>}
 
       {modalOpen && (
         <RecipeModal
@@ -133,7 +121,6 @@ const Recipes = ({
 };
 
 Recipes.propTypes = {
-  // recipes: PropTypes.array,
   fileredRecipes: PropTypes.array,
   resetFilterTags: PropTypes.func,
   deleteRecipe: PropTypes.func,

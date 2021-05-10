@@ -5,16 +5,25 @@ export default makeStyles(() => ({
     display: 'flex',
     marginTop: 20,
     marginBottom: 20,
+    padding: '0.5em',
   },
   cardInner: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+  stepButton: {
+    borderRadius: '0',
+    '&:hover': {
+      color: 'white',
+      background: '#638CAD',
+    },
   },
   stepDisplay: {
     flexGrow: 1,
   },
   editField: {
     width: '100%',
+    lineHeight: '1.5em',
   },
   cardInterface: {
     display: 'flex',
