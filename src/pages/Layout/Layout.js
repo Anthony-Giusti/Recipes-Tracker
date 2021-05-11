@@ -8,6 +8,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AddIcon from '@material-ui/icons/Add';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 
+import { Avatar } from '@material-ui/core';
 import FilterBar from '../../components/FilterBar/FilterBar';
 import {
   categoryOptions,
@@ -17,7 +18,16 @@ import {
 
 import useStyles from './Styles';
 
-const Layout = ({ children, filteredTags, filterRecipes }) => {
+const Layout = ({
+  children,
+  filteredTags,
+  filterRecipes,
+  loggedIn,
+  imageUrl,
+  email,
+  profile,
+  user,
+}) => {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -58,6 +68,7 @@ const Layout = ({ children, filteredTags, filterRecipes }) => {
               />
             </>
           )}
+          <Avatar alt="avatar" src={loggedIn ? imageUrl : ''} />
         </Toolbar>
       </AppBar>
       <div className={classes.page}>

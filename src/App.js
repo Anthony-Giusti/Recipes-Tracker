@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/core/';
-import { useState } from 'react';
+import { Button, ThemeProvider } from '@material-ui/core/';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import Recipes from './pages/Recipes/Recipes';
@@ -17,6 +17,16 @@ import {
 } from './components/RecipeCheckBoxes/_data';
 
 function App() {
+  const [clientId] = useState(process.env.REACT_APP_GOGGLE_CLIENT_KEY);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [authInstance, setAuthInstance] = useState(null);
+  const [user, setUser] = useState();
+  const [userId, setUserId] = useState();
+  const [profile, setProfile] = useState();
+  const [email, setEmail] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+
+  // const [spoonApiKey] = useState(process.env.REACT_APP_SPOONACULAR_KEY);
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
@@ -25,9 +35,95 @@ function App() {
     dietTags: [],
     intolerances: [],
   });
-  const [currentRecipe, setCurrentRecipe] = useState();
+  const [currentRecipe, setCurrentRecipe] = useState(null);
 
   const history = useHistory();
+
+  const initializeGoogleSignIn = () => {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2
+        .init({
+          client_id: clientId,
+        })
+        .then(() => {
+          setAuthInstance(window.gapi.auth2.getAuthInstance());
+
+          // setLoggedIn(authInstance.isSignedIn.get());
+        });
+      // .then(() => {
+      //   authInstance.isSignedIn.listen((isSignedIn) => {
+      //     setLoggedIn({ isSignedIn });
+      //   });
+      // });
+    });
+
+    window.gapi.load('signin2', () => {
+      const params = {
+        onsuccess: () => {
+          console.log('beep is king');
+        },
+      };
+
+      // window.gapi.signin2.render('loginButton', params);
+    });
+  };
+
+  const insertGapiScript = () => {
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/platform.js';
+    script.onload = () => {
+      initializeGoogleSignIn();
+    };
+
+    document.body.appendChild(script);
+  };
+
+  useEffect(() => {
+    insertGapiScript();
+  }, []);
+
+  useEffect(() => {
+    if (authInstance) {
+      setLoggedIn(authInstance.isSignedIn.get());
+      authInstance.isSignedIn.listen((isSignedIn) => {
+        setLoggedIn(isSignedIn);
+      });
+    }
+  }, [authInstance]);
+
+  useEffect(() => {
+    if (loggedIn && authInstance) {
+      setUser(authInstance.currentUser.get());
+    }
+  }, [loggedIn, authInstance]);
+
+  useEffect(() => {
+    if (user) {
+      setProfile(user.getBasicProfile());
+      setUserId(user.getId());
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (profile) {
+      setEmail(profile.getEmail());
+      setImageUrl(profile.getImageUrl());
+    }
+  }, [profile]);
+
+  useEffect(() => {
+    if (userId) {
+      setTimeout(() => {
+        fetch(
+          `https://storage.googleapis.com/storage/v1/b?project=recipe-app-313315`
+        ).then((response) => console.log(response));
+      }, 3000);
+
+      // fetch(`https://storage.googleapis.com/storage/v1/b/${userId}`).then((response) => {
+      //   console.log(response);
+      // });
+    }
+  }, [userId]);
 
   // const fetchRecipes = () => {
   //   fetch('http://localhost:8000/recipes').then((response) => {
@@ -40,13 +136,14 @@ function App() {
   // };
 
   const fetchRecipes = () => {
-    fetch(
-      'https://storage.googleapis.com/storage/v1/b/recipe-app-ag/o/recipes.json?alt=media'
-    ).then((response) => {
+    fetch('https://storage.googleapis.com/storage/v1/b/recipe-app-ag/o/recipes.json?alt=media', {
+      method: 'GET',
+      uthorization: clientId,
+    }).then((response) => {
       response.json().then((data) => {
-        console.log([data]);
-        setRecipes([data]);
-        setFilteredRecipes([data]);
+        console.log(data);
+        setRecipes(data.recipes);
+        setFilteredRecipes(data.recipes);
       });
     });
   };
@@ -66,7 +163,7 @@ function App() {
       {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(recipe),
+        body: JSON.stringify([recipe]),
       }
     ).then((response) => console.log(response));
   };
@@ -175,21 +272,31 @@ function App() {
   return (
     <ThemeProvider theme={Theme}>
       <>
-        <Layout filteredTags={filteredTags} filterRecipes={filterTags}>
+        <Layout
+          loggedIn={loggedIn}
+          imageUrl={imageUrl}
+          email={email}
+          profile={profile}
+          user={user}
+          filteredTags={filteredTags}
+          filterRecipes={filterTags}
+        >
           <Switch>
             <Route exact path="/">
-              <Recipes
-                fetchRecipes={fetchRecipes}
-                recipes={recipes}
-                fileredRecipes={filteredRecipes}
-                resetFilterTags={resetFilterTags}
-                deleteRecipe={deleteRecipe}
-                getIngredientObject={addIngredient}
-                ingredientsSearch={ingredientsSearch}
-                handleIngreidentSearch={handleIngreidentSearch}
-                handleCheckBoxValueChange={handleCheckBoxValueChange}
-                handleCurrentRecipe={handleCurrentRecipe}
-              />
+              {loggedIn && (
+                <Recipes
+                  fetchRecipes={fetchRecipes}
+                  recipes={recipes}
+                  fileredRecipes={filteredRecipes}
+                  resetFilterTags={resetFilterTags}
+                  deleteRecipe={deleteRecipe}
+                  getIngredientObject={addIngredient}
+                  ingredientsSearch={ingredientsSearch}
+                  handleIngreidentSearch={handleIngreidentSearch}
+                  handleCheckBoxValueChange={handleCheckBoxValueChange}
+                  handleCurrentRecipe={handleCurrentRecipe}
+                />
+              )}
             </Route>
             <Route path="/create">
               <Create
@@ -202,6 +309,8 @@ function App() {
               <Edit currentRecipe={currentRecipe} />
             </Route>
           </Switch>
+          {!loggedIn && <div className="g-signin2" data-onsuccess="onSignIn" />}
+          {loggedIn && <Button onClick={() => authInstance.disconnect()}>Sign Out</Button>}
         </Layout>
       </>
     </ThemeProvider>
