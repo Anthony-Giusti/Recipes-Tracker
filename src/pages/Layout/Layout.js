@@ -10,11 +10,6 @@ import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 
 import { Avatar } from '@material-ui/core';
 import FilterBar from '../../components/FilterBar/FilterBar';
-import {
-  categoryOptions,
-  dietTagOptions,
-  intoleranceOptions,
-} from '../../components/RecipeCheckBoxes/_data';
 
 import useStyles from './Styles';
 
@@ -24,9 +19,9 @@ const Layout = ({
   filterRecipes,
   loggedIn,
   imageUrl,
-  email,
-  profile,
-  user,
+  categoryOptions,
+  dietTagOptions,
+  intoleranceOptions,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -35,11 +30,21 @@ const Layout = ({
   return (
     <div className={classes.root}>
       <AppBar className={classes.appbar} elevation={0}>
-        <Toolbar>
-          <Button variant="contained" onClick={() => history.push('/')} endIcon={<ViewComfyIcon />}>
+        <Toolbar className={classes.toolbar}>
+          <Button
+            className={classes.navBtn}
+            variant="contained"
+            onClick={() => history.push('/')}
+            endIcon={<ViewComfyIcon />}
+          >
             View Your Recipes
           </Button>
-          <Button variant="contained" onClick={() => history.push('/create')} endIcon={<AddIcon />}>
+          <Button
+            className={classes.navBtn}
+            variant="contained"
+            onClick={() => history.push('/create')}
+            endIcon={<AddIcon />}
+          >
             Create New Recipe
           </Button>
 
@@ -68,7 +73,7 @@ const Layout = ({
               />
             </>
           )}
-          <Avatar alt="avatar" src={loggedIn ? imageUrl : ''} />
+          <Avatar className={classes.avatar} alt="avatar" src={loggedIn ? imageUrl : ''} />
         </Toolbar>
       </AppBar>
       <div className={classes.page}>

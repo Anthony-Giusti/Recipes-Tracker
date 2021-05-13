@@ -1,18 +1,10 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-const drawerWidth = 240;
-
 export default makeStyles((theme) => ({
   page: {
     background: '#f9f9f9',
     width: '100%',
-    padding: theme.spacing(3),
-  },
-  drawer: {
-    width: drawerWidth,
-  },
-  drawerPaper: {
-    width: drawerWidth,
+    // padding: theme.spacing(3),
   },
   title: {
     padding: theme.spacing(3),
@@ -20,17 +12,11 @@ export default makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  active: {
-    background: '#f4f4f4',
-  },
-  appbar: {
-    // width: `calc(100% - ${drawerWidth}px)`,
+  navBtn: {
+    margin: '0 0.3em',
   },
   toolbar: theme.mixins.toolbar,
-  date: {
-    flexGrow: 1,
-  },
   avatar: {
-    marginLeft: theme.spacing(2),
+    marginLeft: 'auto',
   },
 }));

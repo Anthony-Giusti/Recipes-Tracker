@@ -15,14 +15,11 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import Carousel from 'react-material-ui-carousel';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router';
 
-import MenuIcon from '@material-ui/icons/Menu';
+import React from 'react';
 
 import EditIcon from '@material-ui/icons/Edit';
-import CheckIcon from '@material-ui/icons/Check';
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 
 import CatergoryTags from '../../../components/RecipeTags/CategoryTags';
 import DietTags from '../../../components/RecipeTags/DietTags';
@@ -32,8 +29,6 @@ import useStyles from './Styles-RecipeModal';
 
 const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe }) => {
   const classes = useStyles();
-
-  const history = useHistory();
 
   const enterEditingMode = () => {
     handleCurrentRecipe(recipe);
@@ -47,15 +42,17 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe }) => 
       className={classes.recipeModal}
     >
       <Paper className={classes.recipePaper}>
-        <div>
-          <AppBar position="relative">
-            <Toolbar>
-              <Button endIcon={<EditIcon />} onClick={() => enterEditingMode()}>
-                Edit Recipe
-              </Button>
-            </Toolbar>
-          </AppBar>
-        </div>
+        <AppBar className={classes.appbar} position="fixed">
+          <Toolbar className={classes.toolbar}>
+            <Button variant="contained" endIcon={<EditIcon />} onClick={() => enterEditingMode()}>
+              Edit Recipe
+            </Button>
+            <IconButton className={classes.exitBtn} onClick={modalClose}>
+              <FullscreenExitIcon fontSize="large" />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
         <div>
           <div>
             <img className={classes.image} src={recipe.imageURL} />
@@ -73,9 +70,13 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe }) => 
             <CatergoryTags catergories={recipe.categories} />
             <DietTags dietTags={recipe.dietTags} />
 
-            <Typography>Contains</Typography>
+            {recipe.intolerances.length >= 1 && (
+              <>
+                <Typography>Contains</Typography>
 
-            <IntoleranceTags intoleranceTags={recipe.intolerances} />
+                <IntoleranceTags intoleranceTags={recipe.intolerances} />
+              </>
+            )}
 
             <div>
               <Typography variant="h4">Ingredients</Typography>

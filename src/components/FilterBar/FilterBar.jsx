@@ -2,11 +2,13 @@
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
 
 const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup }) => {
   const [filterMenuOpen, setFilterMenuOpen] = useState(null);
+  const classes = useStyles();
 
   const handleFilterMenuOpen = (e) => {
     setFilterMenuOpen(e.currentTarget);
@@ -18,7 +20,9 @@ const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup })
 
   return (
     <>
-      <Button onClick={handleFilterMenuOpen}>Filter By {tagTitle}</Button>
+      <Button className={classes.navBtn} variant="contained" onClick={handleFilterMenuOpen}>
+        Filter By {tagTitle}
+      </Button>
       <div>
         <Menu
           id={`filter-${tagGroup}-menu`}

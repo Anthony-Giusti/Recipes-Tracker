@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Masonry from 'react-masonry-css';
 
-import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+import PageContainer from '../../Themes/Pages/Pages';
 
 import RecipeCard from '../../components/RecipeCard/RecipeCard.jsx';
 import RecipeModal from './RecipeModal/RecipeModal';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
+import FilterTagsDisplay from '../../components/FilterTagsDisplay/FilterTagsDisplay';
 
 import useStyles from './Styles-Recipes';
 
@@ -24,6 +27,10 @@ const Recipes = ({
   handleCheckBoxValueChange,
   handleCurrentRecipe,
   fetchRecipes,
+  isFetchingRecipes,
+  filteredTags,
+  filterTags,
+  formatName,
 }) => {
   const [displayedRecipe, setDisplayedRecipe] = useState();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -67,7 +74,13 @@ const Recipes = ({
   };
 
   return (
-    <Container>
+    <PageContainer>
+      <FilterTagsDisplay
+        className={classes.filterTags}
+        formatName={formatName}
+        filterTags={filterTags}
+        filteredTags={filteredTags}
+      />
       <Masonry
         breakpointCols={breakPoints}
         className={classes.myMasonryGrid}
@@ -84,7 +97,10 @@ const Recipes = ({
           </div>
         ))}
       </Masonry>
-      {fileredRecipes.length === 0 && <Typography>No Recipes Found</Typography>}
+      {isFetchingRecipes && <LinearProgress />}
+      {fileredRecipes.length === 0 && !isFetchingRecipes && (
+        <Typography>No Recipes Found</Typography>
+      )}
 
       {modalOpen && (
         <RecipeModal
@@ -116,7 +132,7 @@ const Recipes = ({
         </DialogActions>
       </Dialog>
       <Drawer />
-    </Container>
+    </PageContainer>
   );
 };
 
@@ -128,6 +144,10 @@ Recipes.propTypes = {
   handleCheckBoxValueChange: PropTypes.func,
   handleCurrentRecipe: PropTypes.func,
   fetchRecipes: PropTypes.func,
+  isFetchingRecipes: PropTypes.bool,
+  filteredTags: PropTypes.object,
+  filterTags: PropTypes.func,
+  formatName: PropTypes.func,
 };
 
 export default Recipes;

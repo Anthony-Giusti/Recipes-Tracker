@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
+import PageContainer from '../../Themes/Pages/Pages';
+
 const Edit = ({ currentRecipe }) => {
   const history = useHistory();
 
@@ -18,14 +20,11 @@ const Edit = ({ currentRecipe }) => {
   };
 
   return currentRecipe ? (
-    <div>
-      <div>
-        <Typography variant="h2">Edit Recipe</Typography>
-      </div>
-      <div>
-        <RecipeForm recipe={currentRecipe} submit={submit} submitBtnText="Confirm Edit" />
-      </div>
-    </div>
+    <PageContainer>
+      <Typography variant="h2">Edit Recipe</Typography>
+
+      <RecipeForm recipe={currentRecipe} submit={submit} submitBtnText="Confirm Edit" />
+    </PageContainer>
   ) : (
     'Select a recipe first in order to Edit'
   );

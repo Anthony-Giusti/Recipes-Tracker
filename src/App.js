@@ -17,17 +17,9 @@ import {
 } from './components/RecipeCheckBoxes/_data';
 
 function App() {
-  const [clientId] = useState(process.env.REACT_APP_GOGGLE_CLIENT_KEY);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [authInstance, setAuthInstance] = useState(null);
-  const [user, setUser] = useState();
-  const [userId, setUserId] = useState();
-  const [profile, setProfile] = useState();
-  const [email, setEmail] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-
   // const [spoonApiKey] = useState(process.env.REACT_APP_SPOONACULAR_KEY);
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
+  const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [filteredTags, setFilteredTags] = useState({
@@ -39,111 +31,14 @@ function App() {
 
   const history = useHistory();
 
-  const initializeGoogleSignIn = () => {
-    window.gapi.load('auth2', () => {
-      window.gapi.auth2
-        .init({
-          client_id: clientId,
-        })
-        .then(() => {
-          setAuthInstance(window.gapi.auth2.getAuthInstance());
-
-          // setLoggedIn(authInstance.isSignedIn.get());
-        });
-      // .then(() => {
-      //   authInstance.isSignedIn.listen((isSignedIn) => {
-      //     setLoggedIn({ isSignedIn });
-      //   });
-      // });
-    });
-
-    window.gapi.load('signin2', () => {
-      const params = {
-        onsuccess: () => {
-          console.log('beep is king');
-        },
-      };
-
-      // window.gapi.signin2.render('loginButton', params);
-    });
-  };
-
-  const insertGapiScript = () => {
-    const script = document.createElement('script');
-    script.src = 'https://apis.google.com/js/platform.js';
-    script.onload = () => {
-      initializeGoogleSignIn();
-    };
-
-    document.body.appendChild(script);
-  };
-
-  useEffect(() => {
-    insertGapiScript();
-  }, []);
-
-  useEffect(() => {
-    if (authInstance) {
-      setLoggedIn(authInstance.isSignedIn.get());
-      authInstance.isSignedIn.listen((isSignedIn) => {
-        setLoggedIn(isSignedIn);
-      });
-    }
-  }, [authInstance]);
-
-  useEffect(() => {
-    if (loggedIn && authInstance) {
-      setUser(authInstance.currentUser.get());
-    }
-  }, [loggedIn, authInstance]);
-
-  useEffect(() => {
-    if (user) {
-      setProfile(user.getBasicProfile());
-      setUserId(user.getId());
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (profile) {
-      setEmail(profile.getEmail());
-      setImageUrl(profile.getImageUrl());
-    }
-  }, [profile]);
-
-  useEffect(() => {
-    if (userId) {
-      setTimeout(() => {
-        fetch(
-          `https://storage.googleapis.com/storage/v1/b?project=recipe-app-313315`
-        ).then((response) => console.log(response));
-      }, 3000);
-
-      // fetch(`https://storage.googleapis.com/storage/v1/b/${userId}`).then((response) => {
-      //   console.log(response);
-      // });
-    }
-  }, [userId]);
-
-  // const fetchRecipes = () => {
-  //   fetch('http://localhost:8000/recipes').then((response) => {
-  //     response.json().then((data) => {
-  //       console.log(data);
-  //       setRecipes(data);
-  //       setFilteredRecipes(data);
-  //     });
-  //   });
-  // };
-
   const fetchRecipes = () => {
-    fetch('https://storage.googleapis.com/storage/v1/b/recipe-app-ag/o/recipes.json?alt=media', {
-      method: 'GET',
-      uthorization: clientId,
-    }).then((response) => {
+    setIsFetchingRecipes(true);
+    fetch('http://localhost:8000/recipes').then((response) => {
       response.json().then((data) => {
         console.log(data);
-        setRecipes(data.recipes);
-        setFilteredRecipes(data.recipes);
+        setRecipes(data);
+        setFilteredRecipes(data);
+        setIsFetchingRecipes(false);
       });
     });
   };
@@ -273,30 +168,30 @@ function App() {
     <ThemeProvider theme={Theme}>
       <>
         <Layout
-          loggedIn={loggedIn}
-          imageUrl={imageUrl}
-          email={email}
-          profile={profile}
-          user={user}
           filteredTags={filteredTags}
           filterRecipes={filterTags}
+          categoryOptions={categoryOptions}
+          dietTagOptions={dietTagOptions}
+          intoleranceOptions={intoleranceOptions}
         >
           <Switch>
             <Route exact path="/">
-              {loggedIn && (
-                <Recipes
-                  fetchRecipes={fetchRecipes}
-                  recipes={recipes}
-                  fileredRecipes={filteredRecipes}
-                  resetFilterTags={resetFilterTags}
-                  deleteRecipe={deleteRecipe}
-                  getIngredientObject={addIngredient}
-                  ingredientsSearch={ingredientsSearch}
-                  handleIngreidentSearch={handleIngreidentSearch}
-                  handleCheckBoxValueChange={handleCheckBoxValueChange}
-                  handleCurrentRecipe={handleCurrentRecipe}
-                />
-              )}
+              <Recipes
+                fetchRecipes={fetchRecipes}
+                isFetchingRecipes={isFetchingRecipes}
+                recipes={recipes}
+                fileredRecipes={filteredRecipes}
+                resetFilterTags={resetFilterTags}
+                deleteRecipe={deleteRecipe}
+                getIngredientObject={addIngredient}
+                ingredientsSearch={ingredientsSearch}
+                handleIngreidentSearch={handleIngreidentSearch}
+                handleCheckBoxValueChange={handleCheckBoxValueChange}
+                handleCurrentRecipe={handleCurrentRecipe}
+                filteredTags={filteredTags}
+                filterTags={filterTags}
+                formatName={formatName}
+              />
             </Route>
             <Route path="/create">
               <Create
@@ -309,8 +204,6 @@ function App() {
               <Edit currentRecipe={currentRecipe} />
             </Route>
           </Switch>
-          {!loggedIn && <div className="g-signin2" data-onsuccess="onSignIn" />}
-          {loggedIn && <Button onClick={() => authInstance.disconnect()}>Sign Out</Button>}
         </Layout>
       </>
     </ThemeProvider>
