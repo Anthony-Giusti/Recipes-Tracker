@@ -7,8 +7,10 @@ const theme = useTheme;
 export default makeStyles((theme) => ({
   appbar: {
     width: '90%',
-    left: '4.5vw',
-    top: '5%',
+    maxWidth: 1000,
+    left: '50%',
+    transform: 'translate(-50%, -5%)',
+    top: '5.2%',
     height: '4.25em',
     borderRadius: '0.5em 0.5em 0 0',
   },
@@ -21,11 +23,13 @@ export default makeStyles((theme) => ({
   recipeModal: {
     height: '90%',
     width: '90%',
+    margin: '0 auto',
+    maxWidth: 1000,
   },
   recipePaper: {
     position: 'absolute',
     top: '15%',
-    left: '5%',
+
     height: '90%',
     width: '100%',
     overflow: 'scroll',
@@ -42,13 +46,13 @@ export default makeStyles((theme) => ({
   tagText: {
     padding: '0.4em',
   },
-  dietTag: {
-    backgroundColor: green[100],
-    borderRadius: '1em',
-  },
   stepItem: {
     display: 'flex',
     minHeight: '5em',
+  },
+  intolerances: {
+    display: 'flex',
+    alignItems: 'center',
   },
   stepOrderContainer: {
     background: blue[200],

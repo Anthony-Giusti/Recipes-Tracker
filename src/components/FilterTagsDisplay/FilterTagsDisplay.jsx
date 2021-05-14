@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import useStyles from './Styles';
 
 import { CategoryButton, DietButton, IntoleranceButton } from '../../Themes/Buttons/TagButtons';
 
-const FilterTagsDisplay = ({ filteredTags, filterTags, formatName }) => {
+const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTags }) => {
   const classes = useStyles();
 
   const handleClick = (tag, category) => {
@@ -18,7 +19,7 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName }) => {
       {filteredTags.categories.length >= 1 && (
         <Grid className={classes.gridContainer} container spacing={1}>
           {filteredTags.categories.map((tag) => (
-            <Grid item>
+            <Grid item key={tag}>
               <CategoryButton
                 variant="contained"
                 className={classes.categoryBtn}
@@ -60,6 +61,13 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName }) => {
           ))}
         </Grid>
       )}
+      {(filteredTags.categories.length >= 1 ||
+        filteredTags.dietTags.length >= 1 ||
+        filteredTags.intolerances.length >= 1) && (
+        <Button variant="contained" color="primary" onClick={resetFilterTags}>
+          Reset Tags
+        </Button>
+      )}
     </div>
   );
 };
@@ -68,6 +76,7 @@ FilterTagsDisplay.propTypes = {
   filteredTags: PropTypes.object,
   filterTags: PropTypes.func,
   formatName: PropTypes.func,
+  resetFilterTags: PropTypes.func,
 };
 
 export default FilterTagsDisplay;

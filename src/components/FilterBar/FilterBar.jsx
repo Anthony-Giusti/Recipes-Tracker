@@ -20,9 +20,15 @@ const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup })
 
   return (
     <>
-      <Button className={classes.navBtn} variant="contained" onClick={handleFilterMenuOpen}>
+      <Button
+        className={classes.navBtn}
+        variant="contained"
+        onClick={handleFilterMenuOpen}
+        color={filteredTags[tagGroup].length > 0 ? 'secondary' : 'default'}
+      >
         Filter By {tagTitle}
       </Button>
+      {console.log(filteredTags[tagGroup])}
       <div>
         <Menu
           id={`filter-${tagGroup}-menu`}

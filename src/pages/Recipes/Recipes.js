@@ -80,6 +80,7 @@ const Recipes = ({
         formatName={formatName}
         filterTags={filterTags}
         filteredTags={filteredTags}
+        resetFilterTags={resetFilterTags}
       />
       <Masonry
         breakpointCols={breakPoints}

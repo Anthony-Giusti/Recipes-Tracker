@@ -8,12 +8,14 @@ import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Divider from '@material-ui/core/Divider';
 
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import Carousel from 'react-material-ui-carousel';
 
+import { CardActions } from '@material-ui/core';
 import useStyles from './Styles';
 
 const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
@@ -84,17 +86,18 @@ const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
               ))}
             </Grid>
           )}
-
-          {/* BOTTOM BUTTONS */}
-          <span>
-            <IconButton onClick={() => handleModalOpen(recipe)}>
-              <ZoomOutMapIcon />
-            </IconButton>
-            <IconButton aria-label="settings" onClick={() => handleDeleteOpen(recipe.id)}>
-              <DeleteOutlined />
-            </IconButton>
-          </span>
         </CardContent>
+
+        <Divider />
+
+        <CardActions>
+          <IconButton onClick={() => handleModalOpen(recipe)}>
+            <ZoomOutMapIcon />
+          </IconButton>
+          <IconButton aria-label="settings" onClick={() => handleDeleteOpen(recipe.id)}>
+            <DeleteOutlined />
+          </IconButton>
+        </CardActions>
       </Card>
     </div>
   );

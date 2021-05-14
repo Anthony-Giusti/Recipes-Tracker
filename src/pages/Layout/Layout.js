@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Avatar from '@material-ui/core/Avatar';
 
 import AddIcon from '@material-ui/icons/Add';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
 
-import { Avatar } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import FilterBar from '../../components/FilterBar/FilterBar';
+import RecipeSeachBar from '../../components/RecipeSearchBar/RecipeSearchBar';
 
 import useStyles from './Styles';
 
@@ -22,6 +24,9 @@ const Layout = ({
   categoryOptions,
   dietTagOptions,
   intoleranceOptions,
+  searchRecipes,
+  isSearching,
+  emptySearch,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -36,6 +41,7 @@ const Layout = ({
             variant="contained"
             onClick={() => history.push('/')}
             endIcon={<ViewComfyIcon />}
+            color={history.location.pathname === '/' ? 'secondary' : 'default'}
           >
             View Your Recipes
           </Button>
@@ -44,12 +50,20 @@ const Layout = ({
             variant="contained"
             onClick={() => history.push('/create')}
             endIcon={<AddIcon />}
+            color={history.location.pathname === '/create' ? 'secondary' : 'default'}
           >
             Create New Recipe
           </Button>
 
           {location.pathname === '/' && (
             <>
+              <Divider className={classes.divider} orientation="vertical" />
+              <RecipeSeachBar
+                filterRecipes={filterRecipes}
+                handleSearch={searchRecipes}
+                isSearching={isSearching}
+                emptySearch={emptySearch}
+              />
               <FilterBar
                 options={categoryOptions}
                 filteredTags={filteredTags}

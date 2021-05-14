@@ -19,4 +19,10 @@ export default makeStyles((theme) => ({
   avatar: {
     marginLeft: 'auto',
   },
+  divider: {
+    backgroundColor: theme.palette.common.white,
+    width: 2,
+    height: '3em',
+    marginLeft: '0.8em',
+  },
 }));

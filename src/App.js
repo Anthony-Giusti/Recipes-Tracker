@@ -21,7 +21,11 @@ function App() {
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
   const [recipes, setRecipes] = useState([]);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [filteredRecipes, setFilteredRecipes] = useState();
+  const [searchedRecipes, setSearchedRecipes] = useState([]);
+  const [visibleRecipes, setVisibleRecipes] = useState([]);
   const [filteredTags, setFilteredTags] = useState({
     categories: [],
     dietTags: [],
@@ -37,7 +41,8 @@ function App() {
       response.json().then((data) => {
         console.log(data);
         setRecipes(data);
-        setFilteredRecipes(data);
+        setSearchedRecipes(data);
+        setVisibleRecipes(data);
         setIsFetchingRecipes(false);
       });
     });
@@ -71,14 +76,13 @@ function App() {
     setRecipes(newRecipes);
   };
 
-  const resetFilterTags = () => {
-    setFilteredTags({ categories: [], dietTags: [], intolerances: [] });
-  };
-
   const filterRecipes = () => {
-    const filteredRecipes = [];
+    const filterOutput = [];
+    setIsFiltered(true);
 
-    recipes.forEach((recipe) => {
+    const beans = isSearching ? searchedRecipes : recipes;
+
+    beans.forEach((recipe) => {
       if (
         (recipe.categories.raw.some(
           (category) => filteredTags.categories.indexOf(category) !== -1
@@ -92,10 +96,12 @@ function App() {
           filteredTags.intolerances.length < 1 ||
           recipe.intolerances.raw.length < 1)
       ) {
-        filteredRecipes.push(recipe);
+        filterOutput.push(recipe);
       }
     });
-    setFilteredRecipes(filteredRecipes);
+
+    setFilteredRecipes(filterOutput);
+    setVisibleRecipes(filterOutput);
   };
 
   const filterTags = (value, tagGroup) => {
@@ -109,6 +115,41 @@ function App() {
     }
 
     filterRecipes(tagGroup);
+  };
+
+  const resetFilterTags = () => {
+    setFilteredTags({ categories: [], dietTags: [], intolerances: [] });
+    setIsFiltered(false);
+    filterRecipes();
+  };
+
+  const emptySearch = () => {
+    setIsSearching(false);
+  };
+
+  const searchRecipes = (value) => {
+    if (!value) {
+      emptySearch();
+      return;
+    }
+
+    if (!isSearching) {
+      setIsSearching(true);
+    }
+
+    const searchResults = [];
+    const query = value.toLowerCase();
+
+    const beans = isFiltered ? filteredRecipes : recipes;
+
+    beans.forEach((recipe) => {
+      if (recipe.title.toLowerCase().includes(query)) {
+        searchResults.push(recipe);
+      }
+    });
+
+    setSearchedRecipes(searchResults);
+    setVisibleRecipes(searchResults);
   };
 
   const handleIngreidentSearch = (data) => {
@@ -164,6 +205,15 @@ function App() {
     setValues((prev) => [...prev, newValue]);
   };
 
+  useEffect(() => {
+    if (!isSearching) {
+      filterRecipes();
+    }
+    return () => {
+      // cleanup;
+    };
+  }, [isSearching]);
+
   return (
     <ThemeProvider theme={Theme}>
       <>
@@ -173,6 +223,9 @@ function App() {
           categoryOptions={categoryOptions}
           dietTagOptions={dietTagOptions}
           intoleranceOptions={intoleranceOptions}
+          searchRecipes={searchRecipes}
+          isSearching={isSearching}
+          emptySearch={emptySearch}
         >
           <Switch>
             <Route exact path="/">
@@ -180,7 +233,7 @@ function App() {
                 fetchRecipes={fetchRecipes}
                 isFetchingRecipes={isFetchingRecipes}
                 recipes={recipes}
-                fileredRecipes={filteredRecipes}
+                fileredRecipes={visibleRecipes}
                 resetFilterTags={resetFilterTags}
                 deleteRecipe={deleteRecipe}
                 getIngredientObject={addIngredient}
