@@ -12,4 +12,7 @@ export default makeStyles({
     flexWrap: 'wrap',
     padding: 0,
   },
+  searchResultsItem: {
+    margin: '0.5em 1em 0.5em 0',
+  },
 });

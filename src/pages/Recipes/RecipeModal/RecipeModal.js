@@ -21,8 +21,9 @@ import DietTags from '../../../components/RecipeTags/DietTags';
 import IntoleranceTags from '../../../components/RecipeTags/IntoleranceTags';
 
 import useStyles from './Styles-RecipeModal';
+import { intoleranceOptions } from '../../../components/RecipeCheckBoxes/_data';
 
-const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe }) => {
+const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, printRecipe }) => {
   const classes = useStyles();
 
   const enterEditingMode = () => {
@@ -39,16 +40,31 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe }) => 
       <Paper className={classes.recipePaper}>
         <AppBar className={classes.appbar} position="fixed">
           <Toolbar className={classes.toolbar}>
-            <Button variant="contained" endIcon={<EditIcon />} onClick={() => enterEditingMode()}>
-              Edit Recipe
-            </Button>
+            <span>
+              <Button
+                className={classes.moduleNavBtn}
+                variant="contained"
+                endIcon={<EditIcon />}
+                onClick={() => enterEditingMode()}
+              >
+                Edit Recipe
+              </Button>
+              <Button
+                className={classes.moduleNavBtn}
+                variant="contained"
+                endIcon={<PrintIcon />}
+                onClick={() => printRecipe('recipe-print')}
+              >
+                Print Recipe
+              </Button>
+            </span>
             <IconButton className={classes.exitBtn} onClick={modalClose}>
               <FullscreenExitIcon fontSize="large" />
             </IconButton>
           </Toolbar>
         </AppBar>
 
-        <div>
+        <div id="recipe-print">
           <div className={classes.modalBody}>
             <Typography variant="h3" gutterBottom>
               {recipe.title}
@@ -63,13 +79,13 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe }) => 
 
             {recipe.intolerances.formatted.length > 0 && (
               <span className={classes.intolerances}>
-                <Typography>Contains: </Typography>
+                <Typography className={classes.intolerancesSubtitle}>Contains: </Typography>
 
                 <IntoleranceTags intoleranceTags={recipe.intolerances} />
               </span>
             )}
 
-            <div>
+            <div className={classes.recipeBody}>
               <Typography variant="h4">Ingredients</Typography>
               <List>
                 {recipe.ingredients.map((ingredient) => (
@@ -111,6 +127,7 @@ RecipeModal.propTypes = {
   modalClose: PropTypes.func,
   recipe: PropTypes.object,
   handleCurrentRecipe: PropTypes.func,
+  printRecipe: PropTypes.func,
 };
 
 export default RecipeModal;

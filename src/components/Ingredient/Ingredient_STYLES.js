@@ -41,6 +41,14 @@ export default makeStyles(() => ({
     flexDirection: 'column',
     justifyContent: 'center',
   },
+  customUnit: {
+    borderRadius: 4,
+    border: '1px solid rgba(0, 0, 0, 0.23)',
+    height: '3.4em',
+    display: 'flex',
+    paddingLeft: '0.8em',
+    alignItems: 'center',
+  },
   quantity: {
     flexBasis: '15%',
   },

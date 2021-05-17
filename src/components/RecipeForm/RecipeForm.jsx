@@ -31,7 +31,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [intolerances, setIntolerances] = useState(recipe ? recipe.intolerances.raw : []);
   const [ingredients, setIngredients] = useState(recipe ? recipe.ingredients : []);
   const [steps, setSteps] = useState(recipe ? recipe.steps : []);
-  const [stepId, setStepId] = useState(0);
+  // const [stepId, setStepId] = useState(0);
   const [additionalNotes] = useState(recipe ? recipe.additionalNotes : '');
 
   const [titleError, setTitleError] = useState(false);
@@ -138,8 +138,10 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   };
 
   const handleImageURLBoxAdd = () => {
-    if (imageURLBoxes < 5) {
+    console.log(imageURLBoxes);
+    if (imageURLBoxes < 6) {
       setImageURLBoxes(imageURLBoxes + 1);
+      console.log(imageURLBoxes + 1);
     }
   };
 
@@ -201,7 +203,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       },
     ]);
     newStepField.value = '';
-    setStepId((prev) => prev + 1);
+    // setStepId((prev) => prev + 1);
   };
 
   const editStep = (stepId, stepOrder, step) => {
@@ -330,128 +332,155 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
 
   return (
     <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-      {/* RECIPE NAME FIELD */}
-      <TextField
-        className={classes.field}
-        name="name"
-        defaultValue={title}
-        label="Recipe Name"
-        variant="outlined"
-        color="secondary"
-        fullWidth
-        required
-        inputRef={(ref) => {
-          recipeTitleField = ref;
-        }}
-        error={titleError}
-      />
+      <Paper className={classes.section}>
+        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+          Basic Information
+        </Typography>
 
-      {/* SUMMARY FIELD */}
+        {/* RECIPE NAME FIELD */}
+        <TextField
+          className={classes.field}
+          name="name"
+          defaultValue={title}
+          label="Recipe Name"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          required
+          inputRef={(ref) => {
+            recipeTitleField = ref;
+          }}
+          error={titleError}
+        />
 
-      <TextField
-        className={classes.field}
-        name="summary"
-        defaultValue={details}
-        label="Summary"
-        variant="outlined"
-        color="secondary"
-        multiline
-        row={4}
-        fullWidth
-        required
-        inputRef={(ref) => {
-          recipeDetailsField = ref;
-        }}
-        error={detailsError}
-      />
+        {/* SUMMARY FIELD */}
 
-      {/* SOURCE URL FIELD */}
+        <TextField
+          className={classes.field}
+          name="summary"
+          defaultValue={details}
+          label="Summary"
+          variant="outlined"
+          color="secondary"
+          multiline
+          row={4}
+          fullWidth
+          required
+          inputRef={(ref) => {
+            recipeDetailsField = ref;
+          }}
+          error={detailsError}
+        />
 
-      <TextField
-        className={classes.field}
-        name="sourceURL"
-        defaultValue={sourceURL}
-        label="Source URL"
-        variant="outlined"
-        color="secondary"
-        multiline
-        row={4}
-        fullWidth
-        helperText={sourceURLError ? 'Invalid URL please fix and resubmit or remove' : ''}
-        inputRef={(ref) => {
-          sourceURLField = ref;
-        }}
-        error={sourceURLError}
-      />
+        {/* SOURCE URL FIELD */}
 
-      {/* SERVINGS */}
-      <div className={classes.yieldCookTimeContainer}>
-        <div className={classes.yieldCookTime}>
-          <div className={classes.yieldCookTimeTitle}>
-            <Typography variant="h5">Yield:</Typography>
-          </div>
-          <TextField
-            className={classes.field}
-            name="cookTimeHours"
-            defaultValue={servings}
-            label="Servings"
-            variant="outlined"
-            color="secondary"
-            type="number"
-            onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
-            inputProps={{ min: 1, max: 99 }}
-            inputRef={(ref) => {
-              servingsField = ref;
-            }}
-          />
-        </div>
+        <TextField
+          className={classes.field}
+          name="sourceURL"
+          defaultValue={sourceURL}
+          label="Source URL"
+          variant="outlined"
+          color="secondary"
+          multiline
+          row={4}
+          fullWidth
+          helperText={sourceURLError ? 'Invalid URL please fix and resubmit or remove' : ''}
+          inputRef={(ref) => {
+            sourceURLField = ref;
+          }}
+          error={sourceURLError}
+        />
 
-        {/* COOK TIME FIELDS */}
-
-        <div className={classes.yieldCookTime}>
-          <div className={classes.yieldCookTimeTitle}>
-            <Typography variant="h5">Total Cook Time:</Typography>
+        {/* SERVINGS */}
+        <div className={classes.yieldCookTimeContainer}>
+          <div className={classes.yieldCookTime}>
+            <div className={classes.yieldCookTimeTitle}>
+              <Typography variant="h5">Yield:</Typography>
+            </div>
+            <TextField
+              className={classes.field}
+              name="cookTimeHours"
+              defaultValue={servings}
+              label="Servings"
+              variant="outlined"
+              color="secondary"
+              type="number"
+              onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
+              inputProps={{ min: 1, max: 99 }}
+              inputRef={(ref) => {
+                servingsField = ref;
+              }}
+            />
           </div>
 
-          <TextField
-            className={classes.field}
-            name="cookTimeHours"
-            defaultValue={Number(cookTime.hours)}
-            label="Hours"
-            variant="outlined"
-            color="secondary"
-            type="number"
-            onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
-            inputProps={{ min: 0, max: 99 }}
-            inputRef={(ref) => {
-              cookTimeHoursField = ref;
-            }}
-          />
+          {/* COOK TIME FIELDS */}
 
-          <TextField
-            className={classes.field}
-            name="cookTimeMinutes"
-            defaultValue={cookTime.minutes}
-            label="Minutes"
-            variant="outlined"
-            color="secondary"
-            type="number"
-            onChange={(e) => handleMinutesChange(parseInt(e.target.value, 10))}
-            inputProps={{ min: 0, max: 59 }}
-            inputRef={(ref) => {
-              cookTimeMinutesField = ref;
-            }}
-          />
+          <div className={classes.yieldCookTime}>
+            <div className={classes.yieldCookTimeTitle}>
+              <Typography variant="h5">Total Cook Time:</Typography>
+            </div>
+
+            <TextField
+              className={classes.field}
+              name="cookTimeHours"
+              defaultValue={Number(cookTime.hours)}
+              label="Hours"
+              variant="outlined"
+              color="secondary"
+              type="number"
+              onChange={(e) => handleHoursChange(parseInt(e.target.value, 10))}
+              inputProps={{ min: 0, max: 99 }}
+              inputRef={(ref) => {
+                cookTimeHoursField = ref;
+              }}
+            />
+
+            <TextField
+              className={classes.field}
+              name="cookTimeMinutes"
+              defaultValue={cookTime.minutes}
+              label="Minutes"
+              variant="outlined"
+              color="secondary"
+              type="number"
+              onChange={(e) => handleMinutesChange(parseInt(e.target.value, 10))}
+              inputProps={{ min: 0, max: 59 }}
+              inputRef={(ref) => {
+                cookTimeMinutesField = ref;
+              }}
+            />
+          </div>
         </div>
-      </div>
+      </Paper>
 
       {/* IMAGE URL FIELDS */}
 
-      <Paper className={classes.paper}>
-        <div>
-          <Typography variant="h3">Images</Typography>
-          <Typography variant="p">(Optional)</Typography>
-        </div>
+      <Paper className={classes.section}>
+        <Typography variant="h3" className={classes.sectionTitle}>
+          Images
+        </Typography>
+
+        <span>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={imageURLBoxes >= 6}
+            endIcon={<AddIcon />}
+            className={classes.addImageURLBtn}
+            onClick={() => handleImageURLBoxAdd()}
+          >
+            Add images (maximum of 6)
+          </Button>
+          <Button
+            className={classes.removeImageURLbtn}
+            disabled={imageURLBoxes <= 0}
+            onClick={() => handleImageURlBoxRemove()}
+            endIcon={<RemoveIcon />}
+          >
+            Remove
+          </Button>
+        </span>
+
         {[...Array(imageURLBoxes)].map((value, index) => (
           <TextField
             key={index}
@@ -473,23 +502,15 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
             fullWidth
           />
         ))}
-        <span>
-          <Button
-            endIcon={<AddIcon />}
-            className={classes.addImageURLBtn}
-            onClick={() => handleImageURLBoxAdd()}
-          >
-            Add images (maximum of 6)
-          </Button>
-          <IconButton onClick={() => handleImageURlBoxRemove()}>
-            <RemoveIcon />
-          </IconButton>
-        </span>
       </Paper>
 
       {/* RECIPES CHECKBOXES */}
 
-      <Paper className={classes.paper}>
+      <Paper className={classes.section}>
+        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+          Recipe Tags
+        </Typography>
+
         <RecipeCheckBoxes
           categoryError={categoryError}
           handleCheckBoxValueChange={handleCheckBoxValueChange}
@@ -501,12 +522,11 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
 
       {/* INGREDIENTS SEARCH */}
 
-      <Paper className={classes.paper}>
-        <div>
-          <Typography variant="h3" gutterBottom>
-            Ingredients
-          </Typography>
-        </div>
+      <Paper className={classes.section}>
+        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+          Ingredients
+        </Typography>
+
         <IngredientsSearch
           ingredientsError={ingredientsError}
           ingredients={ingredients}
@@ -519,8 +539,8 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
 
       {/* STEPS */}
 
-      <Paper className={classes.paper}>
-        <Typography variant="h3" gutterBottom>
+      <Paper className={classes.section}>
+        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
           Steps
         </Typography>
 
@@ -566,31 +586,41 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         </FormControl>
       </Paper>
 
-      <br />
-      <br />
-
       {/* ADDITIONAL NOTES */}
 
-      <TextField
-        className={classes.field}
-        name="additional notes"
-        defaultValue={additionalNotes}
-        label="Additional Notes"
-        variant="outlined"
-        color="secondary"
-        fullWidth
-        multiline
-        row={4}
-        inputRef={(ref) => {
-          addtionalNotesField = ref;
-        }}
-      />
+      <Paper className={classes.section}>
+        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+          Additonal Notes
+        </Typography>
+        <TextField
+          className={classes.field}
+          name="additional notes"
+          defaultValue={additionalNotes}
+          label="Additional Notes"
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          multiline
+          row={4}
+          inputRef={(ref) => {
+            addtionalNotesField = ref;
+          }}
+        />
+      </Paper>
 
       {/* SUBMIT BUTTON */}
 
-      <Button variant="contained" type="submit" color="primary" endIcon={<AddIcon />}>
+      <Button
+        className={classes.submitBtn}
+        variant="contained"
+        type="submit"
+        color="primary"
+        endIcon={<AddIcon />}
+      >
         {submitBtnText}
       </Button>
+      <br />
+      <br />
     </form>
   );
 };

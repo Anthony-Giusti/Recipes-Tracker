@@ -17,6 +17,9 @@ export default makeStyles((theme) => ({
   toolbar: {
     justifyContent: 'space-between',
   },
+  moduleNavBtn: {
+    margin: '0.5em',
+  },
   exitBtn: {
     color: theme.palette.getContrastText(theme.palette.primary.main),
   },
@@ -26,6 +29,7 @@ export default makeStyles((theme) => ({
     margin: '0 auto',
     maxWidth: 1000,
   },
+  recipeBody: {},
   recipePaper: {
     position: 'absolute',
     top: '15%',
@@ -46,6 +50,7 @@ export default makeStyles((theme) => ({
   tagText: {
     padding: '0.4em',
   },
+  intolerancesSubtitle: { marginRight: '0.5em' },
   stepItem: {
     display: 'flex',
     minHeight: '5em',

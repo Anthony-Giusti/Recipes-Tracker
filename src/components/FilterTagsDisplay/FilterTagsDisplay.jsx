@@ -34,7 +34,7 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTa
       {filteredTags.dietTags.length >= 1 && (
         <Grid className={classes.gridContainer} container spacing={1}>
           {filteredTags.dietTags.map((tag) => (
-            <Grid item>
+            <Grid item key={tag}>
               <DietButton
                 variant="contained"
                 className={classes.dietBtn}
@@ -49,7 +49,7 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTa
       {filteredTags.intolerances.length >= 1 && (
         <Grid className={classes.gridContainer} container spacing={1}>
           {filteredTags.intolerances.map((tag) => (
-            <Grid item>
+            <Grid item key={tag}>
               <IntoleranceButton
                 variant="contained"
                 className={classes.intoleranceBtn}

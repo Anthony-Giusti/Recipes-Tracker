@@ -28,7 +28,7 @@ const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup })
       >
         Filter By {tagTitle}
       </Button>
-      {console.log(filteredTags[tagGroup])}
+
       <div>
         <Menu
           id={`filter-${tagGroup}-menu`}

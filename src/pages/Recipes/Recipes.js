@@ -31,6 +31,7 @@ const Recipes = ({
   filteredTags,
   filterTags,
   formatName,
+  printRecipe,
 }) => {
   const [displayedRecipe, setDisplayedRecipe] = useState();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -111,6 +112,7 @@ const Recipes = ({
           recipe={displayedRecipe}
           handleCheckBoxValueChange={handleCheckBoxValueChange}
           handleCurrentRecipe={handleCurrentRecipe}
+          printRecipe={printRecipe}
         >
           <RecipeForm />
         </RecipeModal>
@@ -149,6 +151,7 @@ Recipes.propTypes = {
   filteredTags: PropTypes.object,
   filterTags: PropTypes.func,
   formatName: PropTypes.func,
+  printRecipe: PropTypes.func,
 };
 
 export default Recipes;

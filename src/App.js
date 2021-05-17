@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Button, ThemeProvider } from '@material-ui/core/';
+import { ThemeProvider } from '@material-ui/core/';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+
+import printJS from 'print-js';
 
 import Recipes from './pages/Recipes/Recipes';
 import Create from './pages/Create/Create';
@@ -114,13 +116,14 @@ function App() {
       setFilteredTags(newTags);
     }
 
-    filterRecipes(tagGroup);
+    filterRecipes();
   };
 
   const resetFilterTags = () => {
     setFilteredTags({ categories: [], dietTags: [], intolerances: [] });
     setIsFiltered(false);
-    filterRecipes();
+    setFilteredRecipes(recipes);
+    setVisibleRecipes(searchedRecipes);
   };
 
   const emptySearch = () => {
@@ -205,6 +208,10 @@ function App() {
     setValues((prev) => [...prev, newValue]);
   };
 
+  const printRecipe = () => {
+    printJS('recipe-print', 'html');
+  };
+
   useEffect(() => {
     if (!isSearching) {
       filterRecipes();
@@ -244,6 +251,7 @@ function App() {
                 filteredTags={filteredTags}
                 filterTags={filterTags}
                 formatName={formatName}
+                printRecipe={printRecipe}
               />
             </Route>
             <Route path="/create">

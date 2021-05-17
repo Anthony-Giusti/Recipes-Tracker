@@ -1,23 +1,17 @@
 import { makeStyles } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+import { grey, red } from '@material-ui/core/colors';
 import Theme from '../../Themes/Theme';
 
-export default makeStyles({
-  btn: {
-    fontSize: 60,
-    // backgroundColor: 'violet',
-    '&:hover': {
-      backgroundColor: 'red',
-    },
-  },
+export default makeStyles((theme) => ({
   title: {
     textDecoration: 'underline',
     marginBottom: '20',
   },
-  paper: {
+  section: {
     margin: '1em 0',
     padding: '1em',
   },
+  sectionTitle: { fontSize: '2.25em' },
   field: {
     marginTop: 20,
     marginBottom: 20,
@@ -36,7 +30,13 @@ export default makeStyles({
     alignItems: 'center',
     marginRight: '1em',
   },
-
+  removeImageURLbtn: {
+    borderRadius: '0',
+    '&:hover': {
+      color: 'white',
+      background: Theme.palette.error.main,
+    },
+  },
   ingredientSearchField: {
     maxWidth: 200,
   },
@@ -95,4 +95,5 @@ export default makeStyles({
   newStepField: {
     flexGrow: '1',
   },
-});
+  submitBtn: {},
+}));

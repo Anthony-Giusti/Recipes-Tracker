@@ -21,6 +21,7 @@ import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import Remove from '@material-ui/icons/Remove';
 
+import { NativeSelect } from '@material-ui/core';
 import useStyles from './Ingredient_STYLES';
 
 const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handleCustomUnit }) => {
@@ -43,6 +44,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
 
   const addComment = (comment) => {
     if (comment === '') {
+      setEditingComment(false);
       return;
     }
     changeIngredientValue(ingredient.id, 'comment', comment);
@@ -95,7 +97,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
   };
 
   return (
-    <Card className={classes.ingredient}>
+    <Card raised className={classes.ingredient}>
       <Container className={classes.x}>
         <div className={classes.titleContainer}>
           <Typography variant="h6" className={classes.title}>
@@ -123,10 +125,15 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
 
         <FormControl className={classes.unit}>
           {customUnitAdded ? (
-            <Typography>{customUnit}</Typography>
+            <div className={classes.customUnit}>
+              <Typography>{customUnit}</Typography>
+            </div>
           ) : (
+            // <Typography></Typography>
+            // <Select variant="outlined" value={customUnit} defaultValue={customUnit}>
+            //   <MenuItem>{customUnit}</MenuItem>
+            // </Select>
             <Select
-              label="Unit"
               variant="outlined"
               color="secondary"
               inputRef={(ref) => {
@@ -200,6 +207,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
               inputRef={(ref) => {
                 commentField = ref;
               }}
+              inputProps={{ maxLength: 75 }}
             />
           </div>
         ) : (
@@ -209,7 +217,9 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
                 <MenuIcon />
               </IconButton>
             ) : (
-              <Button onClick={() => setEditingComment(true)}>Add Comment</Button>
+              <Button color="primary" variant="contained" onClick={() => setEditingComment(true)}>
+                Add Comment
+              </Button>
             )}
           </div>
         )}
