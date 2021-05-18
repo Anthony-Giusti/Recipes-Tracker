@@ -25,4 +25,13 @@ export default makeStyles((theme) => ({
     height: '3em',
     marginLeft: '0.8em',
   },
+  drawer: {
+    background: theme.palette.primary.main,
+    display: 'flex',
+    flexDirection: 'row',
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+      justifyContent: 'space-around',
+    },
+  },
 }));

@@ -1,5 +1,8 @@
+/* eslint-disable react/no-this-in-sfc */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import isImageURL from 'image-url-validator';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -11,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import IconButtonWithBackground from '../../Themes/Buttons/IconButtons/IconButtons';
 
 import RecipeCheckBoxes from '../RecipeCheckBoxes/RecipeCheckBoxes';
 import IngredientsSearch from '../IngredientsSearch/IngredientsSearch';
@@ -25,7 +29,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [sourceURL] = useState(recipe ? recipe.sourceURLs : '');
   const [imageURLs] = useState(recipe ? recipe.imageURLs : new Array(6).fill(''));
   const [imageURLBoxes, setImageURLBoxes] = useState(recipe ? recipe.imageURLs.length : 0);
-  const [cookTime] = useState(recipe ? recipe.cookTime : { hours: 0, minutes: 0 });
+  const [cookTime] = useState(recipe ? recipe.cookTime : { hours: 0, minutes: 15 });
   const [categories, setCategories] = useState(recipe ? recipe.categories.raw : []);
   const [dietTags, setDietTags] = useState(recipe ? recipe.dietTags.raw : []);
   const [intolerances, setIntolerances] = useState(recipe ? recipe.intolerances.raw : []);
@@ -89,6 +93,16 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     }
   };
 
+  const checkImage = async (urls) => {
+    console.log(urls[0].value);
+    await isImageURL(urls[0].value);
+
+    // urls.forEach((url) => {
+    //   console.log(url.value);
+    //   console.log(isImageURL(url.value));
+    // });
+  };
+
   const validateURLs = (urls) => {
     const check = new RegExp(
       '^(https?:\\/\\/)?' + // protocol
@@ -99,6 +113,8 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         '(\\#[-a-z\\d_]*)?$',
       'i'
     ); // fragment locator
+
+    checkImage(urls);
 
     if (Array.isArray(urls)) {
       return urls.map((url) => !check.test(url.value));
@@ -456,7 +472,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       {/* IMAGE URL FIELDS */}
 
       <Paper className={classes.section}>
-        <Typography variant="h3" className={classes.sectionTitle}>
+        <Typography variant="h3" className={classes.sectionTitle} gutterBottom>
           Images
         </Typography>
 
@@ -575,12 +591,9 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
                 newStepField = ref;
               }}
             />
-            <IconButton
-              className={classes.addStepBtn}
-              onClick={() => addNewStep(newStepField.value)}
-            >
+            <IconButtonWithBackground onClick={() => addNewStep(newStepField.value)}>
               <AddIcon />
-            </IconButton>
+            </IconButtonWithBackground>
           </div>
           {stepsError && <FormHelperText>You must have at least one step</FormHelperText>}
         </FormControl>

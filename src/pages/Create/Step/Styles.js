@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   card: {
     display: 'flex',
     marginTop: 20,
@@ -24,12 +24,15 @@ export default makeStyles(() => ({
   editField: {
     width: '100%',
     lineHeight: '1.5em',
+    border: `3px dotted ${theme.palette.primary.main}`,
   },
   cardInterface: {
     display: 'flex',
   },
   cardInterfacePanel: {
     display: 'flex',
-    flexDirection: 'column',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+    },
   },
 }));

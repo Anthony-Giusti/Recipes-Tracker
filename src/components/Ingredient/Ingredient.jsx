@@ -19,10 +19,9 @@ import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
 
 import MenuIcon from '@material-ui/icons/Menu';
-import Remove from '@material-ui/icons/Remove';
+import IconButtonWithBackground from '../../Themes/Buttons/IconButtons/IconButtons';
 
-import { NativeSelect } from '@material-ui/core';
-import useStyles from './Ingredient_STYLES';
+import useStyles from './Styles';
 
 const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handleCustomUnit }) => {
   const classes = useStyles();
@@ -98,7 +97,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
 
   return (
     <Card raised className={classes.ingredient}>
-      <Container className={classes.x}>
+      <Container className={classes.ingredientUpper}>
         <div className={classes.titleContainer}>
           <Typography variant="h6" className={classes.title}>
             {ingredient.name}
@@ -126,13 +125,10 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
         <FormControl className={classes.unit}>
           {customUnitAdded ? (
             <div className={classes.customUnit}>
-              <Typography>{customUnit}</Typography>
+              <Typography className={classes.customUnitText}>{customUnit}</Typography>
+              <Typography className={classes.customUnitLabel}>(Custom Unit)</Typography>
             </div>
           ) : (
-            // <Typography></Typography>
-            // <Select variant="outlined" value={customUnit} defaultValue={customUnit}>
-            //   <MenuItem>{customUnit}</MenuItem>
-            // </Select>
             <Select
               variant="outlined"
               color="secondary"
@@ -150,9 +146,13 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
             </Select>
           )}
         </FormControl>
-        <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleIngMenuOpen}>
+        <IconButtonWithBackground
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleIngMenuOpen}
+        >
           <MenuIcon />
-        </IconButton>
+        </IconButtonWithBackground>
       </Container>
 
       {/* INGREDIENT MENU  */}
@@ -190,13 +190,9 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
       <Container className={classes.comment}>
         {editingComment ? (
           <div className={classes.commentEdit}>
-            <IconButton
-              color="primary"
-              className={classes.addCommentBtn}
-              onClick={() => addComment(commentField.value)}
-            >
+            <IconButtonWithBackground onClick={() => addComment(commentField.value)}>
               <AddIcon />
-            </IconButton>
+            </IconButtonWithBackground>
 
             <TextField
               defaultValue={ingredient.comment}
@@ -213,9 +209,12 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
         ) : (
           <div className={classes.commentDisplayed}>
             {commentAdded ? (
-              <IconButton onClick={handleCommentMenuOpen}>
+              <IconButtonWithBackground
+                className={classes.editCommentBtn}
+                onClick={handleCommentMenuOpen}
+              >
                 <MenuIcon />
-              </IconButton>
+              </IconButtonWithBackground>
             ) : (
               <Button color="primary" variant="contained" onClick={() => setEditingComment(true)}>
                 Add Comment
@@ -225,7 +224,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
         )}
         {!editingComment && ingredient.comment && (
           <div className={classes.commentDisplay}>
-            <Typography>{`(${ingredient.comment})`}</Typography>
+            <Typography className={classes.commentText}>{`(${ingredient.comment})`}</Typography>
           </div>
         )}
 
