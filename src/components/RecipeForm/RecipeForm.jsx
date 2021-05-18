@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import isImageURL from 'image-url-validator';
-
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
@@ -93,16 +91,6 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     }
   };
 
-  const checkImage = async (urls) => {
-    console.log(urls[0].value);
-    await isImageURL(urls[0].value);
-
-    // urls.forEach((url) => {
-    //   console.log(url.value);
-    //   console.log(isImageURL(url.value));
-    // });
-  };
-
   const validateURLs = (urls) => {
     const check = new RegExp(
       '^(https?:\\/\\/)?' + // protocol
@@ -113,8 +101,6 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         '(\\#[-a-z\\d_]*)?$',
       'i'
     ); // fragment locator
-
-    checkImage(urls);
 
     if (Array.isArray(urls)) {
       return urls.map((url) => !check.test(url.value));
