@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Avatar from '@material-ui/core/Avatar';
-import withWidth from '@material-ui/core/withWidth';
 import Drawer from '@material-ui/core/Drawer';
 import { useTheme } from '@material-ui/core/styles';
 
@@ -35,17 +34,17 @@ const Layout = ({
   searchRecipes,
   isSearching,
   emptySearch,
+  recipeSearchText,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up('lg'));
-  const matches2 = useMediaQuery(theme.breakpoints.up('md'));
-  const matches3 = useMediaQuery(theme.breakpoints.up('sm'));
-
-  console.log(matches);
+  const lgDevice = useMediaQuery(theme.breakpoints.up('lg'));
+  const mdDevice = useMediaQuery(theme.breakpoints.up('md'));
+  const smDevice = useMediaQuery(theme.breakpoints.up('sm'));
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -66,7 +65,7 @@ const Layout = ({
             endIcon={<ViewComfyIcon />}
             color={history.location.pathname === '/' ? 'secondary' : 'default'}
           >
-            {matches3 ? 'View Recipes' : 'Recipes'}
+            {smDevice ? 'View Recipes' : 'Recipes'}
           </Button>
           <Button
             className={classes.navBtn}
@@ -75,57 +74,53 @@ const Layout = ({
             endIcon={<AddIcon />}
             color={history.location.pathname === '/create' ? 'secondary' : 'default'}
           >
-            {matches3 ? 'Create New' : 'Create'}
+            {smDevice ? 'Create New' : 'Create'}
           </Button>
 
           {location.pathname === '/' && (
             <>
-              {matches2 ? (
+              <Divider className={classes.divider} orientation="vertical" />
+              {mdDevice && (
+                <RecipeSeachBar
+                  filterRecipes={filterRecipes}
+                  handleSearch={searchRecipes}
+                  isSearching={isSearching}
+                  emptySearch={emptySearch}
+                  recipeSearchText={recipeSearchText}
+                />
+              )}
+              {lgDevice ? (
                 <>
-                  <Divider className={classes.divider} orientation="vertical" />
-                  <RecipeSeachBar
+                  <FilterBar
+                    options={categoryOptions}
+                    filteredTags={filteredTags}
                     filterRecipes={filterRecipes}
-                    handleSearch={searchRecipes}
-                    isSearching={isSearching}
-                    emptySearch={emptySearch}
+                    tagTitle="Category"
+                    tagGroup="categories"
                   />
-
-                  {matches ? (
-                    <>
-                      <FilterBar
-                        options={categoryOptions}
-                        filteredTags={filteredTags}
-                        filterRecipes={filterRecipes}
-                        tagTitle="Category"
-                        tagGroup="categories"
-                      />
-                      <FilterBar
-                        options={dietTagOptions}
-                        filteredTags={filteredTags}
-                        filterRecipes={filterRecipes}
-                        tagTitle="Diet"
-                        tagGroup="dietTags"
-                      />
-                      <FilterBar
-                        options={intoleranceOptions}
-                        filteredTags={filteredTags}
-                        filterRecipes={filterRecipes}
-                        tagTitle="Intolerance"
-                        tagGroup="intolerances"
-                      />
-                    </>
-                  ) : (
-                    <Button onClick={handleDrawerOpen} variant="contained">
-                      Filters
-                    </Button>
-                  )}
+                  <FilterBar
+                    options={dietTagOptions}
+                    filteredTags={filteredTags}
+                    filterRecipes={filterRecipes}
+                    tagTitle="Diet"
+                    tagGroup="dietTags"
+                  />
+                  <FilterBar
+                    options={intoleranceOptions}
+                    filteredTags={filteredTags}
+                    filterRecipes={filterRecipes}
+                    tagTitle="Intolerance"
+                    tagGroup="intolerances"
+                  />
                 </>
               ) : (
-                <>
-                  <Button onClick={handleDrawerOpen} variant="contained">
-                    Filters
-                  </Button>
-                </>
+                <Button
+                  className={classes.filterBtn}
+                  onClick={handleDrawerOpen}
+                  variant="contained"
+                >
+                  Filters
+                </Button>
               )}
             </>
           )}
@@ -135,16 +130,18 @@ const Layout = ({
 
       <Drawer color="primary" open={drawerOpen} onClose={handleDrawerClose} anchor="top">
         <Toolbar className={classes.drawer}>
-          {!matches2 && (
+          {!mdDevice && (
             <RecipeSeachBar
               filterRecipes={filterRecipes}
               handleSearch={searchRecipes}
               isSearching={isSearching}
               emptySearch={emptySearch}
+              recipeSearchText={recipeSearchText}
             />
           )}
 
           <FilterBar
+            className={classes.drawerFilterBtn}
             options={categoryOptions}
             filteredTags={filteredTags}
             filterRecipes={filterRecipes}
@@ -152,6 +149,7 @@ const Layout = ({
             tagGroup="categories"
           />
           <FilterBar
+            className={classes.drawerFilterBtn}
             options={dietTagOptions}
             filteredTags={filteredTags}
             filterRecipes={filterRecipes}
@@ -159,6 +157,7 @@ const Layout = ({
             tagGroup="dietTags"
           />
           <FilterBar
+            className={classes.drawerFilterBtn}
             options={intoleranceOptions}
             filteredTags={filteredTags}
             filterRecipes={filterRecipes}

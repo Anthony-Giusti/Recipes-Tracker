@@ -13,7 +13,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
   },
   navBtn: {
-    margin: '0 0.3em',
+    margin: '0.4em',
   },
   toolbar: theme.mixins.toolbar,
   avatar: {
@@ -23,7 +23,7 @@ export default makeStyles((theme) => ({
     backgroundColor: theme.palette.common.white,
     width: 2,
     height: '3em',
-    marginLeft: '0.8em',
+    margin: '0 0.8em',
   },
   drawer: {
     background: theme.palette.primary.main,
@@ -31,7 +31,11 @@ export default makeStyles((theme) => ({
     flexDirection: 'row',
     [theme.breakpoints.down('sm')]: {
       flexWrap: 'wrap',
-      justifyContent: 'space-around',
+      // flexDirection: 'column',
+      justifyContent: 'space-between',
     },
+  },
+  drawerFilterBtn: {
+    flexGrow: 1,
   },
 }));
