@@ -33,7 +33,6 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [intolerances, setIntolerances] = useState(recipe ? recipe.intolerances.raw : []);
   const [ingredients, setIngredients] = useState(recipe ? recipe.ingredients : []);
   const [steps, setSteps] = useState(recipe ? recipe.steps : []);
-  // const [stepId, setStepId] = useState(0);
   const [additionalNotes] = useState(recipe ? recipe.additionalNotes : '');
 
   const [titleError, setTitleError] = useState(false);
@@ -205,7 +204,6 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       },
     ]);
     newStepField.value = '';
-    // setStepId((prev) => prev + 1);
   };
 
   const editStep = (stepId, stepOrder, step) => {
