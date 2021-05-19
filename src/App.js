@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router';
 
 import printJS from 'print-js';
@@ -34,6 +34,7 @@ function App() {
     intolerances: [],
   });
   const [currentRecipe, setCurrentRecipe] = useState(null);
+  const [recipeSearchText, setRecipeSearchText] = useState('');
 
   const history = useHistory();
 
@@ -71,7 +72,14 @@ function App() {
   };
 
   const deleteRecipe = async (recipeId) => {
-    await fetch(`http://localhost:8000/recipes/${recipeId}`, {
+    // await fetch(`http://localhost:8000/recipes/${recipeId}`, {
+    //   method: 'DELETE',
+    // });
+    // const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
+    // setRecipes(newRecipes);
+
+    const user = 'beep';
+    await fetch(`http://localhost:8000/${user}/recipes/${recipeId}`, {
       method: 'DELETE',
     });
     const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
@@ -128,6 +136,9 @@ function App() {
 
   const emptySearch = () => {
     setIsSearching(false);
+    setSearchedRecipes(recipes);
+    setVisibleRecipes(filteredRecipes);
+    setRecipeSearchText('');
   };
 
   const searchRecipes = (value) => {
@@ -135,6 +146,8 @@ function App() {
       emptySearch();
       return;
     }
+
+    setRecipeSearchText(value);
 
     if (!isSearching) {
       setIsSearching(true);
@@ -212,15 +225,6 @@ function App() {
     printJS('recipe-print', 'html');
   };
 
-  useEffect(() => {
-    if (!isSearching) {
-      filterRecipes();
-    }
-    return () => {
-      // cleanup;
-    };
-  }, [isSearching]);
-
   return (
     <ThemeProvider theme={Theme}>
       <>
@@ -233,6 +237,7 @@ function App() {
           searchRecipes={searchRecipes}
           isSearching={isSearching}
           emptySearch={emptySearch}
+          recipeSearchText={recipeSearchText}
         >
           <Switch>
             <Route exact path="/">

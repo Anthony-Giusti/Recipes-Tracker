@@ -7,7 +7,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import makeStyles from './Styles';
 
-const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch }) => {
+const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch, recipeSearchText }) => {
   const classes = makeStyles();
 
   let searchField;
@@ -22,18 +22,19 @@ const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch }) => {
   };
 
   return (
-    <div className={classes.searchBar}>
+    <span className={classes.searchBar}>
       <SearchIcon className={classes.searchIcon} />
       <InputBase
         className={classes.searchField}
+        defaultValue={recipeSearchText}
         placeholder="Search"
         onChange={handleChange}
         inputRef={(ref) => {
           searchField = ref;
         }}
       />
-      {isSearching && <ClearIcon onClick={handleEmpty} />}
-    </div>
+      {isSearching && <ClearIcon className={classes.clearIcon} onClick={handleEmpty} />}
+    </span>
   );
 };
 
@@ -41,6 +42,7 @@ RecipeSearchBar.propTypes = {
   handleSearch: PropTypes.func,
   isSearching: PropTypes.bool,
   emptySearch: PropTypes.func,
+  recipeSearchText: PropTypes.string,
 };
 
 export default RecipeSearchBar;
