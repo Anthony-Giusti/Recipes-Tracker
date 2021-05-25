@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { GoogleLogin, useGoogleLogin, GoogleLogout } from 'react-google-login';
 
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,7 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import Divider from '@material-ui/core/Divider';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import FilterBar from '../../components/FilterBar/FilterBar';
 import RecipeSeachBar from '../../components/RecipeSearchBar/RecipeSearchBar';
 
@@ -35,8 +36,14 @@ const Layout = ({
   isSearching,
   emptySearch,
   recipeSearchText,
+  clientId,
+  handleSignIn,
+  handleSignOut,
+  isSignedIn,
+  googleProfile,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [loginMenuOpen, setLoginMenuOpen] = useState(false);
 
   const classes = useStyles();
   const history = useHistory();
@@ -45,6 +52,14 @@ const Layout = ({
   const lgDevice = useMediaQuery(theme.breakpoints.up('lg'));
   const mdDevice = useMediaQuery(theme.breakpoints.up('md'));
   const smDevice = useMediaQuery(theme.breakpoints.up('sm'));
+
+  const handleLoginMenuOpen = (e) => {
+    setLoginMenuOpen(e.currentTarget);
+  };
+
+  const handleLoginMenuClose = () => {
+    setLoginMenuOpen(false);
+  };
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -124,7 +139,13 @@ const Layout = ({
               )}
             </>
           )}
-          <Avatar className={classes.avatar} alt="avatar" src={loggedIn ? imageUrl : ''} />
+          <IconButton onClick={handleLoginMenuOpen}>
+            <Avatar
+              className={classes.avatar}
+              alt="avatar"
+              src={isSignedIn ? googleProfile.imageUrl : ''}
+            />
+          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -166,6 +187,16 @@ const Layout = ({
           />
         </Toolbar>
       </Drawer>
+
+      <div>
+        <Menu anchorEl={loginMenuOpen} open={Boolean(loginMenuOpen)} onClose={handleLoginMenuClose}>
+          {isSignedIn ? (
+            <GoogleLogout clientId={clientId} onLogoutSuccess={handleSignOut} />
+          ) : (
+            <GoogleLogin clientId={clientId} onSuccess={handleSignIn} />
+          )}
+        </Menu>
+      </div>
       <div className={classes.page}>
         <div className={classes.toolbar} />
         {children}
