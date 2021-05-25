@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -8,6 +9,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -33,6 +35,22 @@ const IngredientsSearch = ({
     if (query.length < 3) {
       return;
     }
+
+    // setIsSearching(true);
+
+    // axios
+    //   .get(`/getIngredients?query=${query}`)
+    //   .then((response) => {
+    //     setIngredientsSearch(response.data);
+    //     if (response.length === 0) {
+    //       setResultsFound(false);
+    //     } else {
+    //       setResultsFound(true);
+    //     }
+    //   })
+    //   .then(console.log(isSearching))
+    //   .then(setIsSearching(false));
+
     fetch(
       `https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${key}&query=${query}&number=10&metaInformation=true`
     )
@@ -59,6 +77,7 @@ const IngredientsSearch = ({
           label="Seach Ingredients"
           onChange={(e) => searchIngredients(e.target.value)}
         />
+        {/* {isSearching && <CircularProgress />} */}
         {!resultsFound && <Typography>No Results Found</Typography>}
         {ingredientsError && <FormHelperText>You must have at least one ingredient</FormHelperText>}
         <Container className={classes.searchResults}>
