@@ -20,7 +20,7 @@ import FilterTagsDisplay from '../../components/FilterTagsDisplay/FilterTagsDisp
 import useStyles from './Styles-Recipes';
 
 const Recipes = ({
-  fileredRecipes,
+  visibleRecipes,
   resetFilterTags,
   deleteRecipe,
   getIngredientObject,
@@ -88,19 +88,20 @@ const Recipes = ({
         className={classes.myMasonryGrid}
         columnClassName={classes.myMasonryGridColumn}
       >
-        {fileredRecipes.map((recipe) => (
-          <div className={classes.masonryGridItem} key={recipe.id}>
-            <RecipeCard
-              handleDeleteOpen={handleDeleteOpen}
-              handleModalOpen={handleModalOpen}
-              recipe={recipe}
-              handleDelete={handleDelete}
-            />
-          </div>
-        ))}
+        {visibleRecipes &&
+          visibleRecipes.map((recipe) => (
+            <div className={classes.masonryGridItem} key={recipe.id}>
+              <RecipeCard
+                handleDeleteOpen={handleDeleteOpen}
+                handleModalOpen={handleModalOpen}
+                recipe={recipe}
+                handleDelete={handleDelete}
+              />
+            </div>
+          ))}
       </Masonry>
       {isFetchingRecipes && <LinearProgress />}
-      {fileredRecipes.length === 0 && !isFetchingRecipes && (
+      {visibleRecipes.length === 0 && !isFetchingRecipes && (
         <Typography>No Recipes Found</Typography>
       )}
 
@@ -140,7 +141,7 @@ const Recipes = ({
 };
 
 Recipes.propTypes = {
-  fileredRecipes: PropTypes.array,
+  visibleRecipes: PropTypes.array,
   resetFilterTags: PropTypes.func,
   deleteRecipe: PropTypes.func,
   getIngredientObject: PropTypes.func,
