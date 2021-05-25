@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 import printJS from 'print-js';
 
@@ -19,7 +20,12 @@ import {
 } from './components/RecipeCheckBoxes/_data';
 
 function App() {
-  // const [spoonApiKey] = useState(process.env.REACT_APP_SPOONACULAR_KEY);
+  const [exampleId] = useState('60ad6626fdffdda805fdee0d');
+  const [userId, setUserId] = useState(exampleId);
+  const [clientId, setClientId] = useState();
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [googleProfile, setGoogleProfile] = useState('');
+
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
   const [recipes, setRecipes] = useState([]);
@@ -38,52 +44,67 @@ function App() {
 
   const history = useHistory();
 
-  const fetchRecipes = () => {
-    setIsFetchingRecipes(true);
-    fetch('http://localhost:8000/recipes').then((response) => {
-      response.json().then((data) => {
-        console.log(data);
-        setRecipes(data);
-        setSearchedRecipes(data);
-        setVisibleRecipes(data);
-        setIsFetchingRecipes(false);
-      });
+  const createNewUser = async () => {};
+
+  const fetchUserId = async (googleID) => {
+    await axios.get(`/getUser?googleId=${googleID}`).then((reponse) => {
+      setUserId(reponse.data);
     });
   };
 
-  const addRecipe = (recipe) => {
-    let returnedData = [];
-    fetch(
-      'https://storage.googleapis.com/storage/v1/b/recipe-app-ag/o/recipes.json?alt=media'
-    ).then((response) => {
-      response.json().then((data) => {
-        returnedData = data;
-      });
-    });
+  const handleSignIn = (response) => {
+    console.log(response);
+    setIsSignedIn(true);
+    setGoogleProfile(response.profileObj);
+    fetchUserId(response.googleId);
+  };
 
-    fetch(
-      ' https://storage.googleapis.com/upload/storage/v1/b/recipe-app-ag/o?name=recipes.json&uploadType=media',
-      {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify([recipe]),
-      }
-    ).then((response) => console.log(response));
+  const handleSignOut = () => {
+    setIsSignedIn(false);
+    setUserId(exampleId);
+  };
+
+  const fetchGoogle = async () => {
+    await axios.get('/getGoogle').then((response) => {
+      setClientId(response.data);
+    });
+  };
+
+  const fetchRecipes = () => {
+    setIsFetchingRecipes(true);
+    // console.log(userId);
+
+    axios.get(`/getRecipes?userId=${userId}`).then((response) => {
+      console.log(response.data);
+      setRecipes(response.data);
+      setSearchedRecipes(response.data);
+      setVisibleRecipes(response.data);
+      setIsFetchingRecipes(false);
+    });
+  };
+
+  const addRecipe = async (recipe) => {
+    await axios.post(`/addRecipe?userId=${userId}`, { recipe });
+    // fetch('http://localhost:8000/recipes', {
+    //   method: 'POST',
+    //   headers: { 'Content-type': 'application/json' },
+    //   body: JSON.stringify(recipe),
+    // });
+  };
+
+  const editRecipe = async (recipe) => {
+    await axios.post(`/editRecipe?userId=${userId}`, { recipe });
   };
 
   const deleteRecipe = async (recipeId) => {
+    // const recipeId = '60ac2ae0b4d2bf28e8564c9f';
+    await axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
+
     // await fetch(`http://localhost:8000/recipes/${recipeId}`, {
     //   method: 'DELETE',
     // });
     // const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
     // setRecipes(newRecipes);
-
-    const user = 'beep';
-    await fetch(`http://localhost:8000/${user}/recipes/${recipeId}`, {
-      method: 'DELETE',
-    });
-    const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
-    setRecipes(newRecipes);
   };
 
   const filterRecipes = () => {
@@ -173,6 +194,7 @@ function App() {
   };
 
   const handleCurrentRecipe = (recipe) => {
+    console.log(recipe);
     setCurrentRecipe(recipe);
     history.push('/edit');
   };
@@ -225,6 +247,14 @@ function App() {
     printJS('recipe-print', 'html');
   };
 
+  useEffect(() => {
+    fetchGoogle();
+  }, []);
+
+  useEffect(() => {
+    fetchRecipes();
+  }, [userId]);
+
   return (
     <ThemeProvider theme={Theme}>
       <>
@@ -238,6 +268,11 @@ function App() {
           isSearching={isSearching}
           emptySearch={emptySearch}
           recipeSearchText={recipeSearchText}
+          clientId={clientId}
+          handleSignIn={handleSignIn}
+          handleSignOut={handleSignOut}
+          isSignedIn={isSignedIn}
+          googleProfile={googleProfile}
         >
           <Switch>
             <Route exact path="/">
@@ -245,7 +280,7 @@ function App() {
                 fetchRecipes={fetchRecipes}
                 isFetchingRecipes={isFetchingRecipes}
                 recipes={recipes}
-                fileredRecipes={visibleRecipes}
+                visibleRecipes={visibleRecipes}
                 resetFilterTags={resetFilterTags}
                 deleteRecipe={deleteRecipe}
                 getIngredientObject={addIngredient}
@@ -267,7 +302,7 @@ function App() {
               />
             </Route>
             <Route path="/edit">
-              <Edit currentRecipe={currentRecipe} />
+              <Edit currentRecipe={currentRecipe} editRecipe={editRecipe} />
             </Route>
           </Switch>
         </Layout>
