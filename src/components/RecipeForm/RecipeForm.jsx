@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
@@ -24,7 +23,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [title] = useState(recipe ? recipe.title : '');
   const [details] = useState(recipe ? recipe.details : '');
   const [servings] = useState(recipe ? recipe.servings : 1);
-  const [sourceURL] = useState(recipe ? recipe.sourceURLs : '');
+  const [sourceURL] = useState(recipe ? recipe.sourceURL : '');
   const [imageURLs] = useState(recipe ? recipe.imageURLs : new Array(6).fill(''));
   const [imageURLBoxes, setImageURLBoxes] = useState(recipe ? recipe.imageURLs.length : 0);
   const [cookTime] = useState(recipe ? recipe.cookTime : { hours: 0, minutes: 15 });
@@ -55,7 +54,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   let cookTimeHoursField;
   const imageURLFields = [];
   let newStepField;
-  let addtionalNotesField;
+  let additionalNotesField;
 
   const formatName = (name) => {
     const words = name.split(' ');
@@ -104,7 +103,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     if (Array.isArray(urls)) {
       return urls.map((url) => !check.test(url.value));
     }
-    if (urls.value === '') {
+    if (urls === '') {
       return true;
     }
     return !check.test(urls.value);
@@ -294,6 +293,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       !ingredientsError &&
       !stepsError &&
       !currentlyEditing &&
+      !sourceURLError &&
       imageURLErrors.every((error) => !error)
     ) {
       submit({
@@ -305,7 +305,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
           minutes: cookTimeMinutesField.value,
           formatted: formatCookTime(cookTimeHoursField.value, cookTimeMinutesField.value),
         },
-        soureURL: sourceURLField.value,
+        sourceURL: sourceURLField.value,
         imageURLs: imageURLFields.map((url) => url.value),
         categories: {
           raw: categories,
@@ -315,13 +315,14 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
           raw: dietTags,
           formatted: dietTags.map((dietTag) => formatName(dietTag)),
         },
+        id: recipe ? recipe.id : null,
         intolerances: {
           raw: intolerances,
           formatted: intolerances.map((intolerance) => formatName(intolerance)),
         },
         ingredients,
         steps,
-        addtionalNotes: addtionalNotesField.value,
+        additionalNotes: additionalNotesField.value,
       });
     }
   };
@@ -600,7 +601,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
           multiline
           row={4}
           inputRef={(ref) => {
-            addtionalNotesField = ref;
+            additionalNotesField = ref;
           }}
         />
       </Paper>
