@@ -8,15 +8,11 @@ import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
 
-const Edit = ({ currentRecipe }) => {
+const Edit = ({ currentRecipe, editRecipe }) => {
   const history = useHistory();
 
   const submit = (recipe) => {
-    fetch('http://localhost:8000/recipes', {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(recipe),
-    });
+    editRecipe(recipe);
   };
 
   return currentRecipe ? (
@@ -32,6 +28,7 @@ const Edit = ({ currentRecipe }) => {
 
 Edit.propTypes = {
   currentRecipe: PropTypes.object,
+  editRecipe: PropTypes.func,
 };
 
 export default Edit;
