@@ -109,7 +109,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
             color="secondary"
             type="number"
             defaultValue={ingredient.quantity ? ingredient.quantity : 1}
-            inputProps={{ min: 1, max: 9999 }}
+            inputProps={{ min: 0, max: 9999 }}
             InputLabelProps={{
               shrink: true,
             }}
@@ -118,7 +118,7 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
             }}
             variant="outlined"
             error={quantityError}
-            onChange={(e) => handleQunatityChange(parseInt(e.target.value, 10))}
+            onChange={(e) => handleQunatityChange(parseFloat(e.target.value))}
           />
         </FormControl>
 
