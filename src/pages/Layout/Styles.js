@@ -25,6 +25,9 @@ export default makeStyles((theme) => ({
     height: '3em',
     margin: '0 0.8em',
   },
+  googleLogin: {
+    // height: '2.5em',
+  },
   drawer: {
     background: theme.palette.primary.main,
     display: 'flex',
@@ -34,6 +37,13 @@ export default makeStyles((theme) => ({
       // flexDirection: 'column',
       justifyContent: 'space-between',
     },
+  },
+  alert: {
+    position: 'fixed',
+    zIndex: '100',
+    top: '10em',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
   drawerFilterBtn: {
     flexGrow: 1,
