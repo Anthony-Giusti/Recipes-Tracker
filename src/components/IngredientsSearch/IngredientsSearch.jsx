@@ -28,41 +28,27 @@ const IngredientsSearch = ({
   const classes = useStyles();
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [resultsFound, setResultsFound] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [emptyQuery, setEmptyQuery] = useState(true);
 
-  const key = process.env.REACT_APP_SPOONACULAR_KEY;
-
-  const searchIngredients = (query) => {
-    if (query.length < 3) {
-      return;
+  const searchIngredients = async (query) => {
+    if (!query) {
+      setEmptyQuery(true);
     }
+    setIsSearching(true);
+    setEmptyQuery(false);
 
-    // setIsSearching(true);
+    await axios.get(`/getIngredients?query=${query}`).then((response) => {
+      setIngredientsSearch(response.data);
 
-    // axios
-    //   .get(`/getIngredients?query=${query}`)
-    //   .then((response) => {
-    //     setIngredientsSearch(response.data);
-    //     if (response.length === 0) {
-    //       setResultsFound(false);
-    //     } else {
-    //       setResultsFound(true);
-    //     }
-    //   })
-    //   .then(console.log(isSearching))
-    //   .then(setIsSearching(false));
+      if (response.data.length === 0) {
+        setResultsFound(false);
+      } else {
+        setResultsFound(true);
+      }
+    });
 
-    fetch(
-      `https://api.spoonacular.com/food/ingredients/autocomplete?apiKey=${key}&query=${query}&number=10&metaInformation=true`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setIngredientsSearch(data);
-        if (data.length === 0) {
-          setResultsFound(false);
-        } else {
-          setResultsFound(true);
-        }
-      });
+    setIsSearching(false);
   };
 
   const handleAddingredient = (ingredient) => {
@@ -72,13 +58,21 @@ const IngredientsSearch = ({
   return (
     <>
       <FormControl error={ingredientsError}>
-        <TextField
-          className={classes.ingredientSearchField}
-          label="Seach Ingredients"
-          onChange={(e) => searchIngredients(e.target.value)}
-        />
-        {/* {isSearching && <CircularProgress />} */}
-        {!resultsFound && <Typography>No Results Found</Typography>}
+        <div className={classes.searchBar}>
+          <TextField
+            className={classes.ingredientSearchField}
+            label="Seach Ingredients"
+            onChange={(e) => searchIngredients(e.target.value)}
+          />
+          {isSearching && (
+            <span className={classes.progress}>
+              <CircularProgress size={25} />
+            </span>
+          )}
+        </div>
+
+        {!resultsFound && !emptyQuery && <Typography>No Results Found</Typography>}
+
         {ingredientsError && <FormHelperText>You must have at least one ingredient</FormHelperText>}
         <Container className={classes.searchResults}>
           {ingredientsSearch.map((ingredient) =>
