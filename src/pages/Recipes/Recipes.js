@@ -83,6 +83,7 @@ const Recipes = ({
         filteredTags={filteredTags}
         resetFilterTags={resetFilterTags}
       />
+      {isFetchingRecipes && <LinearProgress />}
       <Masonry
         breakpointCols={breakPoints}
         className={classes.myMasonryGrid}
@@ -100,7 +101,7 @@ const Recipes = ({
             </div>
           ))}
       </Masonry>
-      {isFetchingRecipes && <LinearProgress />}
+
       {visibleRecipes.length === 0 && !isFetchingRecipes && (
         <Typography>No Recipes Found</Typography>
       )}
