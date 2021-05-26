@@ -6,6 +6,14 @@ export default makeStyles({
     marginBottom: '1em',
     padding: '1em',
   },
+  searchBar: {
+    display: 'flex',
+    marginBottom: '1em',
+  },
+  progress: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   searchResults: {
     display: 'flex',
     flexDirection: 'row',
