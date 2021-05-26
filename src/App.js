@@ -21,10 +21,10 @@ import {
 
 function App() {
   const [exampleId] = useState('60ad6626fdffdda805fdee0d');
-  const [userId, setUserId] = useState(exampleId);
   const [clientId, setClientId] = useState();
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [googleProfile, setGoogleProfile] = useState('');
+  const [isSignedIn, setIsSignedIn] = useState();
+  const [userId, setUserId] = useState();
+  const [googleProfile, setGoogleProfile] = useState({});
 
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
@@ -44,8 +44,6 @@ function App() {
 
   const history = useHistory();
 
-  const createNewUser = async () => {};
-
   const fetchUserId = async (googleID) => {
     await axios.get(`/getUser?googleId=${googleID}`).then((reponse) => {
       setUserId(reponse.data);
@@ -53,7 +51,6 @@ function App() {
   };
 
   const handleSignIn = (response) => {
-    console.log(response);
     setIsSignedIn(true);
     setGoogleProfile(response.profileObj);
     fetchUserId(response.googleId);
@@ -72,48 +69,32 @@ function App() {
 
   const fetchRecipes = () => {
     setIsFetchingRecipes(true);
-    // console.log(userId);
 
     axios.get(`/getRecipes?userId=${userId}`).then((response) => {
-      console.log(response.data);
       setRecipes(response.data);
-      setSearchedRecipes(response.data);
       setVisibleRecipes(response.data);
       setIsFetchingRecipes(false);
     });
   };
 
   const addRecipe = async (recipe) => {
-    await axios.post(`/addRecipe?userId=${userId}`, { recipe });
-    // fetch('http://localhost:8000/recipes', {
-    //   method: 'POST',
-    //   headers: { 'Content-type': 'application/json' },
-    //   body: JSON.stringify(recipe),
-    // });
+    axios.post(`/addRecipe?userId=${userId}`, { recipe });
+    history.push('/');
   };
 
   const editRecipe = async (recipe) => {
-    await axios.post(`/editRecipe?userId=${userId}`, { recipe });
+    axios.post(`/editRecipe?userId=${userId}`, { recipe });
+    history.push('/');
   };
 
   const deleteRecipe = async (recipeId) => {
-    // const recipeId = '60ac2ae0b4d2bf28e8564c9f';
     await axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
-
-    // await fetch(`http://localhost:8000/recipes/${recipeId}`, {
-    //   method: 'DELETE',
-    // });
-    // const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
-    // setRecipes(newRecipes);
   };
 
-  const filterRecipes = () => {
-    const filterOutput = [];
-    setIsFiltered(true);
+  const filterRecipes = (recipes) => {
+    const filteredRecipes = [];
 
-    const beans = isSearching ? searchedRecipes : recipes;
-
-    beans.forEach((recipe) => {
+    recipes.forEach((recipe) => {
       if (
         (recipe.categories.raw.some(
           (category) => filteredTags.categories.indexOf(category) !== -1
@@ -127,12 +108,23 @@ function App() {
           filteredTags.intolerances.length < 1 ||
           recipe.intolerances.raw.length < 1)
       ) {
-        filterOutput.push(recipe);
+        filteredRecipes.push(recipe);
       }
     });
 
-    setFilteredRecipes(filterOutput);
-    setVisibleRecipes(filterOutput);
+    return filteredRecipes;
+  };
+
+  const handleFilter = () => {
+    const filtered = filterRecipes(recipes);
+    setIsFiltered(true);
+    setFilteredRecipes(filtered);
+
+    if (isSearching) {
+      setVisibleRecipes(filterRecipes(searchedRecipes));
+    } else {
+      setVisibleRecipes(filtered);
+    }
   };
 
   const filterTags = (value, tagGroup) => {
@@ -145,7 +137,7 @@ function App() {
       setFilteredTags(newTags);
     }
 
-    filterRecipes();
+    handleFilter();
   };
 
   const resetFilterTags = () => {
@@ -162,31 +154,36 @@ function App() {
     setRecipeSearchText('');
   };
 
-  const searchRecipes = (value) => {
-    if (!value) {
-      emptySearch();
-      return;
-    }
-
-    setRecipeSearchText(value);
-
-    if (!isSearching) {
-      setIsSearching(true);
-    }
-
+  const searchRecipes = (query, recipes) => {
     const searchResults = [];
-    const query = value.toLowerCase();
+    query.toLowerCase();
 
-    const beans = isFiltered ? filteredRecipes : recipes;
-
-    beans.forEach((recipe) => {
+    recipes.forEach((recipe) => {
       if (recipe.title.toLowerCase().includes(query)) {
         searchResults.push(recipe);
       }
     });
 
-    setSearchedRecipes(searchResults);
-    setVisibleRecipes(searchResults);
+    return searchResults;
+  };
+
+  const handleSearch = (query) => {
+    if (!query) {
+      emptySearch();
+      return;
+    }
+
+    setRecipeSearchText(query);
+    setIsSearching(true);
+
+    const searched = searchRecipes(query, recipes);
+    setSearchedRecipes(searched);
+
+    if (isFiltered) {
+      setVisibleRecipes(searchRecipes(query, filteredRecipes));
+    } else {
+      setVisibleRecipes(searched);
+    }
   };
 
   const handleIngreidentSearch = (data) => {
@@ -264,7 +261,7 @@ function App() {
           categoryOptions={categoryOptions}
           dietTagOptions={dietTagOptions}
           intoleranceOptions={intoleranceOptions}
-          searchRecipes={searchRecipes}
+          searchRecipes={handleSearch}
           isSearching={isSearching}
           emptySearch={emptySearch}
           recipeSearchText={recipeSearchText}
@@ -273,6 +270,7 @@ function App() {
           handleSignOut={handleSignOut}
           isSignedIn={isSignedIn}
           googleProfile={googleProfile}
+          isFetchingRecipes={isFetchingRecipes}
         >
           <Switch>
             <Route exact path="/">
