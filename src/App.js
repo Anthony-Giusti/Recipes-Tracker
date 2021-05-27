@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import printJS from 'print-js';
 
+import { set } from 'date-fns';
 import Recipes from './pages/Recipes/Recipes';
 import Create from './pages/Create/Create';
 import Edit from './pages/Edit/Edit';
@@ -29,6 +30,8 @@ function App() {
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const [exampleDataLoaded, setExampleDataLoaded] = useState(false);
+  const [deletedExampleRecipeIds, setDeletedExampleRecipeIds] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [filteredRecipes, setFilteredRecipes] = useState();
@@ -70,25 +73,58 @@ function App() {
   const fetchRecipes = () => {
     setIsFetchingRecipes(true);
 
-    axios.get(`/getRecipes?userId=${userId}`).then((response) => {
-      setRecipes(response.data);
-      setVisibleRecipes(response.data);
-      setIsFetchingRecipes(false);
-    });
+    if (exampleDataLoaded && !isSignedIn) {
+      setVisibleRecipes(recipes);
+    } else {
+      axios.get(`/getRecipes?userId=${userId}`).then((response) => {
+        setRecipes(response.data);
+        setVisibleRecipes(response.data);
+      });
+    }
+
+    if (userId === exampleId) {
+      setExampleDataLoaded(true);
+    } else {
+      setExampleDataLoaded(false);
+    }
+
+    setIsFetchingRecipes(false);
   };
 
   const addRecipe = async (recipe) => {
-    axios.post(`/addRecipe?userId=${userId}`, { recipe });
+    if (isSignedIn) {
+      axios.post(`/addRecipe?userId=${userId}`, { recipe });
+    } else {
+      recipes.push(recipe);
+    }
+
     history.push('/');
   };
 
-  const editRecipe = async (recipe) => {
-    axios.post(`/editRecipe?userId=${userId}`, { recipe });
+  const editRecipe = async (recipeInsert) => {
+    if (isSignedIn) {
+      axios.post(`/editRecipe?userId=${userId}`, { recipeInsert });
+    } else {
+      const newRecipes = recipes;
+      newRecipes.splice(
+        newRecipes.findIndex((recipe) => recipe.id === recipeInsert.id),
+        1,
+        recipeInsert
+      );
+
+      setRecipes(newRecipes);
+    }
+
     history.push('/');
   };
 
   const deleteRecipe = async (recipeId) => {
-    await axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
+    if (isSignedIn) {
+      await axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
+    }
+
+    const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
+    setRecipes(newRecipes);
   };
 
   const filterRecipes = (recipes) => {
@@ -115,7 +151,23 @@ function App() {
     return filteredRecipes;
   };
 
+  const resetFilterTags = () => {
+    setFilteredTags({ categories: [], dietTags: [], intolerances: [] });
+    setIsFiltered(false);
+    setFilteredRecipes(recipes);
+    setVisibleRecipes(searchedRecipes);
+  };
+
   const handleFilter = () => {
+    if (
+      filteredTags.categories.length === 0 &&
+      filteredTags.dietTags.length === 0 &&
+      filteredTags.intolerances.length === 0
+    ) {
+      resetFilterTags();
+      return;
+    }
+
     const filtered = filterRecipes(recipes);
     setIsFiltered(true);
     setFilteredRecipes(filtered);
@@ -140,13 +192,6 @@ function App() {
     handleFilter();
   };
 
-  const resetFilterTags = () => {
-    setFilteredTags({ categories: [], dietTags: [], intolerances: [] });
-    setIsFiltered(false);
-    setFilteredRecipes(recipes);
-    setVisibleRecipes(searchedRecipes);
-  };
-
   const emptySearch = () => {
     setIsSearching(false);
     setSearchedRecipes(recipes);
@@ -167,20 +212,25 @@ function App() {
     return searchResults;
   };
 
-  const handleSearch = (query) => {
+  const handleQuery = (query) => {
     if (!query) {
       emptySearch();
-      return;
+      setIsSearching(false);
     }
 
     setRecipeSearchText(query);
     setIsSearching(true);
+  };
 
-    const searched = searchRecipes(query, recipes);
+  const handleSearch = () => {
+    if (!recipeSearchText) {
+      return;
+    }
+    const searched = searchRecipes(recipeSearchText, recipes);
     setSearchedRecipes(searched);
 
     if (isFiltered) {
-      setVisibleRecipes(searchRecipes(query, filteredRecipes));
+      setVisibleRecipes(searchRecipes(recipeSearchText, filteredRecipes));
     } else {
       setVisibleRecipes(searched);
     }
@@ -191,7 +241,6 @@ function App() {
   };
 
   const handleCurrentRecipe = (recipe) => {
-    console.log(recipe);
     setCurrentRecipe(recipe);
     history.push('/edit');
   };
@@ -246,7 +295,19 @@ function App() {
 
   useEffect(() => {
     fetchGoogle();
+    if (!isSignedIn) {
+      setUserId(exampleId);
+    }
   }, []);
+
+  useEffect(() => {
+    handleSearch();
+  }, [recipeSearchText]);
+
+  useEffect(() => {
+    handleFilter();
+    handleSearch();
+  }, [recipes]);
 
   useEffect(() => {
     fetchRecipes();
@@ -261,7 +322,7 @@ function App() {
           categoryOptions={categoryOptions}
           dietTagOptions={dietTagOptions}
           intoleranceOptions={intoleranceOptions}
-          searchRecipes={handleSearch}
+          searchRecipes={handleQuery}
           isSearching={isSearching}
           emptySearch={emptySearch}
           recipeSearchText={recipeSearchText}
