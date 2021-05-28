@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,15 +18,19 @@ import EditIcon from '@material-ui/icons/Edit';
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import PrintIcon from '@material-ui/icons/Print';
 
+import { Divider } from '@material-ui/core';
 import CatergoryTags from '../../../components/RecipeTags/CategoryTags';
 import DietTags from '../../../components/RecipeTags/DietTags';
 import IntoleranceTags from '../../../components/RecipeTags/IntoleranceTags';
 
 import useStyles from './Styles-RecipeModal';
-import { intoleranceOptions } from '../../../components/RecipeCheckBoxes/_data';
+import { IconButtonWithBackgroundDefault } from '../../../Themes/Buttons/IconButtons/IconButtons';
 
 const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, printRecipe }) => {
   const classes = useStyles();
+
+  const theme = useTheme();
+  const smDevice = useMediaQuery(theme.breakpoints.up('sm'));
 
   const enterEditingMode = () => {
     handleCurrentRecipe(recipe);
@@ -41,22 +47,41 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
         <AppBar className={classes.appbar} position="fixed">
           <Toolbar className={classes.toolbar}>
             <span>
-              <Button
-                className={classes.moduleNavBtn}
-                variant="contained"
-                endIcon={<EditIcon />}
-                onClick={() => enterEditingMode()}
-              >
-                Edit Recipe
-              </Button>
-              <Button
-                className={classes.moduleNavBtn}
-                variant="contained"
-                endIcon={<PrintIcon />}
-                onClick={() => printRecipe('recipe-print')}
-              >
-                Print Recipe
-              </Button>
+              {smDevice ? (
+                <>
+                  <Button
+                    className={classes.moduleNavBtn}
+                    variant="contained"
+                    endIcon={<EditIcon />}
+                    onClick={() => enterEditingMode()}
+                  >
+                    Edit Recipe
+                  </Button>
+                  <Button
+                    className={classes.moduleNavBtn}
+                    variant="contained"
+                    endIcon={<PrintIcon />}
+                    onClick={() => printRecipe('recipe-print')}
+                  >
+                    Print Recipe
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <IconButtonWithBackgroundDefault
+                    className={classes.moduleNavBtn}
+                    onClick={() => enterEditingMode()}
+                  >
+                    <EditIcon />
+                  </IconButtonWithBackgroundDefault>
+                  <IconButtonWithBackgroundDefault
+                    className={classes.moduleNavBtn}
+                    onClick={() => printRecipe('recipe-print')}
+                  >
+                    <PrintIcon />
+                  </IconButtonWithBackgroundDefault>
+                </>
+              )}
             </span>
             <IconButton className={classes.exitBtn} onClick={modalClose}>
               <FullscreenExitIcon fontSize="large" />
@@ -74,16 +99,21 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
               {recipe.details}
             </Typography>
 
-            <CatergoryTags catergories={recipe.categories} />
-            <DietTags dietTags={recipe.dietTags} />
+            <div className={classes.tags}>
+              <CatergoryTags catergories={recipe.categories} />
+              <DietTags dietTags={recipe.dietTags} />
 
-            {recipe.intolerances.formatted.length > 0 && (
-              <span className={classes.intolerances}>
-                <Typography className={classes.intolerancesSubtitle}>Contains: </Typography>
+              {recipe.intolerances.formatted.length > 0 && (
+                <span className={classes.intolerances}>
+                  <Typography className={classes.intolerancesSubtitle}>Contains: </Typography>
 
-                <IntoleranceTags intoleranceTags={recipe.intolerances} />
-              </span>
-            )}
+                  <IntoleranceTags intoleranceTags={recipe.intolerances} />
+                </span>
+              )}
+            </div>
+
+            <Typography>{`Total Cook Time: ${recipe.cookTime.formatted}`}</Typography>
+            <Typography>{`Servings: ${recipe.servings}`}</Typography>
 
             <div className={classes.recipeBody}>
               <Typography variant="h4">Ingredients</Typography>
@@ -115,6 +145,13 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
                 ))}
               </List>
             </div>
+
+            {recipe.additionalNotes && (
+              <div>
+                <Typography variant="h4">Additional Notes</Typography>
+                <Typography>{recipe.additionalNotes}</Typography>
+              </div>
+            )}
           </div>
         </div>
       </Paper>
