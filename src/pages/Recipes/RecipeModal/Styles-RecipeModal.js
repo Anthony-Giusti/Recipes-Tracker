@@ -20,6 +20,9 @@ export default makeStyles((theme) => ({
   moduleNavBtn: {
     margin: '0.5em',
   },
+  tags: {
+    padding: '0.5em 0',
+  },
   exitBtn: {
     color: theme.palette.getContrastText(theme.palette.primary.main),
   },
