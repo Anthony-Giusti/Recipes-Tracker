@@ -6,7 +6,6 @@ import axios from 'axios';
 
 import printJS from 'print-js';
 
-import { set } from 'date-fns';
 import Recipes from './pages/Recipes/Recipes';
 import Create from './pages/Create/Create';
 import Edit from './pages/Edit/Edit';
@@ -31,11 +30,11 @@ function App() {
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const [exampleDataLoaded, setExampleDataLoaded] = useState(false);
-  const [deletedExampleRecipeIds, setDeletedExampleRecipeIds] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [filteredRecipes, setFilteredRecipes] = useState();
   const [searchedRecipes, setSearchedRecipes] = useState([]);
+  const [deleteRecipeId, setDeleteRecipeId] = useState();
   const [visibleRecipes, setVisibleRecipes] = useState([]);
   const [filteredTags, setFilteredTags] = useState({
     categories: [],
@@ -43,6 +42,7 @@ function App() {
     intolerances: [],
   });
   const [currentRecipe, setCurrentRecipe] = useState(null);
+  const [maxRecipes, setmaxRecipes] = useState(9);
   const [recipeSearchText, setRecipeSearchText] = useState('');
 
   const history = useHistory();
@@ -75,10 +75,15 @@ function App() {
 
     if (exampleDataLoaded && !isSignedIn) {
       setVisibleRecipes(recipes);
+      setIsFetchingRecipes(false);
     } else {
+      if (!isSignedIn) {
+        setUserId(exampleId);
+      }
       axios.get(`/getRecipes?userId=${userId}`).then((response) => {
         setRecipes(response.data);
-        setVisibleRecipes(response.data);
+        setFilteredRecipes(response.data);
+        setSearchedRecipes(response.data);
       });
     }
 
@@ -88,7 +93,7 @@ function App() {
       setExampleDataLoaded(false);
     }
 
-    setIsFetchingRecipes(false);
+    setmaxRecipes(9);
   };
 
   const addRecipe = async (recipe) => {
@@ -118,11 +123,12 @@ function App() {
     history.push('/');
   };
 
-  const deleteRecipe = async (recipeId) => {
+  const deleteRecipe = (recipeId) => {
     if (isSignedIn) {
-      await axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
+      axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
     }
 
+    setDeleteRecipeId(recipeId);
     const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
     setRecipes(newRecipes);
   };
@@ -224,6 +230,7 @@ function App() {
 
   const handleSearch = () => {
     if (!recipeSearchText) {
+      setSearchedRecipes(recipes);
       return;
     }
     const searched = searchRecipes(recipeSearchText, recipes);
@@ -234,6 +241,12 @@ function App() {
     } else {
       setVisibleRecipes(searched);
     }
+  };
+
+  const handleFilterAndSearch = () => {
+    setFilteredRecipes(filteredRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
+    setSearchedRecipes(searchedRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
+    setVisibleRecipes(visibleRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
   };
 
   const handleIngreidentSearch = (data) => {
@@ -293,6 +306,10 @@ function App() {
     printJS('recipe-print', 'html');
   };
 
+  const showMoreRecipes = () => {
+    setmaxRecipes(maxRecipes + 9);
+  };
+
   useEffect(() => {
     fetchGoogle();
     if (!isSignedIn) {
@@ -305,8 +322,31 @@ function App() {
   }, [recipeSearchText]);
 
   useEffect(() => {
-    handleFilter();
-    handleSearch();
+    if (exampleDataLoaded) {
+      setIsFetchingRecipes(false);
+    }
+  }, [recipes]);
+
+  useEffect(() => {
+    setIsFetchingRecipes(false);
+    if (!isFiltered && !isSearching) {
+      setVisibleRecipes(recipes);
+      return;
+    }
+
+    if (isFiltered && !isSearching) {
+      handleFilter();
+      return;
+    }
+
+    if (!isFiltered && isSearching) {
+      handleSearch();
+      return;
+    }
+
+    if (isFiltered && isSearching) {
+      handleFilterAndSearch();
+    }
   }, [recipes]);
 
   useEffect(() => {
@@ -324,6 +364,7 @@ function App() {
           intoleranceOptions={intoleranceOptions}
           searchRecipes={handleQuery}
           isSearching={isSearching}
+          isFiltered={isFiltered}
           emptySearch={emptySearch}
           recipeSearchText={recipeSearchText}
           clientId={clientId}
@@ -351,6 +392,8 @@ function App() {
                 filterTags={filterTags}
                 formatName={formatName}
                 printRecipe={printRecipe}
+                showMoreRecipes={showMoreRecipes}
+                maxRecipes={maxRecipes}
               />
             </Route>
             <Route path="/create">
