@@ -32,6 +32,7 @@ const Layout = ({
   intoleranceOptions,
   searchRecipes,
   isSearching,
+  isFiltered,
   emptySearch,
   recipeSearchText,
   clientId,
@@ -108,7 +109,6 @@ const Layout = ({
           >
             {smDevice ? 'Create New' : 'Create'}
           </Button>
-
           {location.pathname === '/' && (
             <>
               <Divider className={classes.divider} orientation="vertical" />
@@ -150,29 +150,31 @@ const Layout = ({
                   className={classes.filterBtn}
                   onClick={handleDrawerOpen}
                   variant="contained"
+                  color={isSearching || isFiltered ? 'secondary' : 'default'}
                 >
                   Filters
                 </Button>
               )}
             </>
           )}
-          {isSignedIn ? (
-            <IconButton onClick={handleLoginMenuOpen}>
+          <IconButton onClick={handleLoginMenuOpen} className={classes.avatarIconBtn}>
+            {isSignedIn ? (
               <Avatar
                 className={classes.avatar}
                 alt="avatar"
                 src={isSignedIn ? googleProfile.imageUrl : ''}
               />
-            </IconButton>
-          ) : (
-            <GoogleLogin
-              className={classes.googleLogin}
-              cookiePolicy="single_host_origin"
-              isSignedIn
-              clientId={clientId}
-              onSuccess={handleSignIn}
-            />
-          )}
+            ) : (
+              <GoogleLogin
+                // className={classes.googleLogin}
+                cookiePolicy="single_host_origin"
+                isSignedIn
+                clientId={clientId}
+                onSuccess={handleSignIn}
+                render={(renderProps) => <Avatar onClick={renderProps.onClick} />}
+              />
+            )}
+          </IconButton>
         </Toolbar>
       </AppBar>
 
@@ -228,6 +230,7 @@ const Layout = ({
             <GoogleLogout clientId={clientId} onLogoutSuccess={handleSignOut} />
           ) : (
             <GoogleLogin
+              className={classes.googleLogin}
               cookiePolicy="single_host_origin"
               isSignedIn
               clientId={clientId}
@@ -255,6 +258,7 @@ Layout.propTypes = {
   intoleranceOptions: PropTypes.array,
   searchRecipes: PropTypes.func,
   isSearching: PropTypes.bool,
+  isFiltered: PropTypes.bool,
   emptySearch: PropTypes.func,
   recipeSearchText: PropTypes.string,
   clientId: PropTypes.string,
