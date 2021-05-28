@@ -25,8 +25,9 @@ export default makeStyles((theme) => ({
     height: '3em',
     margin: '0 0.8em',
   },
-  googleLogin: {
-    // height: '2.5em',
+  avatarIconBtn: {
+    marginLeft: 'auto',
+    width: '2.5em',
   },
   drawer: {
     background: theme.palette.primary.main,
