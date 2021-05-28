@@ -13,4 +13,16 @@ const IconButtonWithBackground = withStyles((theme) => ({
   },
 }))(IconButton);
 
-export default IconButtonWithBackground;
+const IconButtonWithBackgroundDefault = withStyles((theme) => ({
+  root: {
+    borderRadius: '50%',
+    color: theme.palette.getContrastText(theme.palette.default.main),
+    backgroundColor: theme.palette.default.main,
+    '&:hover': {
+      color: theme.palette.primary.light,
+      backgroundColor: theme.palette.primary.dark,
+    },
+  },
+}))(IconButton);
+
+export { IconButtonWithBackground, IconButtonWithBackgroundDefault };
