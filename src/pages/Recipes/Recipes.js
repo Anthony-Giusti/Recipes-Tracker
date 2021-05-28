@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import PageContainer from '../../Themes/Pages/Pages';
 
@@ -32,6 +32,8 @@ const Recipes = ({
   filterTags,
   formatName,
   printRecipe,
+  showMoreRecipes,
+  maxRecipes,
 }) => {
   const [displayedRecipe, setDisplayedRecipe] = useState();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -68,6 +70,10 @@ const Recipes = ({
     setModalOpen(false);
   };
 
+  const handleMoreRecipes = () => {
+    showMoreRecipes(maxRecipes + 9);
+  };
+
   const breakPoints = {
     default: 3,
     1100: 2,
@@ -75,7 +81,7 @@ const Recipes = ({
   };
 
   return (
-    <PageContainer>
+    <PageContainer className={classes.container}>
       <FilterTagsDisplay
         className={classes.filterTags}
         formatName={formatName}
@@ -83,14 +89,19 @@ const Recipes = ({
         filteredTags={filteredTags}
         resetFilterTags={resetFilterTags}
       />
-      {isFetchingRecipes && <LinearProgress />}
+      {isFetchingRecipes && (
+        <div className={classes.searchingSpinner}>
+          <CircularProgress color="secondary" size="5em" />
+        </div>
+      )}
+
       <Masonry
         breakpointCols={breakPoints}
         className={classes.myMasonryGrid}
         columnClassName={classes.myMasonryGridColumn}
       >
         {visibleRecipes &&
-          visibleRecipes.map((recipe) => (
+          visibleRecipes.slice(0, maxRecipes).map((recipe) => (
             <div className={classes.masonryGridItem} key={recipe.id}>
               <RecipeCard
                 handleDeleteOpen={handleDeleteOpen}
@@ -101,6 +112,13 @@ const Recipes = ({
             </div>
           ))}
       </Masonry>
+      {maxRecipes < visibleRecipes.length && (
+        <div className={classes.loadMoreBtnContainer}>
+          <Button variant="contained" color="primary" onClick={handleMoreRecipes}>
+            Load More
+          </Button>
+        </div>
+      )}
 
       {visibleRecipes.length === 0 && !isFetchingRecipes && (
         <Typography>No Recipes Found</Typography>
@@ -154,6 +172,8 @@ Recipes.propTypes = {
   filterTags: PropTypes.func,
   formatName: PropTypes.func,
   printRecipe: PropTypes.func,
+  showMoreRecipes: PropTypes.func,
+  maxRecipes: PropTypes.number,
 };
 
 export default Recipes;

@@ -19,7 +19,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
 
 import MenuIcon from '@material-ui/icons/Menu';
-import IconButtonWithBackground from '../../Themes/Buttons/IconButtons/IconButtons';
+import { IconButtonWithBackground } from '../../Themes/Buttons/IconButtons/IconButtons';
 
 import useStyles from './Styles';
 
