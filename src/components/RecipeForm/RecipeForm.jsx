@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import IconButtonWithBackground from '../../Themes/Buttons/IconButtons/IconButtons';
+import { IconButtonWithBackground } from '../../Themes/Buttons/IconButtons/IconButtons';
 
 import RecipeCheckBoxes from '../RecipeCheckBoxes/RecipeCheckBoxes';
 import IngredientsSearch from '../IngredientsSearch/IngredientsSearch';
