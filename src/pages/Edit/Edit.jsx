@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -9,8 +8,6 @@ import RecipeForm from '../../components/RecipeForm/RecipeForm';
 import PageContainer from '../../Themes/Pages/Pages';
 
 const Edit = ({ currentRecipe, editRecipe }) => {
-  const history = useHistory();
-
   const submit = (recipe) => {
     editRecipe(recipe);
   };
