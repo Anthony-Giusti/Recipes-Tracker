@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
