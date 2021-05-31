@@ -62,7 +62,7 @@ function App() {
   };
 
   const fetchGoogle = async () => {
-    await axios.get('/getGoogle').then((response) => {
+    await axios.get('https://recipe-app-ag.herokuapp.com/getGoogle').then((response) => {
       setClientId(response.data);
     });
   };
@@ -81,12 +81,14 @@ function App() {
       if (!isSignedIn) {
         setUserId(exampleId);
       }
-      axios.get(`/getRecipes?userId=${userId}`).then((response) => {
-        console.log(response);
-        setRecipes(response.data);
-        setFilteredRecipes(response.data);
-        setSearchedRecipes(response.data);
-      });
+      axios
+        .get(`https://recipe-app-ag.herokuapp.com/getRecipes?userId=${userId}`)
+        .then((response) => {
+          console.log(response);
+          setRecipes(response.data);
+          setFilteredRecipes(response.data);
+          setSearchedRecipes(response.data);
+        });
     }
 
     if (userId === exampleId) {
