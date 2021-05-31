@@ -44,8 +44,9 @@ function App() {
   const history = useHistory();
 
   const fetchUserId = async (googleID) => {
-    await axios.get(`/getUser?googleId=${googleID}`).then((reponse) => {
-      setUserId(reponse.data);
+    await axios.get(`/getUser?googleId=${googleID}`).then((response) => {
+      console.log(response);
+      setUserId(response.data);
     });
   };
 
@@ -81,6 +82,7 @@ function App() {
         setUserId(exampleId);
       }
       axios.get(`/getRecipes?userId=${userId}`).then((response) => {
+        console.log(response);
         setRecipes(response.data);
         setFilteredRecipes(response.data);
         setSearchedRecipes(response.data);
