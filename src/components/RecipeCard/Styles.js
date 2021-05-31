@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { blue, cyan, green, indigo, red, yellow } from '@material-ui/core/colors';
+import { blue, cyan, green, red, yellow } from '@material-ui/core/colors';
 
 export default makeStyles({
   image: {
