@@ -7,16 +7,19 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
 
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
+import CloseIcon from '@material-ui/icons/Close';
 import { IconButtonWithBackground } from '../../Themes/Buttons/IconButtons/IconButtons';
 
-import RecipeCheckBoxes from '../RecipeCheckBoxes/RecipeCheckBoxes';
-import IngredientsSearch from '../IngredientsSearch/IngredientsSearch';
-import Step from '../../pages/Create/Step/Step';
+import RecipeCheckBoxes from './RecipeCheckBoxes/RecipeCheckBoxes';
+import IngredientsSearch from './IngredientsSearch/IngredientsSearch';
+import Step from './Step/Step';
 
-import useStyles from './Styles-RecipeForm';
+import useStyles from './Styles';
 
 const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [title] = useState(recipe ? recipe.title : '');
@@ -40,8 +43,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [categoryError, setCategoryError] = useState(false);
   const [ingredientsError, setIngredientsError] = useState(false);
   const [stepsError, setStepsError] = useState(false);
-  const [currentlyEditing, setCurrentlyEditing] = useState(false);
-  //   const history = useHistory();
+  const [errorMessageOpen, setErrorMessageOpen] = useState(false);
 
   const classes = useStyles();
 
@@ -103,9 +105,9 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       return urls.map((url) => !check.test(url.value));
     }
     if (urls === '') {
-      return true;
+      return [true];
     }
-    return !check.test(urls.value);
+    return [check.test(urls.value)];
   };
 
   const handleCheckBoxValueChange = (newValue, setValues) => {
@@ -263,38 +265,58 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     }
   };
 
+  const handleErrors = () => {
+    setErrorMessageOpen(true);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setTitleError(false);
     setDetailsError(false);
     setCategoryError(false);
     setIngredientsError(false);
+    setSourceURLError(false);
+    setImageURLErrors(new Array(6).fill(false));
     setStepsError(false);
 
-    if (recipeTitleField.value === '') setTitleError(true);
-    if (recipeDetailsField.value === '') setDetailsError(true);
-    if (categories.length === 0) setCategoryError(true);
-    if (ingredients.length === 0) setIngredientsError(true);
-    if (steps.length === 0) setStepsError(true);
-    setImageURLErrors(validateURLs(imageURLFields));
+    const errors = [];
 
-    setSourceURLError(() => {
-      if (sourceURLField.value === '') {
-        return false;
+    if (recipeTitleField.value === '') {
+      setTitleError(true);
+      errors.push('Recipe needs a title.');
+    }
+    if (recipeDetailsField.value === '') {
+      setDetailsError(true);
+      errors.push('Recipe needs a summary.');
+    }
+    if (categories.length === 0) {
+      setCategoryError(true);
+      errors.push('Recipe needs at least one category tag.');
+    }
+    if (ingredients.length === 0) {
+      setIngredientsError(true);
+      errors.push('Recipe needs at least one ingredient.');
+    }
+    if (steps.length === 0) {
+      setStepsError(true);
+      errors.push('Recipe needs at least one step.');
+    }
+
+    const imageErrors = validateURLs(imageURLFields);
+    if (imageErrors.some((test) => test)) {
+      setImageURLErrors(imageErrors);
+      errors.push(`1 or more image URLs are not valid.`);
+    }
+
+    if (sourceURLField.value !== '') {
+      const sourceError = validateURLs(sourceURLField.value);
+      if (sourceError[0]) {
+        setSourceURLError(true);
+        errors.push('Source URL is not valid');
       }
-      return validateURLs(sourceURLField.value);
-    });
+    }
 
-    if (
-      !titleError &&
-      !detailsError &&
-      !categoryError &&
-      !ingredientsError &&
-      !stepsError &&
-      !currentlyEditing &&
-      !sourceURLError &&
-      imageURLErrors.every((error) => !error)
-    ) {
+    if (errors.length === 0) {
       submit({
         title: recipeTitleField.value,
         details: recipeDetailsField.value,
@@ -323,6 +345,8 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         steps,
         additionalNotes: additionalNotesField.value,
       });
+    } else {
+      handleErrors(errors);
     }
   };
 
@@ -618,6 +642,21 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       </Button>
       <br />
       <br />
+      <Snackbar
+        autoHideDuration={8000}
+        onClose={() => setErrorMessageOpen(false)}
+        open={errorMessageOpen}
+        message="Your recipe contains one or more errors."
+        action={
+          <>
+            <IconButton
+              color="primary"
+              icon={<CloseIcon />}
+              onClick={() => setErrorMessageOpen(false)}
+            />
+          </>
+        }
+      />
     </form>
   );
 };
