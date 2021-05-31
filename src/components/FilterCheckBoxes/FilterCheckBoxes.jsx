@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 import { Checkbox, FormControlLabel, MenuItem } from '@material-ui/core';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const FilterCheckBoxes = ({ filteredTags, tagGroup, option, handleFilter }) => {
   const [checked, setChecked] = useState(filteredTags[tagGroup].includes(option.value));
@@ -21,6 +21,13 @@ const FilterCheckBoxes = ({ filteredTags, tagGroup, option, handleFilter }) => {
       />
     </MenuItem>
   );
+};
+
+FilterCheckBoxes.propTypes = {
+  filteredTags: PropTypes.object,
+  tagGroup: PropTypes.string,
+  option: PropTypes.object,
+  handleFilter: PropTypes.func,
 };
 
 export default FilterCheckBoxes;
