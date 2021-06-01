@@ -15,7 +15,7 @@ import Theme from './Themes/Theme';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
-const mongoApi = axios.create({
+const api = axios.create({
   baseURL: 'https://recipe-app-ag.herokuapp.com/',
 });
 
@@ -48,13 +48,17 @@ function App() {
   const history = useHistory();
 
   const fetchUserId = async (googleID) => {
-    await mongoApi.get(`/getUser?googleId=${googleID}`).then((response) => {
+    await api.get(`/getUser?googleId=${googleID}`).then((response) => {
       console.log(response);
       setUserId(response.data);
     });
   };
 
   const handleSignIn = (response) => {
+    if (!response && !isSignedIn) {
+      setUserId(exampleId);
+      return;
+    }
     console.log(response);
     setIsSignedIn(true);
     setGoogleProfile(response.profileObj);
@@ -67,10 +71,9 @@ function App() {
   };
 
   const fetchGoogle = async () => {
-    setClientId('179411633218-qshdcddqik6r2hs43uds85sfo8j3q37e.apps.googleusercontent.com');
-    // await axios.get('/getGoogle').then((response) => {
-    //   setClientId(response.data);
-    // });
+    await api.get('/getGoogle').then((response) => {
+      setClientId(response.data);
+    });
   };
 
   const fetchRecipes = () => {
@@ -87,7 +90,7 @@ function App() {
       if (!isSignedIn) {
         setUserId(exampleId);
       }
-      mongoApi.get(`/getRecipes?userId=${userId}`).then((response) => {
+      api.get(`/getRecipes?userId=${userId}`).then((response) => {
         console.log(response);
         setRecipes(response.data);
         setFilteredRecipes(response.data);
@@ -106,8 +109,9 @@ function App() {
 
   const addRecipe = async (recipe) => {
     if (isSignedIn) {
-      mongoApi.post(`/addRecipe?userId=${userId}`, { recipe }).then((response) => {
+      await api.post(`/addRecipe?userId=${userId}`, { recipe }).then((response) => {
         console.log(response);
+        history.push('/');
       });
     } else {
       recipes.push(recipe);
@@ -118,8 +122,9 @@ function App() {
 
   const editRecipe = async (recipeEdited) => {
     if (isSignedIn) {
-      mongoApi.post(`/editRecipe?userId=${userId}`, { recipe: recipeEdited }).then((response) => {
+      await api.post(`/editRecipe?userId=${userId}`, { recipe: recipeEdited }).then((response) => {
         console.log(response);
+        history.push('/');
       });
     } else {
       const newRecipes = recipes;
@@ -130,14 +135,13 @@ function App() {
       );
 
       setRecipes(newRecipes);
+      history.push('/');
     }
-
-    history.push('/');
   };
 
   const deleteRecipe = (recipeId) => {
     if (isSignedIn) {
-      mongoApi.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
+      api.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
     }
 
     setDeleteRecipeId(recipeId);
