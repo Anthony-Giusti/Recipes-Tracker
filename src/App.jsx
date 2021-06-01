@@ -55,6 +55,7 @@ function App() {
   };
 
   const handleSignIn = (response) => {
+    console.log(response);
     setIsSignedIn(true);
     setGoogleProfile(response.profileObj);
     fetchUserId(response.googleId);

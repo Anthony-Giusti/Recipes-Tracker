@@ -169,7 +169,7 @@ const Layout = ({
                 cookiePolicy="single_host_origin"
                 isSignedIn
                 clientId={clientId}
-                onSuccess={handleSignIn}
+                onSuccess={(response) => handleSignIn(response)}
                 onFailure={(response) => console.log(response)}
                 render={(renderProps) => <Avatar onClick={renderProps.onClick} />}
               />
