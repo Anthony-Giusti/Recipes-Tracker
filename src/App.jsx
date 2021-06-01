@@ -16,7 +16,7 @@ import Theme from './Themes/Theme';
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
 const mongoApi = axios.create({
-  baseURL: 'https://recipe-app-ag.herokuapp.com/',
+  baseURL: 'http://localhost:5000/',
 });
 
 function App() {
@@ -116,18 +116,17 @@ function App() {
     history.push('/');
   };
 
-  const editRecipe = async (recipeInsert) => {
+  const editRecipe = async (recipeEdited) => {
     if (isSignedIn) {
-      console.log(userId);
-      mongoApi.post(`/editRecipe?userId=${userId}`, { recipeInsert }).then((response) => {
+      mongoApi.post(`/editRecipe?userId=${userId}`, { recipe: recipeEdited }).then((response) => {
         console.log(response);
       });
     } else {
       const newRecipes = recipes;
       newRecipes.splice(
-        newRecipes.findIndex((recipe) => recipe.id === recipeInsert.id),
+        newRecipes.findIndex((prevRecipe) => prevRecipe.id === recipeEdited.id),
         1,
-        recipeInsert
+        recipeEdited
       );
 
       setRecipes(newRecipes);
