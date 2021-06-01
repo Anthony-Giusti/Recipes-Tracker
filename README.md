@@ -29,5 +29,5 @@ The user will have the ability to edit/delete/create their own data that will be
 - Add Custom select components for ingredient components allowing you to select fractional units for the quantity rather than the standard number selects I have now.
 - Add the ability to change the servings and have the ingredient amounts update dynamically on the recipe modal on the recipes page.
 - Various styling upgrades espicially for the recipe modal which is currently very basic.
-- Optimze start up as currently if you are loggin in the app will still intially load example data.
+- Optimze start up as currently if you are logged in the app will still intially load example data.
 - Improve accessibility
