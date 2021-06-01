@@ -15,6 +15,10 @@ import Theme from './Themes/Theme';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
+const mongoApi = axios.create({
+  baseURL: 'https://recipe-app-ag.herokuapp.com/',
+});
+
 function App() {
   const [exampleId] = useState('60ad6626fdffdda805fdee0d');
   const [clientId, setClientId] = useState();
@@ -44,7 +48,7 @@ function App() {
   const history = useHistory();
 
   const fetchUserId = async (googleID) => {
-    await axios.get(`/getUser?googleId=${googleID}`).then((response) => {
+    await mongoApi.get(`/getUser?googleId=${googleID}`).then((response) => {
       console.log(response);
       setUserId(response.data);
     });
@@ -81,7 +85,7 @@ function App() {
       if (!isSignedIn) {
         setUserId(exampleId);
       }
-      axios.get(`/getRecipes?userId=${userId}`).then((response) => {
+      mongoApi.get(`/getRecipes?userId=${userId}`).then((response) => {
         console.log(response);
         setRecipes(response.data);
         setFilteredRecipes(response.data);
@@ -110,7 +114,7 @@ function App() {
 
   const editRecipe = async (recipeInsert) => {
     if (isSignedIn) {
-      axios.post(`/editRecipe?userId=${userId}`, { recipeInsert });
+      mongoApi.post(`/editRecipe?userId=${userId}`, { recipeInsert });
     } else {
       const newRecipes = recipes;
       newRecipes.splice(
@@ -127,7 +131,7 @@ function App() {
 
   const deleteRecipe = (recipeId) => {
     if (isSignedIn) {
-      axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
+      mongoApi.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
     }
 
     setDeleteRecipeId(recipeId);
