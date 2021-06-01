@@ -170,7 +170,7 @@ const Layout = ({
                 isSignedIn
                 clientId={clientId}
                 onSuccess={handleSignIn}
-                onFailure={() => console.log('did not load')}
+                onFailure={(response) => console.log(response)}
                 render={(renderProps) => <Avatar onClick={renderProps.onClick} />}
               />
             )}
