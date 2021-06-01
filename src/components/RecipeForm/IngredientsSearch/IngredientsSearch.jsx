@@ -17,6 +17,10 @@ import Ingredient from './Ingredient/Ingredient';
 
 import useStyles from './Styles';
 
+const spoonApi = axios.create({
+  baseURL: 'https://recipe-app-ag.herokuapp.com/',
+});
+
 const IngredientsSearch = ({
   ingredientsError,
   ingredients,
@@ -38,7 +42,7 @@ const IngredientsSearch = ({
     setIsSearching(true);
     setEmptyQuery(false);
 
-    await axios.get(`/getIngredients?query=${query}`).then((response) => {
+    await spoonApi.get(`/getIngredients?query=${query}`).then((response) => {
       setIngredientsSearch(response.data);
 
       if (response.data.length === 0) {
