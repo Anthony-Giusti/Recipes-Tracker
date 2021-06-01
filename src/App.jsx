@@ -106,7 +106,9 @@ function App() {
 
   const addRecipe = async (recipe) => {
     if (isSignedIn) {
-      axios.post(`/addRecipe?userId=${userId}`, { recipe });
+      mongoApi.post(`/addRecipe?userId=${userId}`, { recipe }).then((response) => {
+        console.log(response);
+      });
     } else {
       recipes.push(recipe);
     }
@@ -116,7 +118,9 @@ function App() {
 
   const editRecipe = async (recipeInsert) => {
     if (isSignedIn) {
-      mongoApi.post(`/editRecipe?userId=${userId}`, { recipeInsert });
+      mongoApi.post(`/editRecipe?userId=${userId}`, { recipeInsert }).then((response) => {
+        console.log(response);
+      });
     } else {
       const newRecipes = recipes;
       newRecipes.splice(
