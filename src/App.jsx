@@ -66,9 +66,10 @@ function App() {
   };
 
   const fetchGoogle = async () => {
-    await axios.get('/getGoogle').then((response) => {
-      setClientId(response.data);
-    });
+    setClientId('179411633218-qshdcddqik6r2hs43uds85sfo8j3q37e.apps.googleusercontent.com');
+    // await axios.get('/getGoogle').then((response) => {
+    //   setClientId(response.data);
+    // });
   };
 
   const fetchRecipes = () => {
