@@ -26,9 +26,10 @@ The user will have the ability to edit/delete/create their own data that will be
 ## Planned updates and fixes
 
 - Create a more advanced error display system in the recipe form possibly using [notistack](https://github.com/iamhosseindhv/notistack)
+- Implement a different google log in process will as the current one will not work with incognito mode or apparently any browser with cookies disabled as I have found out [here](https://github.com/google/google-api-javascript-client/issues/260).
 - Add Custom select components for ingredient components allowing you to select fractional units for the quantity rather than the standard number selects I have now.
 - Add the ability to change the servings and have the ingredient amounts update dynamically on the recipe modal on the recipes page.
 - Various styling upgrades espicially for the recipe modal which is currently very basic.
 - Optimze start up as currently if you are logged in the app will still intially load example data.
-- Improve accessibility
+- Improve accessibility.
 - Refeshing on either the edit of create pages gives a 404
