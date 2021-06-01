@@ -13,7 +13,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import { useTheme } from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
 
 import AddIcon from '@material-ui/icons/Add';
 import ViewComfyIcon from '@material-ui/icons/ViewComfy';
@@ -44,7 +43,6 @@ const Layout = ({
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [loginMenuOpen, setLoginMenuOpen] = useState(false);
-  const [popUpActive, setPopUpActive] = useState(true);
 
   const classes = useStyles();
   const history = useHistory();
@@ -69,19 +67,6 @@ const Layout = ({
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
-
-  const handlePopUp = () => {
-    setPopUpActive(false);
-  };
-
-  useEffect(() => {
-    if (!isFetchingRecipes) {
-      setPopUpActive(true);
-      setTimeout(() => {
-        handlePopUp();
-      }, 5000);
-    }
-  }, []);
 
   useEffect(() => {
     setLoginMenuOpen(false);
@@ -216,13 +201,6 @@ const Layout = ({
           />
         </Toolbar>
       </Drawer>
-      {popUpActive && (
-        <Alert className={classes.alert} severity="info">
-          {isSignedIn
-            ? 'User data loaded log out to see example data'
-            : 'Example data loaded log in with google to create your own'}
-        </Alert>
-      )}
 
       <Menu anchorEl={loginMenuOpen} open={Boolean(loginMenuOpen)} onClose={handleLoginMenuClose}>
         <div>
