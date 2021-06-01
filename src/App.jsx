@@ -118,6 +118,7 @@ function App() {
 
   const editRecipe = async (recipeInsert) => {
     if (isSignedIn) {
+      console.log(userId);
       mongoApi.post(`/editRecipe?userId=${userId}`, { recipeInsert }).then((response) => {
         console.log(response);
       });
