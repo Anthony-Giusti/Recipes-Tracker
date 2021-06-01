@@ -16,7 +16,7 @@ import Theme from './Themes/Theme';
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
 const mongoApi = axios.create({
-  baseURL: 'http://localhost:5000/',
+  baseURL: 'https://recipe-app-ag.herokuapp.com/',
 });
 
 function App() {
