@@ -49,7 +49,6 @@ function App() {
 
   const fetchUserId = async (googleID) => {
     await api.get(`/getUser?googleId=${googleID}`).then((response) => {
-      console.log(response);
       setUserId(response.data);
     });
   };
@@ -59,7 +58,6 @@ function App() {
       setUserId(exampleId);
       return;
     }
-    console.log(response);
     setIsSignedIn(true);
     setGoogleProfile(response.profileObj);
     fetchUserId(response.googleId);
@@ -91,7 +89,6 @@ function App() {
         setUserId(exampleId);
       }
       api.get(`/getRecipes?userId=${userId}`).then((response) => {
-        console.log(response);
         setRecipes(response.data);
         setFilteredRecipes(response.data);
         setSearchedRecipes(response.data);
