@@ -15,6 +15,10 @@ import Theme from './Themes/Theme';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
+const api = axios.create({
+  baseURL: 'https://recipe-app-ag.herokuapp.com/',
+});
+
 function App() {
   const [exampleId] = useState('60ad6626fdffdda805fdee0d');
   const [clientId, setClientId] = useState();
@@ -44,13 +48,16 @@ function App() {
   const history = useHistory();
 
   const fetchUserId = async (googleID) => {
-    await axios.get(`/getUser?googleId=${googleID}`).then((response) => {
-      console.log(response);
+    await api.get(`/getUser?googleId=${googleID}`).then((response) => {
       setUserId(response.data);
     });
   };
 
   const handleSignIn = (response) => {
+    if (!response && !isSignedIn) {
+      setUserId(exampleId);
+      return;
+    }
     setIsSignedIn(true);
     setGoogleProfile(response.profileObj);
     fetchUserId(response.googleId);
@@ -62,7 +69,7 @@ function App() {
   };
 
   const fetchGoogle = async () => {
-    await axios.get('/getGoogle').then((response) => {
+    await api.get('/getGoogle').then((response) => {
       setClientId(response.data);
     });
   };
@@ -81,8 +88,7 @@ function App() {
       if (!isSignedIn) {
         setUserId(exampleId);
       }
-      axios.get(`/getRecipes?userId=${userId}`).then((response) => {
-        console.log(response);
+      api.get(`/getRecipes?userId=${userId}`).then((response) => {
         setRecipes(response.data);
         setFilteredRecipes(response.data);
         setSearchedRecipes(response.data);
@@ -100,7 +106,10 @@ function App() {
 
   const addRecipe = async (recipe) => {
     if (isSignedIn) {
-      axios.post(`/addRecipe?userId=${userId}`, { recipe });
+      await api.post(`/addRecipe?userId=${userId}`, { recipe }).then((response) => {
+        console.log(response);
+        history.push('/');
+      });
     } else {
       recipes.push(recipe);
     }
@@ -108,26 +117,28 @@ function App() {
     history.push('/');
   };
 
-  const editRecipe = async (recipeInsert) => {
+  const editRecipe = async (recipeEdited) => {
     if (isSignedIn) {
-      axios.post(`/editRecipe?userId=${userId}`, { recipeInsert });
+      await api.post(`/editRecipe?userId=${userId}`, { recipe: recipeEdited }).then((response) => {
+        console.log(response);
+        history.push('/');
+      });
     } else {
       const newRecipes = recipes;
       newRecipes.splice(
-        newRecipes.findIndex((recipe) => recipe.id === recipeInsert.id),
+        newRecipes.findIndex((prevRecipe) => prevRecipe.id === recipeEdited.id),
         1,
-        recipeInsert
+        recipeEdited
       );
 
       setRecipes(newRecipes);
+      history.push('/');
     }
-
-    history.push('/');
   };
 
   const deleteRecipe = (recipeId) => {
     if (isSignedIn) {
-      axios.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
+      api.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
     }
 
     setDeleteRecipeId(recipeId);
