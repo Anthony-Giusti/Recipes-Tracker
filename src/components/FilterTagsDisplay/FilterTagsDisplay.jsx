@@ -5,7 +5,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import useStyles from './Styles';
 
-import { CategoryButton, DietButton, IntoleranceButton } from '../../Themes/Buttons/TagButtons';
+import {
+  CategoryButton,
+  DietButton,
+  IntoleranceButton,
+} from '../../Themes/Buttons/TagButtons/TagButtons';
 
 const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTags }) => {
   const classes = useStyles();
@@ -64,7 +68,12 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTa
       {(filteredTags.categories.length >= 1 ||
         filteredTags.dietTags.length >= 1 ||
         filteredTags.intolerances.length >= 1) && (
-        <Button variant="contained" color="primary" onClick={resetFilterTags}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={resetFilterTags}
+          className={classes.resetBtn}
+        >
           Reset Tags
         </Button>
       )}
