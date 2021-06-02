@@ -4,7 +4,7 @@ This project was my first time making a MERN stack application as well as my fir
 
 This app will allow the user to browse some example data that I have created which is initially fetched from the Mongo cluster. They can edit/delete/create using the data however this is only stored locally and is lost on refresh. They also have the ability to log in with their Google account. The app will create a new document for them if they have never logged or retrieve their previous created document if they have.
 
-The user will have the ability to edit/delete/create their own data that will be stored on the Mongo server which will be fetched if they come back.  
+Once logged in the user will have the ability to edit/delete/create their own data that will be stored on the Mongo server which will be fetched if they come back.  
 
 ## Technologies Used
 
