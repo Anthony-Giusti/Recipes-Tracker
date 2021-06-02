@@ -29,7 +29,8 @@ The user will have the ability to edit/delete/create their own data that will be
 - Implement a different google log in process as the current one will not work with incognito mode or apparently any browser with third party cookies disabled as I have found out [here](https://github.com/google/google-api-javascript-client/issues/260).
 - Add Custom select components for ingredient components allowing you to select fractional units for the quantity rather than the standard number selects I have now.
 - Add the ability to change the servings and have the ingredient amounts update dynamically on the recipe modal on the recipes page.
-- Various styling upgrades espicially for the recipe modal which is currently very basic.
 - Optimze start up as currently if you are logged in the app will still intially load example data.
 - Improve accessibility.
 - Refeshing on either the edit of create pages gives a 404
+- The URL checking check will sometimes return false for some valid URLs
+- There is a React error caused by React Material UI Carousel. According to [this](https://github.com/Learus/react-material-ui-carousel/issues/44) it is caused by a intended behavior.
