@@ -61,8 +61,8 @@ const Recipes = ({
     setDeleteId(null);
   };
 
-  const handleModalOpen = (recipe) => {
-    setDisplayedRecipe(recipe);
+  const handleModalOpen = (recipeId) => {
+    setDisplayedRecipe(visibleRecipes.find((recipe) => recipe.id === recipeId));
     setModalOpen(true);
   };
 
@@ -91,7 +91,7 @@ const Recipes = ({
       />
       {isFetchingRecipes && (
         <div className={classes.searchingSpinner}>
-          <CircularProgress color="secondary" size="5em" />
+          <CircularProgress color="primary" size="5em" />
         </div>
       )}
 
