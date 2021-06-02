@@ -34,3 +34,4 @@ Once logged in the user will have the ability to edit/delete/create their own da
 - Refeshing on either the edit of create pages gives a 404
 - The URL checking check will sometimes return false for some valid URLs
 - There is a React error caused by React Material UI Carousel. According to [this](https://github.com/Learus/react-material-ui-carousel/issues/44) it is caused by a intended behavior.
+- The recipe search bar doesn't appear to work on mobile
