@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/core/';
+import { IconButton, ThemeProvider } from '@material-ui/core/';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 
 import printJS from 'print-js';
 
+import Snackbar from '@material-ui/core/Snackbar';
+
+import CloseIcon from '@material-ui/icons/Close';
 import Recipes from './pages/Recipes/Recipes';
 import Create from './pages/Create/Create';
 import Edit from './pages/Edit/Edit';
@@ -19,15 +22,17 @@ const api = axios.create({
   baseURL: 'https://recipe-app-ag.herokuapp.com/',
 });
 
+const exampleId = '60ad6626fdffdda805fdee0d';
+
 function App() {
-  const [exampleId] = useState('60ad6626fdffdda805fdee0d');
   const [clientId, setClientId] = useState();
   const [isSignedIn, setIsSignedIn] = useState();
   const [userId, setUserId] = useState();
   const [googleProfile, setGoogleProfile] = useState({});
 
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
-  const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
+  const [isFetchingRecipes, setIsFetchingRecipes] = useState(true);
+  const [bootUpWarning, setBootUpWarning] = useState(true);
   const [recipes, setRecipes] = useState([]);
   const [exampleDataLoaded, setExampleDataLoaded] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -142,8 +147,9 @@ function App() {
     }
 
     setDeleteRecipeId(recipeId);
-    const newRecipes = recipes.filter((recipe) => recipe.id !== recipeId);
-    setRecipes(newRecipes);
+    setRecipes(recipes.filter((recipe) => recipe.id !== recipeId));
+    setFilteredRecipes(filteredRecipes.filter((recipe) => recipe.id !== recipeId));
+    setSearchedRecipes(searchedRecipes.filter((recipe) => recipe.id !== recipeId));
   };
 
   const filterRecipes = (recipes) => {
@@ -338,10 +344,9 @@ function App() {
     if (exampleDataLoaded) {
       setIsFetchingRecipes(false);
     }
-  }, [recipes]);
 
-  useEffect(() => {
     setIsFetchingRecipes(false);
+
     if (!isFiltered && !isSearching) {
       setVisibleRecipes(recipes);
       return;
@@ -422,6 +427,28 @@ function App() {
           </Switch>
         </Layout>
       </>
+
+      {bootUpWarning && (
+        <Snackbar
+          autoHideDuration={8000}
+          open={bootUpWarning}
+          onClose={() => setBootUpWarning(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          message="This app uses free options of Mongo and Heroku it may be slow intially if inactive for a few hours."
+          action={
+            <>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => setBootUpWarning(false)}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </>
+          }
+        />
+      )}
     </ThemeProvider>
   );
 }
