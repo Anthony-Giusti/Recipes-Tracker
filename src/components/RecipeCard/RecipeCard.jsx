@@ -19,7 +19,7 @@ import { CardActions } from '@material-ui/core';
 import useStyles from './Styles';
 
 const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
-  const classes = useStyles(recipe);
+  const classes = useStyles();
 
   return (
     <div>
@@ -91,7 +91,7 @@ const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
         <Divider />
 
         <CardActions>
-          <IconButton onClick={() => handleModalOpen(recipe)}>
+          <IconButton onClick={() => handleModalOpen(recipe.id)}>
             <ZoomOutMapIcon />
           </IconButton>
           <IconButton aria-label="settings" onClick={() => handleDeleteOpen(recipe.id)}>
