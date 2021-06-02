@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import SearchIcon from '@material-ui/icons/Search';
@@ -20,6 +20,10 @@ const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch, recipeSearchT
   const handleChange = (e) => {
     handleSearch(e.target.value);
   };
+
+  useEffect(() => {
+    handleEmpty();
+  }, []);
 
   return (
     <span className={classes.searchBar}>
