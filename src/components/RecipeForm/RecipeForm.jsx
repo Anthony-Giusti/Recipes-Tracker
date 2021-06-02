@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -13,11 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import CloseIcon from '@material-ui/icons/Close';
-import { IconButtonWithBackground } from '../../Themes/Buttons/IconButtons/IconButtons';
 
 import RecipeCheckBoxes from './RecipeCheckBoxes/RecipeCheckBoxes';
 import IngredientsSearch from './IngredientsSearch/IngredientsSearch';
-import Step from './Step/Step';
+import Steps from './Steps/Steps';
 
 import useStyles from './Styles';
 
@@ -34,7 +31,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   const [intolerances, setIntolerances] = useState(recipe ? recipe.intolerances.raw : []);
   const [ingredients, setIngredients] = useState(recipe ? recipe.ingredients : []);
   const [steps, setSteps] = useState(recipe ? recipe.steps : []);
-  const [additionalNotes] = useState(recipe ? recipe.additionalNotes : '');
+  const [additionalNotes, setAddtionalNotes] = useState(recipe ? recipe.additionalNotes : []);
 
   const [titleError, setTitleError] = useState(false);
   const [detailsError, setDetailsError] = useState(false);
@@ -54,8 +51,6 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   let cookTimeMinutesField;
   let cookTimeHoursField;
   const imageURLFields = [];
-  let newStepField;
-  let additionalNotesField;
 
   const formatName = (name) => {
     const words = name.split(' ');
@@ -139,10 +134,8 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   };
 
   const handleImageURLBoxAdd = () => {
-    console.log(imageURLBoxes);
     if (imageURLBoxes < 6) {
       setImageURLBoxes(imageURLBoxes + 1);
-      console.log(imageURLBoxes + 1);
     }
   };
 
@@ -191,62 +184,12 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
     alteredIngredient.customUnitAdded = state;
   };
 
-  const addNewStep = (newStep) => {
-    if (!newStep) {
-      return;
-    }
-    setSteps((prevSteps) => [
-      ...prevSteps,
-      {
-        id: steps.length === 0 ? 1 : Math.max(...steps.map((step) => step.id)) + 1,
-        order: prevSteps.length === 0 ? 1 : prevSteps.length + 1,
-        step: newStep,
-      },
-    ]);
-    newStepField.value = '';
-  };
-
-  const editStep = (stepId, stepOrder, step) => {
-    const newSteps = steps.filter((step) => step.id !== stepId);
-    newSteps.push({ id: stepId, order: stepOrder, step });
-    newSteps.sort((a, b) => a.order - b.order);
+  const handleStepsChange = (newSteps) => {
     setSteps(newSteps);
   };
 
-  const moveStepOrderUp = (step) => {
-    if (step.order === 1) {
-      return;
-    }
-    const moveDown = steps[step.order - 2];
-    const newSteps = steps.filter(
-      (element) => element.id !== step.id && element.id !== moveDown.id
-    );
-    step.order -= 1;
-    moveDown.order += 1;
-    newSteps.push(moveDown, step);
-    newSteps.sort((a, b) => a.order - b.order);
-    setSteps(newSteps);
-  };
-
-  const moveStepOrderDown = (step) => {
-    if (step.order === steps.length) {
-      return;
-    }
-    const moveUp = steps[step.order];
-    const newSteps = steps.filter((element) => element.id !== step.id && element.id !== moveUp.id);
-    step.order += 1;
-    moveUp.order -= 1;
-    newSteps.push(moveUp, step);
-    newSteps.sort((a, b) => a.order - b.order);
-    setSteps(newSteps);
-  };
-
-  const deleteStep = (step) => {
-    const newSteps = steps.filter((element) => element.id !== step.id);
-    for (let i = 0; i < newSteps.length; i += 1) {
-      newSteps[i].order = i + 1;
-    }
-    setSteps(newSteps);
+  const handleNotesChange = (newNotes) => {
+    setAddtionalNotes(newNotes);
   };
 
   const handleHoursChange = (value) => {
@@ -343,7 +286,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         },
         ingredients,
         steps,
-        additionalNotes: additionalNotesField.value,
+        additionalNotes,
       });
     } else {
       handleErrors(errors);
@@ -568,43 +511,12 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
           Steps
         </Typography>
 
-        <div>
-          {steps.map((step) => (
-            <Step
-              step={step}
-              key={step.id}
-              editStep={editStep}
-              moveStepOrderUp={moveStepOrderUp}
-              moveStepOrderDown={moveStepOrderDown}
-              deleteStep={deleteStep}
-            />
-          ))}
-        </div>
-
-        <FormControl error={stepsError} className={classes.newStepContainer}>
-          <div className={classes.newStep}>
-            <TextField
-              className={classes.newStepField}
-              label="Add New Step"
-              multiline
-              placeholder="Enter a new Step here"
-              row={2}
-              rowsMax={4}
-              error={stepsError}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              variant="outlined"
-              inputRef={(ref) => {
-                newStepField = ref;
-              }}
-            />
-            <IconButtonWithBackground onClick={() => addNewStep(newStepField.value)}>
-              <AddIcon />
-            </IconButtonWithBackground>
-          </div>
-          {stepsError && <FormHelperText>You must have at least one step</FormHelperText>}
-        </FormControl>
+        <Steps
+          stepType="step"
+          handleStepsChange={handleStepsChange}
+          steps={steps}
+          stepsError={stepsError}
+        />
       </Paper>
 
       {/* ADDITIONAL NOTES */}
@@ -613,19 +525,11 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
         <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
           Additonal Notes
         </Typography>
-        <TextField
-          className={classes.field}
-          name="additional notes"
-          defaultValue={additionalNotes}
-          label="Additional Notes"
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          multiline
-          row={4}
-          inputRef={(ref) => {
-            additionalNotesField = ref;
-          }}
+        <Steps
+          stepType="note"
+          handleStepsChange={handleNotesChange}
+          steps={additionalNotes}
+          stepsError={null}
         />
       </Paper>
 
