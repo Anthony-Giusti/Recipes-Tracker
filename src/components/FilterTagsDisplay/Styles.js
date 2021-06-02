@@ -8,4 +8,7 @@ export default makeStyles(() => ({
   gridContainer: {
     margin: '0.05em 0',
   },
+  resetBtn: {
+    margin: 4,
+  },
 }));
