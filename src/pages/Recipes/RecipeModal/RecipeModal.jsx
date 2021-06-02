@@ -18,7 +18,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import PrintIcon from '@material-ui/icons/Print';
 
-import { Divider } from '@material-ui/core';
+import { Divider, Grid } from '@material-ui/core';
 import CatergoryTags from '../../../components/RecipeTags/CategoryTags';
 import DietTags from '../../../components/RecipeTags/DietTags';
 import IntoleranceTags from '../../../components/RecipeTags/IntoleranceTags';
@@ -91,7 +91,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
 
         <div id="recipe-print">
           <div className={classes.modalBody}>
-            <Typography variant="h3" gutterBottom>
+            <Typography variant="h2" gutterBottom>
               {recipe.title}
             </Typography>
 
@@ -105,18 +105,42 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
 
               {recipe.intolerances.formatted.length > 0 && (
                 <span className={classes.intolerances}>
-                  <Typography className={classes.intolerancesSubtitle}>Contains: </Typography>
+                  <Typography variant="subtitle1" className={classes.intolerancesSubtitle}>
+                    Contains:{' '}
+                  </Typography>
 
                   <IntoleranceTags intoleranceTags={recipe.intolerances} />
                 </span>
               )}
             </div>
 
-            <Typography>{`Total Cook Time: ${recipe.cookTime.formatted}`}</Typography>
-            <Typography>{`Servings: ${recipe.servings}`}</Typography>
+            <Grid
+              container
+              spacing={1}
+              direction={smDevice ? 'row' : 'column'}
+              className={classes.timeAndServings}
+            >
+              <Grid item>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.subtitle}
+                >{`Total Cook Time: ${recipe.cookTime.formatted}`}</Typography>
+              </Grid>
+              <Grid item>
+                <Divider orientation={smDevice ? 'vertical' : 'horizontal'} />
+              </Grid>
+              <Grid item>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.subtitle}
+                >{`Servings: ${recipe.servings}`}</Typography>
+              </Grid>
+            </Grid>
 
             <div className={classes.recipeBody}>
-              <Typography variant="h4">Ingredients</Typography>
+              <Typography className={classes.secondaryTitle} variant="h4">
+                Ingredients
+              </Typography>
               <List>
                 {recipe.ingredients.map((ingredient) => (
                   <ListItem divider key={ingredient.id}>
@@ -131,10 +155,16 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
             </div>
 
             <div>
-              <Typography variant="h4">Instructions</Typography>
+              <Typography className={classes.secondaryTitle} variant="h4">
+                Instructions
+              </Typography>
               <List>
                 {recipe.steps.map((step) => (
-                  <ListItem divider key={step.id} className={classes.stepItem}>
+                  <ListItem
+                    divider={step.order !== recipe.steps.length}
+                    key={step.id}
+                    className={classes.stepItem}
+                  >
                     <div className={classes.stepOrderContainer}>
                       <Typography className={classes.stepOrder}>{step.order}</Typography>
                     </div>
@@ -146,11 +176,24 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
               </List>
             </div>
 
-            {recipe.additionalNotes && (
-              <div>
-                <Typography variant="h4">Additional Notes</Typography>
-                <Typography>{recipe.additionalNotes}</Typography>
-              </div>
+            {recipe.additionalNotes.length > 0 && (
+              <>
+                <Typography className={classes.secondaryTitle} variant="h4">
+                  Additional Notes
+                </Typography>
+
+                {recipe.additionalNotes.map((note) => (
+                  <ListItem
+                    divider={note.order !== recipe.additionalNotes.length}
+                    key={note.id}
+                    className={classes.stepItem}
+                  >
+                    <div className={classes.stepTextContainer}>
+                      <ListItemText className={classes.stepText}>{note.step}</ListItemText>
+                    </div>
+                  </ListItem>
+                ))}
+              </>
             )}
           </div>
         </div>

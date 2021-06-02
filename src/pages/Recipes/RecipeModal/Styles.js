@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import useTheme from '@material-ui/core/styles/useTheme';
-import { blue, green, grey } from '@material-ui/core/colors';
+import { blue, cyan, green, grey, lightBlue } from '@material-ui/core/colors';
 
 const theme = useTheme;
 
@@ -16,6 +16,13 @@ export default makeStyles((theme) => ({
   },
   toolbar: {
     justifyContent: 'space-between',
+  },
+  secondaryTitle: {
+    background: theme.palette.primary.main,
+    color: theme.palette.getContrastText(theme.palette.primary.main),
+    margin: '0 -10px',
+    padding: '5px 20px',
+    borderRadius: '1em',
   },
   moduleNavBtn: {
     margin: '0.5em',
@@ -36,7 +43,6 @@ export default makeStyles((theme) => ({
   recipePaper: {
     position: 'absolute',
     top: '15%',
-
     height: '90%',
     width: '100%',
     overflow: 'scroll',
@@ -50,6 +56,12 @@ export default makeStyles((theme) => ({
     maxHeight: '15em',
     objectFit: 'cover',
   },
+  subtitle: {
+    fontSize: '1.2em',
+  },
+  timeAndServings: {
+    // display: 'flex',
+  },
   tagText: {
     padding: '0.4em',
   },
@@ -61,6 +73,7 @@ export default makeStyles((theme) => ({
   intolerances: {
     display: 'flex',
     alignItems: 'center',
+    margin: 4,
   },
   stepOrderContainer: {
     background: blue[200],
