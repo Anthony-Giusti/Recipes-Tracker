@@ -22,6 +22,8 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
+console.log(process.env.REACT_APP_BASE_URL);
+
 const exampleId = '60ad6626fdffdda805fdee0d';
 
 function App() {
