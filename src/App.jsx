@@ -22,9 +22,7 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-console.log(process.env.REACT_APP_BASE_URL);
-
-const exampleId = '60ad6626fdffdda805fdee0d';
+const exampleId = process.env.REACT_APP_EXAMPLE_USER_ID;
 
 function App() {
   const [clientId, setClientId] = useState();
