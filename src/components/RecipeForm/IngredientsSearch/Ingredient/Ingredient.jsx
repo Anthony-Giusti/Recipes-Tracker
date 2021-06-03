@@ -37,7 +37,6 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
 
   let commentField;
   let quantityField;
-  let unitField;
   let customUnitField;
 
   const addComment = (comment) => {
@@ -131,9 +130,6 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
             <Select
               variant="outlined"
               color="secondary"
-              inputRef={(ref) => {
-                unitField = ref;
-              }}
               defaultValue={defaultUnit}
               onChange={(e) => handleUnitChange(e.target.value)}
             >
