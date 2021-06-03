@@ -24,7 +24,7 @@ const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch, recipeSearchT
   };
 
   useEffect(() => {
-    if (location.pathname === '/') {
+    if (location.pathname === '/' && !isSearching) {
       handleEmpty();
     }
   }, [location]);
