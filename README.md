@@ -4,7 +4,7 @@ This project was my first time making a MERN stack application as well as my fir
 
 This app will allow the user to browse some example data that I have created which is initially fetched from the Mongo cluster. This data was created using the recipe creation form in the app. They can edit/delete/create with the data however this is only stored locally and is lost on refresh.
 
-The creation form features an ingredient autocomplete search field which utilizes the [Spoonacular](https://spoonacular.com/) API to fetch ingredients with their associated units. 
+The creation form features an ingredient autocomplete search field which utilizes the [Spoonacular](https://spoonacular.com/food-api/) API to fetch ingredients with their associated units. 
 
 They also have the ability to log in with their Google account. The app will create a new document for them if they have never logged or retrieve their previous created document if they have. Once logged in the user will have the ability to edit/delete/create their own data that will be stored on the Mongo server which will be fetched if they come back later.
 
@@ -16,7 +16,7 @@ The app also is able to let the user filter by certain "tags” which are attach
 [Node.js](https://nodejs.org/en/)  
 [Express.js](https://expressjs.com/)  
 [Mongo DB](https://www.mongodb.com/cloud/atlas)  
-[Spoonacular API](https://spoonacular.com/)
+[Spoonacular API](https://spoonacular.com/food-api/)
 
 ## Libraries Used
 
