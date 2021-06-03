@@ -32,20 +32,4 @@ export default makeStyles({
   intolerances: {
     margin: '0',
   },
-  avatar: {
-    backgroundColor: (note) => {
-      if (note.category === 'work') {
-        return yellow[700];
-      }
-      if (note.category === 'beep') {
-        return green[700];
-      }
-      if (note.category === 'reminders') {
-        return blue[700];
-      }
-      if (note.category === 'todos') {
-        return red[700];
-      }
-    },
-  },
 });
