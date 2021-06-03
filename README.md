@@ -38,4 +38,4 @@ The app also is able to let the user filter by certain "tags” which are attach
 - Improve accessibility.
 - Refeshing on either the edit of create pages currently gives a 404. I found some useful information about this issue [here](https://stackoverflow.com/questions/58065603/netlify-renders-404-on-page-refresh-using-react-and-react-router).
 - The URL checking check will sometimes return false for some valid URLs
-- There is a React error caused by React Material UI Carousel. According to [this](https://github.com/Learus/react-material-ui-carousel/issues/44) it is caused by a intended behavior.
+- There is a React warning triggered by React Material UI Carousel. According to [this](https://github.com/Learus/react-material-ui-carousel/issues/44) it is caused by a intended behavior.
