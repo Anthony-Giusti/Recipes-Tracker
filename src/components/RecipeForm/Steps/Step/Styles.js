@@ -21,6 +21,9 @@ export default makeStyles((theme) => ({
   stepDisplay: {
     flexGrow: 1,
   },
+  stepText: {
+    fontSize: '1.2em',
+  },
   editField: {
     width: '100%',
     lineHeight: '1.5em',
