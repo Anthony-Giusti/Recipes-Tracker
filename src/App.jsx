@@ -241,6 +241,7 @@ function App() {
     if (!query) {
       emptySearch();
       setIsSearching(false);
+      return;
     }
 
     setRecipeSearchText(query);
@@ -434,7 +435,7 @@ function App() {
           open={bootUpWarning}
           onClose={() => setBootUpWarning(false)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          message="This app uses free options of Mongo and Heroku it may be slow intially if inactive for a few hours."
+          message="This app uses free options of Mongo and Heroku it may be slow initially if inactive for a few hours."
           action={
             <>
               <IconButton
