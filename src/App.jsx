@@ -19,7 +19,7 @@ import Theme from './Themes/Theme';
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
 const api = axios.create({
-  baseURL: 'https://recipe-app-ag.herokuapp.com/',
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 const exampleId = '60ad6626fdffdda805fdee0d';
