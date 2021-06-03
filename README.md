@@ -15,7 +15,7 @@ The app also is able to let the user filter by certain "tags” which are attach
 [React](https://reactjs.org/)  
 [Node.js](https://nodejs.org/en/)  
 [Express.js](https://expressjs.com/)  
-[Mongo DB](https://www.mongodb.com/cloud/atlas)
+[Mongo DB](https://www.mongodb.com/cloud/atlas)  
 [Spoonacular API](https://spoonacular.com/)
 
 ## Libraries Used
