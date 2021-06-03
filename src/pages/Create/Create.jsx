@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
 
-const Create = ({ addRecipe }) => {
+const Create = ({ addRecipe, api }) => {
   const submit = (recipe) => {
     addRecipe(recipe);
   };
@@ -14,13 +14,14 @@ const Create = ({ addRecipe }) => {
   return (
     <PageContainer>
       <Typography variant="h2">Create New Recipe</Typography>
-      <RecipeForm recipe={null} submit={submit} submitBtnText="Add Recipe" />
+      <RecipeForm recipe={null} submit={submit} submitBtnText="Add Recipe" api={api} />
     </PageContainer>
   );
 };
 
 Create.propTypes = {
   addRecipe: PropTypes.func,
+  api: PropTypes.func,
 };
 
 export default Create;
