@@ -28,25 +28,23 @@ const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup })
         Filter By {tagTitle}
       </Button>
 
-      <div>
-        <Menu
-          id={`filter-${tagGroup}-menu`}
-          open={Boolean(filterMenuOpen)}
-          anchorEl={filterMenuOpen}
-          onClose={handleFilterMenuClose}
-        >
-          {options.map((option) => (
-            <div key={option.value}>
-              <FilterCheckBoxes
-                tagGroup={tagGroup}
-                filteredTags={filteredTags}
-                option={option}
-                handleFilter={filterRecipes}
-              />
-            </div>
-          ))}
-        </Menu>
-      </div>
+      <Menu
+        id={`filter-${tagGroup}-menu`}
+        open={Boolean(filterMenuOpen)}
+        anchorEl={filterMenuOpen}
+        onClose={handleFilterMenuClose}
+      >
+        {options.map((option) => (
+          <div key={option.value}>
+            <FilterCheckBoxes
+              tagGroup={tagGroup}
+              filteredTags={filteredTags}
+              option={option}
+              handleFilter={filterRecipes}
+            />
+          </div>
+        ))}
+      </Menu>
     </>
   );
 };
