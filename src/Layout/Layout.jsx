@@ -39,7 +39,6 @@ const Layout = ({
   handleSignOut,
   isSignedIn,
   googleProfile,
-  isFetchingRecipes,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [loginMenuOpen, setLoginMenuOpen] = useState(false);
@@ -144,11 +143,7 @@ const Layout = ({
           )}
           <IconButton onClick={handleLoginMenuOpen} className={classes.avatarIconBtn}>
             {isSignedIn ? (
-              <Avatar
-                className={classes.avatar}
-                alt="avatar"
-                src={isSignedIn ? googleProfile.imageUrl : ''}
-              />
+              <Avatar alt="avatar" src={isSignedIn ? googleProfile.imageUrl : ''} />
             ) : (
               <GoogleLogin
                 cookiePolicy="single_host_origin"
@@ -244,7 +239,6 @@ Layout.propTypes = {
   handleSignOut: PropTypes.func,
   isSignedIn: PropTypes.bool,
   googleProfile: PropTypes.object,
-  isFetchingRecipes: PropTypes.bool,
 };
 
 export default Layout;
