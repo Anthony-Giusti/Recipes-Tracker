@@ -137,7 +137,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
               </Grid>
             </Grid>
 
-            <div className={classes.recipeBody}>
+            <>
               <Typography className={classes.secondaryTitle} variant="h4">
                 Ingredients
               </Typography>
@@ -152,7 +152,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
                   </ListItem>
                 ))}
               </List>
-            </div>
+            </>
 
             <div>
               <Typography className={classes.secondaryTitle} variant="h4">
@@ -169,7 +169,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
                       <Typography className={classes.stepOrder}>{step.order}</Typography>
                     </div>
                     <div className={classes.stepTextContainer}>
-                      <ListItemText className={classes.stepText}>{step.step}</ListItemText>
+                      <ListItemText>{step.step}</ListItemText>
                     </div>
                   </ListItem>
                 ))}
@@ -189,7 +189,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
                     className={classes.stepItem}
                   >
                     <div className={classes.stepTextContainer}>
-                      <ListItemText className={classes.stepText}>{note.step}</ListItemText>
+                      <ListItemText>{note.step}</ListItemText>
                     </div>
                   </ListItem>
                 ))}
