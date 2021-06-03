@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import Theme from '../../../../Themes/Theme';
 
 export default makeStyles((theme) => ({
   ingredient: {
@@ -65,9 +64,6 @@ export default makeStyles((theme) => ({
       padding: 0,
     },
   },
-  quantity: {
-    flexBasis: '15%',
-  },
   comment: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -80,15 +76,9 @@ export default makeStyles((theme) => ({
     '-webkitLineClamp': 2,
     '-webkitBoxOrient': 'vertical',
   },
-  addCommentBtn: {
-    borderRadius: '0',
-    color: Theme.palette.getContrastText(Theme.palette.primary.main),
-    backgroundColor: Theme.palette.primary.main,
-    '&:hover': {
-      backgroundColor: Theme.palette.primary.dark,
-    },
+  editCommentBtn: {
+    padding: 7,
   },
-  editCommentBtn: { padding: 7 },
   commentDisplayed: {
     display: 'flex',
     alignItems: 'center',
@@ -106,9 +96,5 @@ export default makeStyles((theme) => ({
   commentTextField: {
     flexGrow: 1,
     height: '100%',
-  },
-  ingredientMenu: {
-    display: 'flex',
-    flexDirection: 'column',
   },
 }));

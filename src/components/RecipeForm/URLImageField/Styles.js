@@ -1,7 +1,6 @@
 import { makeStyles } from '@material-ui/core';
-import Theme from '../../../Themes/Theme';
 
-export default makeStyles((theme) => ({
+export default makeStyles(() => ({
   field: {
     marginTop: 20,
     marginBottom: 20,

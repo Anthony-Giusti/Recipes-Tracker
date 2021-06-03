@@ -41,10 +41,4 @@ export default makeStyles({
     display: 'flex',
     justifyContent: 'center',
   },
-  recipeModal: {
-    position: 'relative',
-    margin: 'auto',
-    top: '20%',
-    width: '80%',
-  },
 });
