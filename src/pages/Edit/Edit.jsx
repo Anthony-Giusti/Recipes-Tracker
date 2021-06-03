@@ -7,7 +7,7 @@ import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
 
-const Edit = ({ currentRecipe, editRecipe }) => {
+const Edit = ({ currentRecipe, editRecipe, api }) => {
   const submit = (recipe) => {
     editRecipe(recipe);
   };
@@ -16,7 +16,7 @@ const Edit = ({ currentRecipe, editRecipe }) => {
     <PageContainer>
       <Typography variant="h2">Edit Recipe</Typography>
 
-      <RecipeForm recipe={currentRecipe} submit={submit} submitBtnText="Confirm Edit" />
+      <RecipeForm recipe={currentRecipe} submit={submit} submitBtnText="Confirm Edit" api={api} />
     </PageContainer>
   ) : (
     'Select a recipe first in order to Edit'
@@ -26,6 +26,7 @@ const Edit = ({ currentRecipe, editRecipe }) => {
 Edit.propTypes = {
   currentRecipe: PropTypes.object,
   editRecipe: PropTypes.func,
+  api: PropTypes.func,
 };
 
 export default Edit;
