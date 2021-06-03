@@ -1,12 +1,12 @@
 # Recipe Tracker App
 
-This project was my first time making a MERN stack application as well as my first time making any sort of backend. Additionally I learned a lot about Material UI and styled components as I only had very basic understanding of these topics before.
+This project was my first time making a MERN stack application as well as my first time integrating a back end to a front end project. Additionally I learned a lot about Material UI and styled components as I only had very basic understanding of these topics before.
 
-This app will allow the user to browse some example data that I have created which is initially fetched from the Mongo cluster. They can edit/delete/create using the data however this is only stored locally and is lost on refresh. They also have the ability to log in with their Google account. The app will create a new document for them if they have never logged or retrieve their previous created document if they have.
+This app will allow the user to browse some example data that I have created which is initially fetched from the Mongo cluster. This data was created using the recipe creation form in the app. They can edit/delete/create with the data however this is only stored locally and is lost on refresh. They also have the ability to log in with their Google account. The app will create a new document for them if they have never logged or retrieve their previous created document if they have.
 
-Once logged in the user will have the ability to edit/delete/create their own data that will be stored on the Mongo server which will be fetched if they come back.  
+Once logged in the user will have the ability to edit/delete/create their own data that will be stored on the Mongo server which will be fetched if they come back later.
 
-## Technologies Used
+## Main Technologies Used
 
 [React](https://reactjs.org/)  
 [Node.js](https://nodejs.org/en/)  
@@ -31,7 +31,6 @@ Once logged in the user will have the ability to edit/delete/create their own da
 - Add the ability to change the servings and have the ingredient amounts update dynamically on the recipe modal on the recipes page.
 - Optimze start up as currently if you are logged in the app will still intially load example data.
 - Improve accessibility.
-- Refeshing on either the edit of create pages gives a 404
+- Refeshing on either the edit of create pages currently gives a 404. I found some useful information about this issue [here](https://stackoverflow.com/questions/58065603/netlify-renders-404-on-page-refresh-using-react-and-react-router).
 - The URL checking check will sometimes return false for some valid URLs
 - There is a React error caused by React Material UI Carousel. According to [this](https://github.com/Learus/react-material-ui-carousel/issues/44) it is caused by a intended behavior.
-- The recipe search field doesn't appear to work on mobile
