@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -17,10 +16,6 @@ import Ingredient from './Ingredient/Ingredient';
 
 import useStyles from './Styles';
 
-const spoonApi = axios.create({
-  baseURL: 'https://recipe-app-ag.herokuapp.com/',
-});
-
 const IngredientsSearch = ({
   ingredientsError,
   ingredients,
@@ -28,6 +23,7 @@ const IngredientsSearch = ({
   handleIngredientRemove,
   changeIngredientValue,
   handleCustomUnit,
+  api,
 }) => {
   const classes = useStyles();
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
@@ -42,7 +38,7 @@ const IngredientsSearch = ({
     setIsSearching(true);
     setEmptyQuery(false);
 
-    await spoonApi.get(`/getIngredients?query=${query}`).then((response) => {
+    await api.get(`/getIngredients?query=${query}`).then((response) => {
       setIngredientsSearch(response.data);
 
       if (response.data.length === 0) {
@@ -130,6 +126,7 @@ IngredientsSearch.propTypes = {
   handleIngredientRemove: PropTypes.func,
   changeIngredientValue: PropTypes.func,
   handleCustomUnit: PropTypes.func,
+  api: PropTypes.func,
 };
 
 export default IngredientsSearch;
