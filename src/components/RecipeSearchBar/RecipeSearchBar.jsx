@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router';
 
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
@@ -10,6 +11,7 @@ import makeStyles from './Styles';
 const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch, recipeSearchText }) => {
   const classes = makeStyles();
 
+  const location = useLocation();
   let searchField;
 
   const handleEmpty = () => {
@@ -22,8 +24,10 @@ const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch, recipeSearchT
   };
 
   useEffect(() => {
-    handleEmpty();
-  }, []);
+    if (location.pathname === '/') {
+      handleEmpty();
+    }
+  }, [location]);
 
   return (
     <span className={classes.searchBar}>
