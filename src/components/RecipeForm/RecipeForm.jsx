@@ -18,7 +18,7 @@ import Steps from './Steps/Steps';
 
 import useStyles from './Styles';
 
-const RecipeForm = ({ recipe, submit, submitBtnText }) => {
+const RecipeForm = ({ recipe, submit, submitBtnText, api }) => {
   const [title] = useState(recipe ? recipe.title : '');
   const [details] = useState(recipe ? recipe.details : '');
   const [servings] = useState(recipe ? recipe.servings : 1);
@@ -300,7 +300,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
   return (
     <form noValidate autoComplete="off" onSubmit={handleSubmit}>
       <Paper className={classes.section}>
-        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+        <Typography variant="h3" gutterBottom className={classes.secondaryTitle}>
           Basic Information
         </Typography>
 
@@ -423,7 +423,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       {/* IMAGE URL FIELDS */}
 
       <Paper className={classes.section}>
-        <Typography variant="h3" className={classes.sectionTitle} gutterBottom>
+        <Typography variant="h3" className={classes.secondaryTitle} gutterBottom>
           Images
         </Typography>
 
@@ -474,7 +474,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       {/* RECIPES CHECKBOXES */}
 
       <Paper className={classes.section}>
-        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+        <Typography variant="h3" gutterBottom className={classes.secondaryTitle}>
           Recipe Tags
         </Typography>
 
@@ -490,7 +490,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       {/* INGREDIENTS SEARCH */}
 
       <Paper className={classes.section}>
-        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+        <Typography variant="h3" gutterBottom className={classes.secondaryTitle}>
           Ingredients
         </Typography>
 
@@ -501,13 +501,14 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
           handleIngredientAdd={handleIngredientAdd}
           handleIngredientRemove={handleIngredientRemove}
           handleCustomUnit={handleCustomUnit}
+          api={api}
         />
       </Paper>
 
       {/* STEPS */}
 
       <Paper className={classes.section}>
-        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+        <Typography variant="h3" gutterBottom className={classes.secondaryTitle}>
           Steps
         </Typography>
 
@@ -522,7 +523,7 @@ const RecipeForm = ({ recipe, submit, submitBtnText }) => {
       {/* ADDITIONAL NOTES */}
 
       <Paper className={classes.section}>
-        <Typography variant="h3" gutterBottom className={classes.sectionTitle}>
+        <Typography variant="h3" gutterBottom className={classes.secondaryTitle}>
           Additonal Notes
         </Typography>
         <Steps
@@ -569,6 +570,7 @@ RecipeForm.propTypes = {
   recipe: PropTypes.object,
   submit: PropTypes.func,
   submitBtnText: PropTypes.string,
+  api: PropTypes.func,
 };
 
 export default RecipeForm;
