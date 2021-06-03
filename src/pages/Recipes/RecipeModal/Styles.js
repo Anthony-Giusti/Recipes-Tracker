@@ -1,8 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import useTheme from '@material-ui/core/styles/useTheme';
-import { blue, cyan, green, grey, lightBlue } from '@material-ui/core/colors';
-
-const theme = useTheme;
+import blue from '@material-ui/core/colors/blue';
 
 export default makeStyles((theme) => ({
   appbar: {
@@ -39,7 +36,6 @@ export default makeStyles((theme) => ({
     margin: '0 auto',
     maxWidth: 1000,
   },
-  recipeBody: {},
   recipePaper: {
     position: 'absolute',
     top: '15%',
@@ -60,12 +56,11 @@ export default makeStyles((theme) => ({
     fontSize: '1.2em',
   },
   timeAndServings: {
-    // display: 'flex',
+    marginBottom: '1em',
   },
-  tagText: {
-    padding: '0.4em',
+  intolerancesSubtitle: {
+    marginRight: '0.5em',
   },
-  intolerancesSubtitle: { marginRight: '0.5em' },
   stepItem: {
     display: 'flex',
     minHeight: '5em',
@@ -92,5 +87,4 @@ export default makeStyles((theme) => ({
   stepTextContainer: {
     margin: '0 2em',
   },
-  stepText: {},
 }));
