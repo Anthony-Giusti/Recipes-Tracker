@@ -43,7 +43,7 @@ const Step = ({ step, editStep, moveStepOrderUp, moveStepOrderDown, deleteStep }
               }}
             />
           ) : (
-            <Typography>{step.step}</Typography>
+            <Typography className={classes.stepText}>{step.step}</Typography>
           )}
         </div>
       </Container>
