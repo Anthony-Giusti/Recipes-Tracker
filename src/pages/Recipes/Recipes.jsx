@@ -34,6 +34,7 @@ const Recipes = ({
   printRecipe,
   showMoreRecipes,
   maxRecipes,
+  emptySearch,
 }) => {
   const [displayedRecipe, setDisplayedRecipe] = useState();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -43,6 +44,7 @@ const Recipes = ({
 
   useEffect(() => {
     resetFilterTags();
+    emptySearch();
     fetchRecipes();
   }, []);
 
@@ -174,6 +176,7 @@ Recipes.propTypes = {
   printRecipe: PropTypes.func,
   showMoreRecipes: PropTypes.func,
   maxRecipes: PropTypes.number,
+  emptySearch: PropTypes.func,
 };
 
 export default Recipes;
