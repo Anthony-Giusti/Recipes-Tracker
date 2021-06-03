@@ -413,6 +413,7 @@ function App() {
                 printRecipe={printRecipe}
                 showMoreRecipes={showMoreRecipes}
                 maxRecipes={maxRecipes}
+                emptySearch={emptySearch}
               />
             </Route>
             <Route path="/create">
@@ -420,10 +421,11 @@ function App() {
                 addRecipe={addRecipe}
                 ingredientsSearch={ingredientsSearch}
                 handleIngreidentSearch={handleIngreidentSearch}
+                api={api}
               />
             </Route>
             <Route path="/edit">
-              <Edit currentRecipe={currentRecipe} editRecipe={editRecipe} />
+              <Edit currentRecipe={currentRecipe} editRecipe={editRecipe} api={api} />
             </Route>
           </Switch>
         </Layout>
