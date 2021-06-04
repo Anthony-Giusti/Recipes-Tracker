@@ -226,10 +226,10 @@ function App() {
 
   const searchRecipes = (query, recipes) => {
     const searchResults = [];
-    query.toLowerCase();
+    const search = query.toLowerCase();
 
     recipes.forEach((recipe) => {
-      if (recipe.title.toLowerCase().includes(query)) {
+      if (recipe.title.toLowerCase().includes(search)) {
         searchResults.push(recipe);
       }
     });
