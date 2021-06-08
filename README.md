@@ -36,6 +36,6 @@ The app also is able to let the user filter by certain "tags” which are attach
 - Add the ability to change the servings and have the ingredient amounts update dynamically on the recipe modal on the recipes page.
 - Optimze start up as currently if you are logged in the app will still intially load example data.
 - Improve accessibility.
-- ``Refeshing on either the edit of create pages currently gives a 404. I found some useful information about this issue [here](https://stackoverflow.com/questions/58065603/netlify-renders-404-on-page-refresh-using-react-and-react-router).`` FIXED  
+- ~~Refeshing on either the edit of create pages currently gives a 404. I found some useful information about this issue [here](https://stackoverflow.com/questions/58065603/netlify-renders-404-on-page-refresh-using-react-and-react-router).~~ FIXED  
 - The URL checking check will sometimes return false for some valid URLs
 - There is a React warning triggered by React Material UI Carousel. According to [this](https://github.com/Learus/react-material-ui-carousel/issues/44) it is caused by a intended behavior.
