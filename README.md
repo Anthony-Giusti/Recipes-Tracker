@@ -27,6 +27,7 @@ The app also is able to let the user filter by certain "tags” which are attach
 [React Masonry CSS](https://www.npmjs.com/package/react-masonry-css)  
 [React Material UI Carousel](https://www.npmjs.com/package/react-material-ui-carousel)  
 [React Router](https://reactrouter.com/)  
+[Validator.js](https://www.npmjs.com/package/validator)
 
 ## Planned updates and fixes
 
