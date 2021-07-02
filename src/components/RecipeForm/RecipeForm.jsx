@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import isURl from 'validator/lib/isURL';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -86,23 +87,13 @@ const RecipeForm = ({ recipe, submit, submitBtnText, api }) => {
   };
 
   const validateURLs = (urls) => {
-    const check = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$',
-      'i'
-    ); // fragment locator
-
     if (Array.isArray(urls)) {
-      return urls.map((url) => !check.test(url.value));
+      return urls.map((url) => !isURl(url.value));
     }
     if (urls === '') {
       return [true];
     }
-    return [check.test(urls.value)];
+    return [!isURl(urls)];
   };
 
   const handleCheckBoxValueChange = (newValue, setValues) => {
