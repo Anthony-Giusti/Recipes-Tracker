@@ -3,7 +3,8 @@
     "airbnb",
     "prettier",
     "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:import/typescript"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -71,7 +72,9 @@
       {
         "extensions": [
           ".js",
-          ".jsx"
+          ".jsx",
+          ".ts",
+          ".tsx"
         ]
       }
     ],
