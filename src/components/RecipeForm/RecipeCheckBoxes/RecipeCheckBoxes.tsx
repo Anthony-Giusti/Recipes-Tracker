@@ -21,9 +21,9 @@ import IRecipeTags from '../../../shared/interfaces/RecipeTags.interface';
 interface IProps {
   categoryError: boolean;
   handleCheckBoxValueChange: (a: string, b: string) => void;
-  categories: IRecipeTags;
-  dietTags: IRecipeTags;
-  intolerances: IRecipeTags;
+  categories: string[];
+  dietTags: string[];
+  intolerances: string[];
 }
 
 const RecipeCheckBoxes: React.FC<IProps> = ({
@@ -45,13 +45,13 @@ const RecipeCheckBoxes: React.FC<IProps> = ({
         </FormLabel>
         <FormGroup
           className={classes.checkBoxOptions}
-          onChange={(e) => handleCheckBoxValueChange(e.target.value, 'categories')}
+          onChange={(e: any) => handleCheckBoxValueChange(e.target.value, 'categories')}
         >
           {categoryOptions.map((option) => (
             <FormControlLabel
               key={option.value}
               control={<Checkbox name={option.value} />}
-              checked={categories.raw.includes(option.value)}
+              checked={categories.includes(option.value)}
               label={option.label}
               value={option.value}
             />
@@ -68,13 +68,13 @@ const RecipeCheckBoxes: React.FC<IProps> = ({
         </FormLabel>
         <FormGroup
           className={classes.checkBoxOptions}
-          onChange={(e) => handleCheckBoxValueChange(e.target.value, 'dietTags')}
+          onChange={(e: any) => handleCheckBoxValueChange(e.target.value, 'dietTags')}
         >
           {dietTagOptions.map((option) => (
             <FormControlLabel
               key={option.value}
               control={<Checkbox name={option.value} />}
-              checked={dietTags.raw.includes(option.value)}
+              checked={dietTags.includes(option.value)}
               label={option.label}
               value={option.value}
             />
@@ -90,13 +90,13 @@ const RecipeCheckBoxes: React.FC<IProps> = ({
         </FormLabel>
         <FormGroup
           className={classes.checkBoxOptions}
-          onChange={(e) => handleCheckBoxValueChange(e.target.value, 'intolerances')}
+          onChange={(e: any) => handleCheckBoxValueChange(e.target.value, 'intolerances')}
         >
           {intoleranceOptions.map((option) => (
             <FormControlLabel
               key={option.value}
               control={<Checkbox name={option.value} />}
-              checked={intolerances.raw.includes(option.value)}
+              checked={intolerances.includes(option.value)}
               label={option.label}
               value={option.value}
             />

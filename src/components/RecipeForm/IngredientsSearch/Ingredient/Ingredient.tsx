@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -22,7 +23,23 @@ import { IconButtonWithBackground } from '../../../../Themes/Buttons/IconButtons
 
 import useStyles from './Styles';
 
-const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handleCustomUnit }) => {
+interface IProps {
+  ingredient: any;
+  removeIngredient: () => void;
+  changeIngredientValue: (
+    ingredientID: string,
+    type: string,
+    value: string | number | null
+  ) => void;
+  handleCustomUnit: () => void;
+}
+
+const Ingredient: React.FC<IProps> = ({
+  ingredient,
+  removeIngredient,
+  changeIngredientValue,
+  handleCustomUnit,
+}) => {
   const classes = useStyles();
   const [defaultUnit] = useState(ingredient.unit);
   const [units] = useState(ingredient.units);
@@ -35,11 +52,11 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
   const [customUnit, setCustomUnit] = useState(ingredient.customUnit);
   const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnitAdded);
 
-  let commentField;
-  let quantityField;
-  let customUnitField;
+  let commentField: any;
+  let quantityField: any;
+  let customUnitField: any;
 
-  const addComment = (comment) => {
+  const addComment = (comment: string) => {
     if (comment === '') {
       setEditingComment(false);
       return;
@@ -54,11 +71,11 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
     setCommentAdded(false);
   };
 
-  const handleUnitChange = (value) => {
+  const handleUnitChange = (value: string) => {
     changeIngredientValue(ingredient.id, 'unit', value);
   };
 
-  const handleQunatityChange = (value) => {
+  const handleQunatityChange = (value: number) => {
     if (value < 0 || value > 9999) {
       quantityField.value = 1;
     } else {
@@ -281,13 +298,6 @@ const Ingredient = ({ ingredient, removeIngredient, changeIngredientValue, handl
       </Dialog>
     </Card>
   );
-};
-
-Ingredient.propTypes = {
-  ingredient: PropTypes.object,
-  removeIngredient: PropTypes.func,
-  changeIngredientValue: PropTypes.func,
-  handleCustomUnit: PropTypes.func,
 };
 
 export default Ingredient;

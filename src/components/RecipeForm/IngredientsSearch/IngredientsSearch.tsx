@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -16,7 +17,17 @@ import Ingredient from './Ingredient/Ingredient';
 
 import useStyles from './Styles';
 
-const IngredientsSearch = ({
+interface IProps {
+  ingredientsError: boolean;
+  ingredients: any;
+  handleIngredientAdd: (a: any, b: any) => void;
+  handleIngredientRemove: (a: any) => void;
+  changeIngredientValue: () => void;
+  handleCustomUnit: () => void;
+  api: any;
+}
+
+const IngredientsSearch: React.FC<IProps> = ({
   ingredientsError,
   ingredients,
   handleIngredientAdd,
@@ -27,18 +38,18 @@ const IngredientsSearch = ({
 }) => {
   const classes = useStyles();
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
-  const [resultsFound, setResultsFound] = useState(null);
+  const [resultsFound, setResultsFound] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [emptyQuery, setEmptyQuery] = useState(true);
 
-  const searchIngredients = async (query) => {
+  const searchIngredients = async (query: string) => {
     if (!query) {
       setEmptyQuery(true);
     }
     setIsSearching(true);
     setEmptyQuery(false);
 
-    await api.get(`/getIngredients?query=${query}`).then((response) => {
+    await api.get(`/getIngredients?query=${query}`).then((response: any) => {
       setIngredientsSearch(response.data);
 
       if (response.data.length === 0) {
@@ -51,7 +62,7 @@ const IngredientsSearch = ({
     setIsSearching(false);
   };
 
-  const handleAddingredient = (ingredient) => {
+  const handleAddingredient = (ingredient: any, ingredients: any) => {
     handleIngredientAdd(ingredient, ingredients);
   };
 
@@ -60,7 +71,7 @@ const IngredientsSearch = ({
       <FormControl error={ingredientsError}>
         <div className={classes.searchBar}>
           <TextField
-            className={classes.ingredientSearchField}
+            // className={classes.ingredientSearchField}
             label="Seach Ingredients"
             onChange={(e) => searchIngredients(e.target.value)}
           />
@@ -75,8 +86,8 @@ const IngredientsSearch = ({
 
         {ingredientsError && <FormHelperText>You must have at least one ingredient</FormHelperText>}
         <Container className={classes.searchResults}>
-          {ingredientsSearch.map((ingredient) =>
-            ingredients.every((element) => element.id !== ingredient.id) ? (
+          {ingredientsSearch.map((ingredient: any) =>
+            ingredients.every((element: any) => element.id !== ingredient.id) ? (
               <Button
                 key={ingredient.name}
                 variant="contained"
@@ -91,7 +102,8 @@ const IngredientsSearch = ({
                 key={ingredient.name}
                 variant="contained"
                 color="primary"
-                className={`${classes.searchResultsItem} ${classes.ingredientSearchBtn}`}
+                className={`${classes.searchResultsItem}`}
+                // className={`${classes.searchResultsItem} ${classes.ingredientSearchBtn}`}
                 onClick={() => handleIngredientRemove(ingredient)}
                 endIcon={<RemoveIcon />}
               >
@@ -103,8 +115,8 @@ const IngredientsSearch = ({
       </FormControl>
 
       {/* INGREDIENTS WIDGETS */}
-      <Grid className={classes.ingredients} container spacing={2}>
-        {ingredients.map((ingredient) => (
+      <Grid /* className={classes.ingredients} */ container spacing={2}>
+        {ingredients.map((ingredient: any) => (
           <Grid item xs={12} md={6} key={ingredient.id}>
             <Ingredient
               handleCustomUnit={handleCustomUnit}
@@ -117,16 +129,6 @@ const IngredientsSearch = ({
       </Grid>
     </>
   );
-};
-
-IngredientsSearch.propTypes = {
-  ingredientsError: PropTypes.bool,
-  ingredients: PropTypes.array,
-  handleIngredientAdd: PropTypes.func,
-  handleIngredientRemove: PropTypes.func,
-  changeIngredientValue: PropTypes.func,
-  handleCustomUnit: PropTypes.func,
-  api: PropTypes.func,
 };
 
 export default IngredientsSearch;
