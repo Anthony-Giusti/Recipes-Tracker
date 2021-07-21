@@ -1,12 +1,19 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import useStyles from './Styles';
+import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
 
-const IntoleranceTags = ({ intoleranceTags }) => {
+interface IProps {
+  intoleranceTags: IRecipeTags;
+}
+
+const IntoleranceTags: React.FC<IProps> = ({ intoleranceTags }) => {
   const classes = useStyles();
 
   return (
@@ -20,10 +27,6 @@ const IntoleranceTags = ({ intoleranceTags }) => {
       ))}
     </Grid>
   );
-};
-
-IntoleranceTags.propTypes = {
-  intoleranceTags: PropTypes.object,
 };
 
 export default IntoleranceTags;

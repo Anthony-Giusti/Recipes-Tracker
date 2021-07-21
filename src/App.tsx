@@ -16,6 +16,8 @@ import Layout from './Layout/Layout';
 
 import Theme from './Themes/Theme';
 
+import IRecipe from './shared/interfaces/Recipe.interface';
+
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
 const api = axios.create({
@@ -24,7 +26,7 @@ const api = axios.create({
 
 const exampleId = process.env.REACT_APP_EXAMPLE_USER_ID;
 
-function App() {
+const App: React.FC = () => {
   const [clientId, setClientId] = useState();
   const [isSignedIn, setIsSignedIn] = useState();
   const [userId, setUserId] = useState();
@@ -37,7 +39,7 @@ function App() {
   const [exampleDataLoaded, setExampleDataLoaded] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const [filteredRecipes, setFilteredRecipes] = useState();
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [searchedRecipes, setSearchedRecipes] = useState([]);
   const [deleteRecipeId, setDeleteRecipeId] = useState();
   const [visibleRecipes, setVisibleRecipes] = useState([]);
@@ -52,13 +54,13 @@ function App() {
 
   const history = useHistory();
 
-  const fetchUserId = async (googleID) => {
+  const fetchUserId = async (googleID: string) => {
     await api.get(`/getUser?googleId=${googleID}`).then((response) => {
       setUserId(response.data);
     });
   };
 
-  const handleSignIn = (response) => {
+  const handleSignIn = (response: any) => {
     if (!response && !isSignedIn) {
       setUserId(exampleId);
       return;

@@ -11,16 +11,17 @@ interface IRecipe {
   imageURLs: string[];
   categories: {
     raw: string[];
-    formatted: (string | string[])[];
+    formatted: string[];
+    // formatted: (string | string[])[];
   };
   dietTags: {
     raw: string[];
-    formatted: (string | string[])[];
+    formatted: string[];
   };
-  id: string | null;
+  id: string;
   intolerances: {
     raw: string[];
-    formatted: (string | string[])[];
+    formatted: string[];
   };
   ingredients: any;
   steps: any;

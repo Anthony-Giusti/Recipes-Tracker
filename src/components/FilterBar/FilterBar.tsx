@@ -1,15 +1,29 @@
+/* eslint-disable react/prop-types */
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
 
-const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup }) => {
+interface IProps {
+  options: any;
+  filterRecipes: () => void;
+  filteredTags: string[];
+  tagTitle: string;
+  tagGroup: number;
+}
+
+const FilterBar: React.FC<IProps> = ({
+  options,
+  filterRecipes,
+  filteredTags,
+  tagTitle,
+  tagGroup,
+}) => {
   const [filterMenuOpen, setFilterMenuOpen] = useState(null);
   const classes = useStyles();
 
-  const handleFilterMenuOpen = (e) => {
+  const handleFilterMenuOpen = (e: any) => {
     setFilterMenuOpen(e.currentTarget);
   };
 
@@ -34,7 +48,7 @@ const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup })
         anchorEl={filterMenuOpen}
         onClose={handleFilterMenuClose}
       >
-        {options.map((option) => (
+        {options.map((option: any) => (
           <div key={option.value}>
             <FilterCheckBoxes
               tagGroup={tagGroup}
@@ -47,14 +61,6 @@ const FilterBar = ({ options, filterRecipes, filteredTags, tagTitle, tagGroup })
       </Menu>
     </>
   );
-};
-
-FilterBar.propTypes = {
-  options: PropTypes.array,
-  filterRecipes: PropTypes.func,
-  filteredTags: PropTypes.object,
-  tagTitle: PropTypes.string,
-  tagGroup: PropTypes.string,
 };
 
 export default FilterBar;

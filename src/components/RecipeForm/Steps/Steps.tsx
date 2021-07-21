@@ -1,5 +1,7 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -12,11 +14,20 @@ import useStyles from './Styles';
 
 import Step from './Step/Step';
 
-const Steps = ({ stepType, handleStepsChange, steps, stepsError }) => {
-  let newStepField;
+import IStep from '../../../shared/interfaces/Step.interface';
+
+interface IProps {
+  stepType: string;
+  handleStepsChange: (steps: IStep[]) => void;
+  steps: IStep[];
+  stepsError: boolean;
+}
+
+const Steps: React.FC<IProps> = ({ stepType, handleStepsChange, steps, stepsError }) => {
+  let newStepField: any;
   const classes = useStyles();
 
-  const addNewStep = (newStep) => {
+  const addNewStep = (newStep: IStep) => {
     if (!newStep) {
       return;
     }
@@ -32,14 +43,14 @@ const Steps = ({ stepType, handleStepsChange, steps, stepsError }) => {
     newStepField.value = '';
   };
 
-  const editStep = (stepId, stepOrder, step) => {
+  const editStep = (stepId: number, stepOrder: number, step: string) => {
     const newSteps = steps.filter((step) => step.id !== stepId);
     newSteps.push({ id: stepId, order: stepOrder, step });
     newSteps.sort((a, b) => a.order - b.order);
     handleStepsChange(newSteps);
   };
 
-  const moveStepOrderUp = (step) => {
+  const moveStepOrderUp = (step: IStep) => {
     if (step.order === 1) {
       return;
     }
@@ -54,7 +65,7 @@ const Steps = ({ stepType, handleStepsChange, steps, stepsError }) => {
     handleStepsChange(newSteps);
   };
 
-  const moveStepOrderDown = (step) => {
+  const moveStepOrderDown = (step: IStep) => {
     if (step.order === steps.length) {
       return;
     }
@@ -67,7 +78,7 @@ const Steps = ({ stepType, handleStepsChange, steps, stepsError }) => {
     handleStepsChange(newSteps);
   };
 
-  const deleteStep = (step) => {
+  const deleteStep = (step: IStep) => {
     const newSteps = steps.filter((element) => element.id !== step.id);
     for (let i = 0; i < newSteps.length; i += 1) {
       newSteps[i].order = i + 1;
@@ -97,7 +108,7 @@ const Steps = ({ stepType, handleStepsChange, steps, stepsError }) => {
             label={`Add New ${stepType}`}
             multiline
             placeholder={`Enter a new ${stepType} here`}
-            row={2}
+            rows={2}
             rowsMax={4}
             error={stepsError}
             InputLabelProps={{
@@ -116,13 +127,6 @@ const Steps = ({ stepType, handleStepsChange, steps, stepsError }) => {
       </FormControl>
     </>
   );
-};
-
-Steps.propTypes = {
-  stepType: PropTypes.string,
-  handleStepsChange: PropTypes.func,
-  steps: PropTypes.array,
-  stepsError: PropTypes.bool,
 };
 
 export default Steps;

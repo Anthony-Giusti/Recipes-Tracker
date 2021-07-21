@@ -1,13 +1,21 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable react/prop-types */
+/* eslint-disable import/no-named-as-default */
 import React from 'react';
-import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
+import IRecipe from '../../shared/interfaces/Recipe.interface';
 
-const Create = ({ addRecipe, api }) => {
-  const submit = (recipe) => {
+interface IProps {
+  addRecipe: (recipe: IRecipe) => void;
+  api: () => void;
+}
+
+const Create: React.FC<IProps> = ({ addRecipe, api }) => {
+  const submit = (recipe: IRecipe) => {
     addRecipe(recipe);
   };
 
@@ -17,11 +25,6 @@ const Create = ({ addRecipe, api }) => {
       <RecipeForm recipe={null} submit={submit} submitBtnText="Add Recipe" api={api} />
     </PageContainer>
   );
-};
-
-Create.propTypes = {
-  addRecipe: PropTypes.func,
-  api: PropTypes.func,
 };
 
 export default Create;

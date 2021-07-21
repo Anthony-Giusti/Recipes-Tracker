@@ -22,7 +22,7 @@ import IRecipe from '../../shared/interfaces/Recipe.interface';
 import useStyles from './Styles';
 
 interface IProps {
-  recipe: IRecipe;
+  recipe: IRecipe | null;
   submit: (a: IRecipe) => void;
   submitBtnText: string;
   api: () => void;

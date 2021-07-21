@@ -1,10 +1,17 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable react/prop-types */
 import TextField from '@material-ui/core/TextField';
 import React from 'react';
-import PropTypes from 'prop-types';
 
+// eslint-disable-next-line import/no-named-as-default-member
 import useStyles from './Styles';
 
-const URLImageField = ({ imageURL, imageURLError }) => {
+interface IProps {
+  imageURL: string;
+  imageURLError: boolean;
+}
+
+const URLImageField: React.FC<IProps> = ({ imageURL, imageURLError }) => {
   const classes = useStyles();
 
   return (
@@ -16,16 +23,11 @@ const URLImageField = ({ imageURL, imageURLError }) => {
       variant="outlined"
       color="secondary"
       multiline
-      row={4}
+      rows={4}
       error={imageURLError}
       fullWidth
     />
   );
-};
-
-URLImageField.propTypes = {
-  imageURL: PropTypes.string,
-  imageURLError: PropTypes.bool,
 };
 
 export default URLImageField;

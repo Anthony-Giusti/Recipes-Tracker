@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -11,10 +11,22 @@ import {
   IntoleranceButton,
 } from '../../Themes/Buttons/TagButtons/TagButtons';
 
-const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTags }) => {
+interface IProps {
+  filteredTags: any;
+  filterTags: (tag: string, category: string) => void;
+  formatName: (name: string) => string;
+  resetFilterTags: (a: string, b: string) => void;
+}
+
+const FilterTagsDisplay: React.FC<IProps> = ({
+  filteredTags,
+  filterTags,
+  formatName,
+  resetFilterTags,
+}) => {
   const classes = useStyles();
 
-  const handleClick = (tag, category) => {
+  const handleClick = (tag: string, category: string) => {
     filterTags(tag, category);
   };
 
@@ -22,11 +34,11 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTa
     <div className={classes.container}>
       {filteredTags.categories.length >= 1 && (
         <Grid className={classes.gridContainer} container spacing={1}>
-          {filteredTags.categories.map((tag) => (
+          {filteredTags.categories.map((tag: string) => (
             <Grid item key={tag}>
               <CategoryButton
                 variant="contained"
-                className={classes.categoryBtn}
+                // className={classes.categoryBtn}
                 onClick={() => handleClick(tag, 'categories')}
               >
                 {formatName(tag)}
@@ -37,11 +49,11 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTa
       )}
       {filteredTags.dietTags.length >= 1 && (
         <Grid className={classes.gridContainer} container spacing={1}>
-          {filteredTags.dietTags.map((tag) => (
+          {filteredTags.dietTags.map((tag: string) => (
             <Grid item key={tag}>
               <DietButton
                 variant="contained"
-                className={classes.dietBtn}
+                // className={classes.dietBtn}
                 onClick={() => handleClick(tag, 'dietTags')}
               >
                 {formatName(tag)}
@@ -52,11 +64,11 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTa
       )}
       {filteredTags.intolerances.length >= 1 && (
         <Grid className={classes.gridContainer} container spacing={1}>
-          {filteredTags.intolerances.map((tag) => (
+          {filteredTags.intolerances.map((tag: string) => (
             <Grid item key={tag}>
               <IntoleranceButton
                 variant="contained"
-                className={classes.intoleranceBtn}
+                // className={classes.intoleranceBtn}
                 onClick={() => handleClick(tag, 'intolerances')}
               >
                 {formatName(tag)}
@@ -79,13 +91,6 @@ const FilterTagsDisplay = ({ filteredTags, filterTags, formatName, resetFilterTa
       )}
     </div>
   );
-};
-
-FilterTagsDisplay.propTypes = {
-  filteredTags: PropTypes.object,
-  filterTags: PropTypes.func,
-  formatName: PropTypes.func,
-  resetFilterTags: PropTypes.func,
 };
 
 export default FilterTagsDisplay;

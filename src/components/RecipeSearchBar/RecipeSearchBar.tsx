@@ -1,3 +1,6 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable react/prop-types */
+/* eslint-disable import/no-named-as-default */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
@@ -8,18 +11,30 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 import makeStyles from './Styles';
 
-const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch, recipeSearchText }) => {
+interface IProps {
+  handleSearch: (a: string) => void;
+  isSearching: boolean;
+  emptySearch: () => void;
+  recipeSearchText: string;
+}
+
+const RecipeSearchBar: React.FC<IProps> = ({
+  handleSearch,
+  isSearching,
+  emptySearch,
+  recipeSearchText,
+}) => {
   const classes = makeStyles();
 
   const location = useLocation();
-  let searchField;
+  let searchField: any;
 
   const handleEmpty = () => {
     emptySearch();
     searchField.value = '';
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     handleSearch(e.target.value);
   };
 
@@ -44,13 +59,6 @@ const RecipeSearchBar = ({ handleSearch, isSearching, emptySearch, recipeSearchT
       {isSearching && <ClearIcon className={classes.clearIcon} onClick={handleEmpty} />}
     </span>
   );
-};
-
-RecipeSearchBar.propTypes = {
-  handleSearch: PropTypes.func,
-  isSearching: PropTypes.bool,
-  emptySearch: PropTypes.func,
-  recipeSearchText: PropTypes.string,
 };
 
 export default RecipeSearchBar;

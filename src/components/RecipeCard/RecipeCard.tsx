@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -18,7 +20,15 @@ import Carousel from 'react-material-ui-carousel';
 import { CardActions } from '@material-ui/core';
 import useStyles from './Styles';
 
-const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
+import IRecipe from '../../shared/interfaces/Recipe.interface';
+
+interface IProps {
+  recipe: IRecipe;
+  handleModalOpen: (recipeID: string) => void;
+  handleDeleteOpen: (recipeID: string) => void;
+}
+
+const RecipeCard: React.FC<IProps> = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
   const classes = useStyles();
 
   return (
@@ -102,11 +112,4 @@ const RecipeCard = ({ recipe, handleModalOpen, handleDeleteOpen }) => {
     </div>
   );
 };
-
-RecipeCard.propTypes = {
-  recipe: PropTypes.object,
-  handleModalOpen: PropTypes.func,
-  handleDeleteOpen: PropTypes.func,
-};
-
 export default RecipeCard;

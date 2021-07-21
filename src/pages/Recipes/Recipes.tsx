@@ -12,14 +12,34 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import PageContainer from '../../Themes/Pages/Pages';
 
-import RecipeCard from '../../components/RecipeCard/RecipeCard.jsx';
+import RecipeCard from '../../components/RecipeCard/RecipeCard.js';
 import RecipeModal from './RecipeModal/RecipeModal';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 import FilterTagsDisplay from '../../components/FilterTagsDisplay/FilterTagsDisplay';
 
 import useStyles from './Styles';
+import IRecipe from '../../shared/interfaces/Recipe.interface';
+import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
 
-const Recipes = ({
+interface IProps {
+  visibleRecipes: IRecipe[];
+  resetFilterTags: () => void;
+  deleteRecipe: (recipe: IRecipe) => void;
+  getIngredientObject: () => void;
+  handleCheckBoxValueChange: () => void;
+  handleCurrentRecipe: () => void;
+  fetchRecipes: () => void;
+  isFetchingRecipes: boolean;
+  filteredTags: IRecipeTags;
+  filterTags: IRecipeTags;
+  formatName: IRecipeTags;
+  printRecipe: () => void;
+  showMoreRecipes: () => void;
+  maxRecipes: number;
+  emptySearch: () => void;
+}
+
+const Recipes: React.FC<IProps> = ({
   visibleRecipes,
   resetFilterTags,
   deleteRecipe,
@@ -161,22 +181,6 @@ const Recipes = ({
   );
 };
 
-Recipes.propTypes = {
-  visibleRecipes: PropTypes.array,
-  resetFilterTags: PropTypes.func,
-  deleteRecipe: PropTypes.func,
-  getIngredientObject: PropTypes.func,
-  handleCheckBoxValueChange: PropTypes.func,
-  handleCurrentRecipe: PropTypes.func,
-  fetchRecipes: PropTypes.func,
-  isFetchingRecipes: PropTypes.bool,
-  filteredTags: PropTypes.object,
-  filterTags: PropTypes.func,
-  formatName: PropTypes.func,
-  printRecipe: PropTypes.func,
-  showMoreRecipes: PropTypes.func,
-  maxRecipes: PropTypes.number,
-  emptySearch: PropTypes.func,
-};
+
 
 export default Recipes;
