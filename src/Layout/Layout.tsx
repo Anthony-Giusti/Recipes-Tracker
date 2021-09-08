@@ -1,8 +1,11 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable react/prop-types */
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -21,8 +24,29 @@ import FilterBar from '../components/FilterBar/FilterBar';
 import RecipeSeachBar from '../components/RecipeSearchBar/RecipeSearchBar';
 
 import useStyles from './Styles';
+import IRecipeTags from '../shared/interfaces/RecipeTags.interface';
 
-const Layout = ({
+interface IProps {
+  children: any;
+  filteredTags: IRecipeTags;
+  filterRecipes: () => void;
+  imageUrl: string;
+  categoryOptions: IRecipeTags[];
+  dietTagOptions: IRecipeTags[];
+  intoleranceOptions: IRecipeTags[];
+  searchRecipes: (query: string) => void;
+  isSearching: boolean;
+  isFiltered: boolean;
+  emptySearch: () => void;
+  recipeSearchText: string;
+  clientId: string;
+  handleSignIn: (a: any) => void;
+  handleSignOut: () => void;
+  isSignedIn: boolean;
+  googleProfile: any;
+}
+
+const Layout: React.FC<IProps> = ({
   children,
   filteredTags,
   filterRecipes,
@@ -219,26 +243,6 @@ const Layout = ({
       </div>
     </div>
   );
-};
-
-Layout.propTypes = {
-  children: PropTypes.object,
-  filteredTags: PropTypes.object,
-  filterRecipes: PropTypes.func,
-  imageUrl: PropTypes.string,
-  categoryOptions: PropTypes.array,
-  dietTagOptions: PropTypes.array,
-  intoleranceOptions: PropTypes.array,
-  searchRecipes: PropTypes.func,
-  isSearching: PropTypes.bool,
-  isFiltered: PropTypes.bool,
-  emptySearch: PropTypes.func,
-  recipeSearchText: PropTypes.string,
-  clientId: PropTypes.string,
-  handleSignIn: PropTypes.func,
-  handleSignOut: PropTypes.func,
-  isSignedIn: PropTypes.bool,
-  googleProfile: PropTypes.object,
 };
 
 export default Layout;

@@ -1,4 +1,26 @@
 "use strict";
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+// @ts-nocheck
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,9 +34,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importStar(require("react"));
 const react_router_dom_1 = require("react-router-dom");
 const core_1 = require("@material-ui/core/");
-const react_1 = require("react");
 const react_router_1 = require("react-router");
 const axios_1 = __importDefault(require("axios"));
 const print_js_1 = __importDefault(require("print-js"));
@@ -29,23 +51,28 @@ const _recipeTagOptions_1 = require("./data/_recipeTagOptions");
 const api = axios_1.default.create({
     baseURL: process.env.REACT_APP_BASE_URL,
 });
-const exampleId = process.env.REACT_APP_EXAMPLE_USER_ID;
+const exampleId = () => {
+    if (process.env.REACT_APP_EXAMPLE_USER_ID) {
+        return process.env.REACT_APP_EXAMPLE_USER_ID;
+    }
+    return '';
+};
 const App = () => {
-    const [clientId, setClientId] = react_1.useState();
-    const [isSignedIn, setIsSignedIn] = react_1.useState();
-    const [userId, setUserId] = react_1.useState();
+    const [clientId, setClientId] = react_1.useState('');
+    const [isSignedIn, setIsSignedIn] = react_1.useState(false);
+    const [userId, setUserId] = react_1.useState('');
     const [googleProfile, setGoogleProfile] = react_1.useState({});
     const [ingredientsSearch, setIngredientsSearch] = react_1.useState([]);
     const [isFetchingRecipes, setIsFetchingRecipes] = react_1.useState(true);
     const [bootUpWarning, setBootUpWarning] = react_1.useState(true);
     const [recipes, setRecipes] = react_1.useState([]);
+    const [filteredRecipes, setFilteredRecipes] = react_1.useState([]);
+    const [searchedRecipes, setSearchedRecipes] = react_1.useState([]);
+    const [visibleRecipes, setVisibleRecipes] = react_1.useState([]);
     const [exampleDataLoaded, setExampleDataLoaded] = react_1.useState(false);
     const [isFiltered, setIsFiltered] = react_1.useState(false);
     const [isSearching, setIsSearching] = react_1.useState(false);
-    const [filteredRecipes, setFilteredRecipes] = react_1.useState([]);
-    const [searchedRecipes, setSearchedRecipes] = react_1.useState([]);
-    const [deleteRecipeId, setDeleteRecipeId] = react_1.useState();
-    const [visibleRecipes, setVisibleRecipes] = react_1.useState([]);
+    const [deleteRecipeId, setDeleteRecipeId] = react_1.useState('');
     const [filteredTags, setFilteredTags] = react_1.useState({
         categories: [],
         dietTags: [],
@@ -61,7 +88,7 @@ const App = () => {
         });
     });
     const handleSignIn = (response) => {
-        if (!response && !isSignedIn) {
+        if (!response && !isSignedIn && exampleId) {
             setUserId(exampleId);
             return;
         }
@@ -97,7 +124,7 @@ const App = () => {
                 setSearchedRecipes(response.data);
             });
         }
-        if (userId === exampleId) {
+        if (userId === exampleId()) {
             setExampleDataLoaded(true);
         }
         else {
@@ -321,18 +348,18 @@ const App = () => {
     react_1.useEffect(() => {
         fetchRecipes();
     }, [userId]);
-    return (React.createElement(core_1.ThemeProvider, { theme: Theme_1.default },
-        React.createElement(React.Fragment, null,
-            React.createElement(Layout_1.default, { filteredTags: filteredTags, filterRecipes: filterTags, categoryOptions: _recipeTagOptions_1.categoryOptions, dietTagOptions: _recipeTagOptions_1.dietTagOptions, intoleranceOptions: _recipeTagOptions_1.intoleranceOptions, searchRecipes: handleQuery, isSearching: isSearching, isFiltered: isFiltered, emptySearch: emptySearch, recipeSearchText: recipeSearchText, clientId: clientId, handleSignIn: handleSignIn, handleSignOut: handleSignOut, isSignedIn: isSignedIn, googleProfile: googleProfile, isFetchingRecipes: isFetchingRecipes },
-                React.createElement(react_router_dom_1.Switch, null,
-                    React.createElement(react_router_dom_1.Route, { exact: true, path: "/" },
-                        React.createElement(Recipes_1.default, { fetchRecipes: fetchRecipes, isFetchingRecipes: isFetchingRecipes, recipes: recipes, visibleRecipes: visibleRecipes, resetFilterTags: resetFilterTags, deleteRecipe: deleteRecipe, getIngredientObject: addIngredient, ingredientsSearch: ingredientsSearch, handleIngreidentSearch: handleIngreidentSearch, handleCheckBoxValueChange: handleCheckBoxValueChange, handleCurrentRecipe: handleCurrentRecipe, filteredTags: filteredTags, filterTags: filterTags, formatName: formatName, printRecipe: printRecipe, showMoreRecipes: showMoreRecipes, maxRecipes: maxRecipes, emptySearch: emptySearch })),
-                    React.createElement(react_router_dom_1.Route, { path: "/create" },
-                        React.createElement(Create_1.default, { addRecipe: addRecipe, ingredientsSearch: ingredientsSearch, handleIngreidentSearch: handleIngreidentSearch, api: api })),
-                    React.createElement(react_router_dom_1.Route, { path: "/edit" },
-                        React.createElement(Edit_1.default, { currentRecipe: currentRecipe, editRecipe: editRecipe, api: api }))))),
-        bootUpWarning && (React.createElement(Snackbar_1.default, { autoHideDuration: 8000, open: bootUpWarning, onClose: () => setBootUpWarning(false), anchorOrigin: { vertical: 'bottom', horizontal: 'left' }, message: "This app uses free options of Mongo and Heroku it may be slow initially if inactive for a few hours.", action: React.createElement(React.Fragment, null,
-                React.createElement(core_1.IconButton, { size: "small", "aria-label": "close", color: "inherit", onClick: () => setBootUpWarning(false) },
-                    React.createElement(Close_1.default, { fontSize: "small" }))) }))));
+    return (react_1.default.createElement(core_1.ThemeProvider, { theme: Theme_1.default },
+        react_1.default.createElement(react_1.default.Fragment, null,
+            react_1.default.createElement(Layout_1.default, { filteredTags: filteredTags, filterRecipes: filterTags, categoryOptions: _recipeTagOptions_1.categoryOptions, dietTagOptions: _recipeTagOptions_1.dietTagOptions, intoleranceOptions: _recipeTagOptions_1.intoleranceOptions, searchRecipes: handleQuery, isSearching: isSearching, isFiltered: isFiltered, emptySearch: emptySearch, recipeSearchText: recipeSearchText, clientId: clientId, handleSignIn: handleSignIn, handleSignOut: handleSignOut, isSignedIn: isSignedIn, googleProfile: googleProfile, isFetchingRecipes: isFetchingRecipes },
+                react_1.default.createElement(react_router_dom_1.Switch, null,
+                    react_1.default.createElement(react_router_dom_1.Route, { exact: true, path: "/" },
+                        react_1.default.createElement(Recipes_1.default, { fetchRecipes: fetchRecipes, isFetchingRecipes: isFetchingRecipes, recipes: recipes, visibleRecipes: visibleRecipes, resetFilterTags: resetFilterTags, deleteRecipe: deleteRecipe, getIngredientObject: addIngredient, ingredientsSearch: ingredientsSearch, handleIngreidentSearch: handleIngreidentSearch, handleCheckBoxValueChange: handleCheckBoxValueChange, handleCurrentRecipe: handleCurrentRecipe, filteredTags: filteredTags, filterTags: filterTags, formatName: formatName, printRecipe: printRecipe, showMoreRecipes: showMoreRecipes, maxRecipes: maxRecipes, emptySearch: emptySearch })),
+                    react_1.default.createElement(react_router_dom_1.Route, { path: "/create" },
+                        react_1.default.createElement(Create_1.default, { addRecipe: addRecipe, ingredientsSearch: ingredientsSearch, handleIngreidentSearch: handleIngreidentSearch, api: api })),
+                    react_1.default.createElement(react_router_dom_1.Route, { path: "/edit" },
+                        react_1.default.createElement(Edit_1.default, { currentRecipe: currentRecipe, editRecipe: editRecipe, api: api }))))),
+        bootUpWarning && (react_1.default.createElement(Snackbar_1.default, { autoHideDuration: 8000, open: bootUpWarning, onClose: () => setBootUpWarning(false), anchorOrigin: { vertical: 'bottom', horizontal: 'left' }, message: "This app uses free options of Mongo and Heroku it may be slow initially if inactive for a few hours.", action: react_1.default.createElement(react_1.default.Fragment, null,
+                react_1.default.createElement(core_1.IconButton, { size: "small", "aria-label": "close", color: "inherit", onClick: () => setBootUpWarning(false) },
+                    react_1.default.createElement(Close_1.default, { fontSize: "small" }))) }))));
 };
 exports.default = App;

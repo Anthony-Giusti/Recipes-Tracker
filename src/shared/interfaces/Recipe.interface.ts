@@ -1,3 +1,6 @@
+import IStep from './Step.interface';
+import IIngredient from './Ingredient.interface';
+
 interface IRecipe {
   title: string;
   details: string;
@@ -18,14 +21,14 @@ interface IRecipe {
     raw: string[];
     formatted: string[];
   };
-  id: string;
+  id: string | null;
   intolerances: {
     raw: string[];
     formatted: string[];
   };
-  ingredients: any;
-  steps: any;
-  additionalNotes: any;
+  ingredients: IIngredient[];
+  steps: IStep[];
+  additionalNotes: IStep[];
 }
 
 export default IRecipe;

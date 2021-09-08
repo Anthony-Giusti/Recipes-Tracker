@@ -1,5 +1,8 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable react/prop-types */
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import Masonry from 'react-masonry-css';
 
 import Button from '@material-ui/core/Button';
@@ -24,7 +27,7 @@ import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
 interface IProps {
   visibleRecipes: IRecipe[];
   resetFilterTags: () => void;
-  deleteRecipe: (recipe: IRecipe) => void;
+  deleteRecipe: (recipeID: string) => void;
   getIngredientObject: () => void;
   handleCheckBoxValueChange: () => void;
   handleCurrentRecipe: () => void;
@@ -34,7 +37,7 @@ interface IProps {
   filterTags: IRecipeTags;
   formatName: IRecipeTags;
   printRecipe: () => void;
-  showMoreRecipes: () => void;
+  showMoreRecipes: (recipesToDisplay: number) => void;
   maxRecipes: number;
   emptySearch: () => void;
 }
@@ -56,9 +59,9 @@ const Recipes: React.FC<IProps> = ({
   maxRecipes,
   emptySearch,
 }) => {
-  const [displayedRecipe, setDisplayedRecipe] = useState();
+  const [displayedRecipe, setDisplayedRecipe] = useState<IRecipe>();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState(null);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
 
@@ -69,11 +72,13 @@ const Recipes: React.FC<IProps> = ({
   }, []);
 
   const handleDelete = () => {
-    deleteRecipe(deleteId);
-    setDeleteDialogOpen(false);
+    if (typeof deleteId === 'string') {
+      deleteRecipe(deleteId);
+      setDeleteDialogOpen(false);
+    }
   };
 
-  const handleDeleteOpen = (id) => {
+  const handleDeleteOpen = (id: string) => {
     setDeleteDialogOpen(true);
     setDeleteId(id);
   };
@@ -83,7 +88,7 @@ const Recipes: React.FC<IProps> = ({
     setDeleteId(null);
   };
 
-  const handleModalOpen = (recipeId) => {
+  const handleModalOpen = (recipeId: string) => {
     setDisplayedRecipe(visibleRecipes.find((recipe) => recipe.id === recipeId));
     setModalOpen(true);
   };
@@ -180,7 +185,5 @@ const Recipes: React.FC<IProps> = ({
     </PageContainer>
   );
 };
-
-
 
 export default Recipes;

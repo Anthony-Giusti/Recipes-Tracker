@@ -1,9 +1,12 @@
 "use strict";
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable react/prop-types */
+// @ts-nocheck
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-/* eslint-disable react/prop-types */
 const react_1 = __importDefault(require("react"));
 const Grid_1 = __importDefault(require("@material-ui/core/Grid"));
 const Button_1 = __importDefault(require("@material-ui/core/Button"));

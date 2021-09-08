@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 const react_1 = __importDefault(require("react"));
 const FormControl_1 = __importDefault(require("@material-ui/core/FormControl"));
 const FormHelperText_1 = __importDefault(require("@material-ui/core/FormHelperText"));

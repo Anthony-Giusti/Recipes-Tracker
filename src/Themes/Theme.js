@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-nocheck
 const core_1 = require("@material-ui/core");
 const colors_1 = require("@material-ui/core/colors");
 const Theme = core_1.createMuiTheme({

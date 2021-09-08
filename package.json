@@ -54,6 +54,8 @@
     ]
   },
   "devDependencies": {
+    "@types/react-router": "^5.1.16",
+    "@types/react-router-dom": "^5.1.8",
     "@types/validator": "^13.6.3",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.23.0",

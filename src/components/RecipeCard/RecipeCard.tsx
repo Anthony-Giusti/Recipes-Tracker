@@ -24,8 +24,8 @@ import IRecipe from '../../shared/interfaces/Recipe.interface';
 
 interface IProps {
   recipe: IRecipe;
-  handleModalOpen: (recipeID: string) => void;
-  handleDeleteOpen: (recipeID: string) => void;
+  handleModalOpen: (recipeID: string | null) => void;
+  handleDeleteOpen: (recipeID: string | null) => void;
 }
 
 const RecipeCard: React.FC<IProps> = ({ recipe, handleModalOpen, handleDeleteOpen }) => {

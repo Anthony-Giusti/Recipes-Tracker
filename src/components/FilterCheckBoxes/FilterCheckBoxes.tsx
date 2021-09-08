@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 
 interface IProps {
   filteredTags: any;
-  tagGroup: string;
+  tagGroup: number;
   option: any;
-  handleFilter: (optionValue: any, tagGroup: string) => void;
+  handleFilter: (optionValue: any, tagGroup: number) => void;
 }
 
 const FilterCheckBoxes: React.FC<IProps> = ({ filteredTags, tagGroup, option, handleFilter }) => {

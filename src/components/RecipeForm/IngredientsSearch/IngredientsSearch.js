@@ -31,7 +31,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 const react_1 = __importStar(require("react"));
 const Button_1 = __importDefault(require("@material-ui/core/Button"));
 const Container_1 = __importDefault(require("@material-ui/core/Container"));

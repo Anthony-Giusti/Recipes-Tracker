@@ -1,4 +1,7 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 

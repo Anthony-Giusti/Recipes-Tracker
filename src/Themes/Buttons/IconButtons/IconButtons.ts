@@ -1,3 +1,4 @@
+// @ts-nocheck
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import IconButton from '@material-ui/core/IconButton';

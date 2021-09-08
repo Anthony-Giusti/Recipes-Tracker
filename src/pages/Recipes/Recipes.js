@@ -22,6 +22,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable react/prop-types */
+// @ts-nocheck
 const react_1 = __importStar(require("react"));
 const react_masonry_css_1 = __importDefault(require("react-masonry-css"));
 const Button_1 = __importDefault(require("@material-ui/core/Button"));
@@ -49,8 +53,10 @@ const Recipes = ({ visibleRecipes, resetFilterTags, deleteRecipe, getIngredientO
         fetchRecipes();
     }, []);
     const handleDelete = () => {
-        deleteRecipe(deleteId);
-        setDeleteDialogOpen(false);
+        if (typeof deleteId === 'string') {
+            deleteRecipe(deleteId);
+            setDeleteDialogOpen(false);
+        }
     };
     const handleDeleteOpen = (id) => {
         setDeleteDialogOpen(true);

@@ -2,13 +2,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable import/no-named-as-default */
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useLocation } from 'react-router';
 
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import ClearIcon from '@material-ui/icons/Clear';
 
+import { InputBaseProps } from '@material-ui/core';
 import makeStyles from './Styles';
 
 interface IProps {
@@ -27,14 +27,14 @@ const RecipeSearchBar: React.FC<IProps> = ({
   const classes = makeStyles();
 
   const location = useLocation();
-  let searchField: any;
+  let searchField: InputBaseProps;
 
   const handleEmpty = () => {
     emptySearch();
     searchField.value = '';
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleSearch(e.target.value);
   };
 

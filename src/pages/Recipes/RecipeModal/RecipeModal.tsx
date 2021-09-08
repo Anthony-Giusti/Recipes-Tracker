@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -26,7 +26,25 @@ import IntoleranceTags from '../../../components/RecipeTags/IntoleranceTags';
 import useStyles from './Styles';
 import { IconButtonWithBackgroundDefault } from '../../../Themes/Buttons/IconButtons/IconButtons';
 
-const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, printRecipe }) => {
+import IRecipe from '../../../shared/interfaces/Recipe.interface';
+import IIngredient from '../../../shared/interfaces/Ingredient.interface';
+import IStep from '../../../shared/interfaces/Step.interface';
+
+interface IProps {
+  modalOpen: boolean;
+  modalClose: () => void;
+  recipe: IRecipe;
+  handleCurrentRecipe: (recipe: IRecipe) => void;
+  printRecipe: (a: string) => void;
+}
+
+const RecipeModal: React.FC<IProps> = ({
+  modalOpen,
+  modalClose,
+  recipe,
+  handleCurrentRecipe,
+  printRecipe,
+}) => {
   const classes = useStyles();
 
   const theme = useTheme();
@@ -38,7 +56,8 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
 
   return (
     <Modal
-      ref={React.createRef(recipe)}
+      ref={React.createRef()}
+      // ref={React.createRef(recipe)}
       open={modalOpen}
       onClose={modalClose}
       className={classes.recipeModal}
@@ -142,7 +161,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
                 Ingredients
               </Typography>
               <List>
-                {recipe.ingredients.map((ingredient) => (
+                {recipe.ingredients.map((ingredient: IIngredient) => (
                   <ListItem divider key={ingredient.id}>
                     <ListItemText>
                       {ingredient.name} - {ingredient.quantity}{' '}
@@ -159,7 +178,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
                 Instructions
               </Typography>
               <List>
-                {recipe.steps.map((step) => (
+                {recipe.steps.map((step: IStep) => (
                   <ListItem
                     divider={step.order !== recipe.steps.length}
                     key={step.id}
@@ -182,7 +201,7 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
                   Additional Notes
                 </Typography>
 
-                {recipe.additionalNotes.map((note) => (
+                {recipe.additionalNotes.map((note: IStep) => (
                   <ListItem
                     divider={note.order !== recipe.additionalNotes.length}
                     key={note.id}
@@ -200,14 +219,6 @@ const RecipeModal = ({ modalOpen, modalClose, recipe, handleCurrentRecipe, print
       </Paper>
     </Modal>
   );
-};
-
-RecipeModal.propTypes = {
-  modalOpen: PropTypes.bool,
-  modalClose: PropTypes.func,
-  recipe: PropTypes.object,
-  handleCurrentRecipe: PropTypes.func,
-  printRecipe: PropTypes.func,
 };
 
 export default RecipeModal;

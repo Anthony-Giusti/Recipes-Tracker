@@ -1,4 +1,7 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 import React, { useState } from 'react';
 import isURl from 'validator/lib/isURL';
 
@@ -23,7 +26,7 @@ import useStyles from './Styles';
 
 interface IProps {
   recipe: IRecipe | null;
-  submit: (a: IRecipe) => void;
+  submit: (recipe: IRecipe) => void;
   submitBtnText: string;
   api: () => void;
 }

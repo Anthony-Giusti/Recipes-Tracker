@@ -1,6 +1,11 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
+// @ts-nocheck
+
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { IconButton, ThemeProvider } from '@material-ui/core/';
-import { useEffect, useState } from 'react';
+
 import { useHistory } from 'react-router';
 import axios from 'axios';
 
@@ -17,6 +22,7 @@ import Layout from './Layout/Layout';
 import Theme from './Themes/Theme';
 
 import IRecipe from './shared/interfaces/Recipe.interface';
+import IRecipeTags from './shared/interfaces/RecipeTags.interface';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
@@ -24,31 +30,42 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
 
-const exampleId = process.env.REACT_APP_EXAMPLE_USER_ID;
+interface IFilteredTags {
+  categories: IRecipeTags[];
+  dietTags: IRecipeTags[];
+  intolerances: IRecipeTags[];
+}
+
+const exampleId = () => {
+  if (process.env.REACT_APP_EXAMPLE_USER_ID) {
+    return process.env.REACT_APP_EXAMPLE_USER_ID;
+  }
+  return '';
+};
 
 const App: React.FC = () => {
-  const [clientId, setClientId] = useState();
-  const [isSignedIn, setIsSignedIn] = useState();
-  const [userId, setUserId] = useState();
+  const [clientId, setClientId] = useState('');
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userId, setUserId] = useState('');
   const [googleProfile, setGoogleProfile] = useState({});
 
   const [ingredientsSearch, setIngredientsSearch] = useState([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(true);
   const [bootUpWarning, setBootUpWarning] = useState(true);
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<IRecipe[]>([]);
+  const [filteredRecipes, setFilteredRecipes] = useState<IRecipe[]>([]);
+  const [searchedRecipes, setSearchedRecipes] = useState<IRecipe[]>([]);
+  const [visibleRecipes, setVisibleRecipes] = useState<IRecipe[]>([]);
   const [exampleDataLoaded, setExampleDataLoaded] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
-  const [searchedRecipes, setSearchedRecipes] = useState([]);
-  const [deleteRecipeId, setDeleteRecipeId] = useState();
-  const [visibleRecipes, setVisibleRecipes] = useState([]);
-  const [filteredTags, setFilteredTags] = useState({
+  const [deleteRecipeId, setDeleteRecipeId] = useState('');
+  const [filteredTags, setFilteredTags] = useState<IFilteredTags>({
     categories: [],
     dietTags: [],
     intolerances: [],
   });
-  const [currentRecipe, setCurrentRecipe] = useState(null);
+  const [currentRecipe, setCurrentRecipe] = useState<IRecipe | null>(null);
   const [maxRecipes, setmaxRecipes] = useState(9);
   const [recipeSearchText, setRecipeSearchText] = useState('');
 
@@ -61,7 +78,7 @@ const App: React.FC = () => {
   };
 
   const handleSignIn = (response: any) => {
-    if (!response && !isSignedIn) {
+    if (!response && !isSignedIn && exampleId) {
       setUserId(exampleId);
       return;
     }
@@ -102,7 +119,7 @@ const App: React.FC = () => {
       });
     }
 
-    if (userId === exampleId) {
+    if (userId === exampleId()) {
       setExampleDataLoaded(true);
     } else {
       setExampleDataLoaded(false);
@@ -111,7 +128,7 @@ const App: React.FC = () => {
     setmaxRecipes(9);
   };
 
-  const addRecipe = async (recipe) => {
+  const addRecipe = async (recipe: IRecipe) => {
     if (isSignedIn) {
       await api.post(`/addRecipe?userId=${userId}`, { recipe }).then((response) => {
         console.log(response);
@@ -124,14 +141,14 @@ const App: React.FC = () => {
     history.push('/');
   };
 
-  const editRecipe = async (recipeEdited) => {
+  const editRecipe = async (recipeEdited: IRecipe) => {
     if (isSignedIn) {
       await api.post(`/editRecipe?userId=${userId}`, { recipe: recipeEdited }).then((response) => {
         console.log(response);
         history.push('/');
       });
     } else {
-      const newRecipes = recipes;
+      const newRecipes: IRecipe[] = recipes;
       newRecipes.splice(
         newRecipes.findIndex((prevRecipe) => prevRecipe.id === recipeEdited.id),
         1,
@@ -143,7 +160,7 @@ const App: React.FC = () => {
     }
   };
 
-  const deleteRecipe = (recipeId) => {
+  const deleteRecipe = (recipeId: string) => {
     if (isSignedIn) {
       api.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
     }
@@ -154,10 +171,10 @@ const App: React.FC = () => {
     setSearchedRecipes(searchedRecipes.filter((recipe) => recipe.id !== recipeId));
   };
 
-  const filterRecipes = (recipes) => {
-    const filteredRecipes = [];
+  const filterRecipes = (recipes: IRecipe[]) => {
+    const filteredRecipes: IRecipe[] = [];
 
-    recipes.forEach((recipe) => {
+    recipes.forEach((recipe: IRecipe) => {
       if (
         (recipe.categories.raw.some(
           (category) => filteredTags.categories.indexOf(category) !== -1
@@ -206,7 +223,7 @@ const App: React.FC = () => {
     }
   };
 
-  const filterTags = (value, tagGroup) => {
+  const filterTags = (value: string, tagGroup: number) => {
     const newTags = filteredTags;
     if (filteredTags[tagGroup].includes(value)) {
       newTags[tagGroup] = newTags[tagGroup].filter((tag) => tag !== value);
@@ -226,8 +243,8 @@ const App: React.FC = () => {
     setRecipeSearchText('');
   };
 
-  const searchRecipes = (query, recipes) => {
-    const searchResults = [];
+  const searchRecipes = (query: string, recipes: IRecipe[]) => {
+    const searchResults: IRecipe[] = [];
     const search = query.toLowerCase();
 
     recipes.forEach((recipe) => {
@@ -239,7 +256,7 @@ const App: React.FC = () => {
     return searchResults;
   };
 
-  const handleQuery = (query) => {
+  const handleQuery = (query: string) => {
     if (!query) {
       emptySearch();
       setIsSearching(false);
@@ -271,16 +288,16 @@ const App: React.FC = () => {
     setVisibleRecipes(visibleRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
   };
 
-  const handleIngreidentSearch = (data) => {
+  const handleIngreidentSearch = (data: IRecipe[]) => {
     setIngredientsSearch(data);
   };
 
-  const handleCurrentRecipe = (recipe) => {
+  const handleCurrentRecipe = (recipe: IRecipe) => {
     setCurrentRecipe(recipe);
     history.push('/edit');
   };
 
-  const formatName = (name) => {
+  const formatName = (name: string) => {
     const words = name.split(' ');
     if (name.length > 1) {
       for (let i = 0; i < words.length; i += 1) {
@@ -291,8 +308,8 @@ const App: React.FC = () => {
     return words;
   };
 
-  const formatUnits = (units) => {
-    const formattedUnits = [];
+  const formatUnits = (units: string[]) => {
+    const formattedUnits: string[] = [];
     units.forEach((unit) => {
       if (unit.length < 3) {
         formattedUnits.push(unit.toUpperCase());
@@ -317,7 +334,11 @@ const App: React.FC = () => {
     }
   };
 
-  const handleCheckBoxValueChange = (newValue, prevValues, setValues) => {
+  const handleCheckBoxValueChange = (
+    newValue: string,
+    prevValues: string[],
+    setValues: string[]
+  ) => {
     if (prevValues.includes(newValue)) {
       return prevValues.filter((category) => category !== newValue);
     }
@@ -456,6 +477,6 @@ const App: React.FC = () => {
       )}
     </ThemeProvider>
   );
-}
+};
 
 export default App;

@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IconButtonWithBackgroundDefault = exports.IconButtonWithBackground = void 0;
+// @ts-nocheck
 const withStyles_1 = __importDefault(require("@material-ui/core/styles/withStyles"));
 const IconButton_1 = __importDefault(require("@material-ui/core/IconButton"));
 const IconButtonWithBackground = withStyles_1.default((theme) => ({

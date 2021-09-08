@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createMuiTheme } from '@material-ui/core';
 import { blueGrey, red, grey, cyan, teal } from '@material-ui/core/colors';
 

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-nocheck
 const core_1 = require("@material-ui/core");
 exports.default = core_1.makeStyles((theme) => ({
     ingredient: {

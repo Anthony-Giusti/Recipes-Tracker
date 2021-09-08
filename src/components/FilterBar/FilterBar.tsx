@@ -1,12 +1,17 @@
+/* eslint-disable import/no-named-as-default */
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
+
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
 import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
+import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
 
 interface IProps {
-  options: any;
+  options: IRecipeTags[];
   filterRecipes: () => void;
   filteredTags: string[];
   tagTitle: string;
@@ -48,7 +53,7 @@ const FilterBar: React.FC<IProps> = ({
         anchorEl={filterMenuOpen}
         onClose={handleFilterMenuClose}
       >
-        {options.map((option: any) => (
+        {options.map((option) => (
           <div key={option.value}>
             <FilterCheckBoxes
               tagGroup={tagGroup}

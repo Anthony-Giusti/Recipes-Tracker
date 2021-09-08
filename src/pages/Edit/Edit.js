@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable react/prop-types */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
+// @ts-nocheck
 const react_1 = __importDefault(require("react"));
 const Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 const RecipeForm_1 = __importDefault(require("../../components/RecipeForm/RecipeForm"));
