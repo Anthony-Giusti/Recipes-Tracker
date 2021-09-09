@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -20,13 +20,15 @@ import Ingredient from './Ingredient/Ingredient';
 
 import useStyles from './Styles';
 
+import IIngredient from '../../../shared/interfaces/Ingredient.interface';
+
 interface IProps {
   ingredientsError: boolean;
   ingredients: any;
   handleIngredientAdd: (a: any, b: any) => void;
-  handleIngredientRemove: (a: any) => void;
-  changeIngredientValue: () => void;
-  handleCustomUnit: () => void;
+  handleIngredientRemove: (ingredient: IIngredient) => void;
+  changeIngredientValue: (ingredientID: string, property: string, value: string) => void;
+  handleCustomUnit: (ingredientID: string, state: any, value: string) => void;
   api: any;
 }
 

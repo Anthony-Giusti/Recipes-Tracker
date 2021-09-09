@@ -1,6 +1,6 @@
 interface IRecipeTags {
-  raw: string[];
-  formatted: string[];
+  label: string;
+  value: string;
 }
 
 export default IRecipeTags;

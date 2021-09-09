@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
+
 import React, { useState } from 'react';
 import isURl from 'validator/lib/isURL';
 
@@ -21,6 +21,7 @@ import IngredientsSearch from './IngredientsSearch/IngredientsSearch';
 import Steps from './Steps/Steps';
 
 import IRecipe from '../../shared/interfaces/Recipe.interface';
+import IIngredient from '../../shared/interfaces/Ingredient.interface';
 
 import useStyles from './Styles';
 
@@ -166,26 +167,31 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleIngredientRemove = (ingredient: any) => {
-    const newIngredients = ingredients.filter((item: any) => item.id !== ingredient.id);
+  const handleIngredientRemove = (ingredient: IIngredient) => {
+    const newIngredients = ingredients.filter((item) => item.id !== ingredient.id);
     setIngredients(newIngredients);
   };
 
   const changeIngredientValue = (ingredientID: string, property: string, value: string) => {
-    const alteredIngredient = ingredients.find((ingredient: any) => ingredientID === ingredient.id);
-    alteredIngredient[property] = value;
+    const alteredIngredient = ingredients.find((ingredient: IIngredient) => ingredientID === ingredient.id);
+    
+    if (alteredIngredient) {
+      alteredIngredient[property] = value;
+      const newIngredients = ingredients;
+      const index = ingredients.findIndex((ingredient: any) => ingredient.id === ingredientID);
+      newIngredients.splice(index, 1, alteredIngredient);
+      setIngredients(newIngredients);
+    }
 
-    const newIngredients = ingredients;
-    const index = ingredients.findIndex((ingredient: any) => ingredient.id === ingredientID);
-    newIngredients.splice(index, 1, alteredIngredient);
-
-    setIngredients(newIngredients);
   };
 
   const handleCustomUnit = (ingredientID: string, state: any, value: string) => {
     const alteredIngredient = ingredients.find((ingredient: any) => ingredientID === ingredient.id);
-    alteredIngredient.customUnit = value;
-    alteredIngredient.customUnitAdded = state;
+
+    if(alteredIngredient) {
+      alteredIngredient.customUnit = value;
+      alteredIngredient.customUnitAdded = state;
+    }
   };
 
   const handleStepsChange = (newSteps: any) => {
@@ -534,7 +540,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
           stepType="note"
           handleStepsChange={handleNotesChange}
           steps={additionalNotes}
-          stepsError={null}
+          stepsError={false}
         />
       </Paper>
 

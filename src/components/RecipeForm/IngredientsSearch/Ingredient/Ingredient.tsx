@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -26,15 +26,17 @@ import { IconButtonWithBackground } from '../../../../Themes/Buttons/IconButtons
 
 import useStyles from './Styles';
 
+import IIngredient from '../../../../shared/interfaces/Ingredient.interface';
+
 interface IProps {
   ingredient: any;
-  removeIngredient: () => void;
+  removeIngredient: (ingredient: IIngredient) => void;
   changeIngredientValue: (
     ingredientID: string,
     type: string,
     value: string | number | null
   ) => void;
-  handleCustomUnit: () => void;
+  handleCustomUnit: (ingredientID: string, state: any, value: string) => void;
 }
 
 const Ingredient: React.FC<IProps> = ({
@@ -44,16 +46,16 @@ const Ingredient: React.FC<IProps> = ({
   handleCustomUnit,
 }) => {
   const classes = useStyles();
-  const [defaultUnit] = useState(ingredient.unit);
-  const [units] = useState(ingredient.units);
+  const [defaultUnit] = useState<string>(ingredient.unit);
+  const [units] = useState<string[]>(ingredient.units);
   const [editingComment, setEditingComment] = useState(false);
   const [commentAdded, setCommentAdded] = useState(!!ingredient.comment);
   const [quantityError, setQuantityError] = useState(false);
   const [ingMenuAnchor, setIngMenuAnchor] = useState(null);
   const [commentMenuAnchor, setCommentMenuAnchor] = useState(null);
   const [customUnitMenuOpen, setCustomUnitMeuOpen] = useState(false);
-  const [customUnit, setCustomUnit] = useState(ingredient.customUnit);
-  const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnitAdded);
+  const [customUnit, setCustomUnit] = useState<string>(ingredient.customUnit);
+  const [customUnitAdded, setCustomUnitAdded] = useState<boolean>(ingredient.customUnitAdded);
 
   let commentField: any;
   let quantityField: any;
@@ -87,7 +89,7 @@ const Ingredient: React.FC<IProps> = ({
     }
   };
 
-  const handleCommentMenuOpen = (event) => {
+  const handleCommentMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setCommentMenuAnchor(event.currentTarget);
   };
 
@@ -117,7 +119,7 @@ const Ingredient: React.FC<IProps> = ({
     <Card raised className={classes.ingredient}>
       <Container className={classes.ingredientUpper}>
         <div className={classes.titleContainer}>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6">
             {ingredient.name}
           </Typography>
         </div>

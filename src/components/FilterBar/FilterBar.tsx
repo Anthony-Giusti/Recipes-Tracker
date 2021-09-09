@@ -1,7 +1,6 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
 
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
