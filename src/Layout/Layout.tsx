@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
+
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -25,11 +25,12 @@ import RecipeSeachBar from '../components/RecipeSearchBar/RecipeSearchBar';
 
 import useStyles from './Styles';
 import IRecipeTags from '../shared/interfaces/RecipeTags.interface';
+import IRecipe from '../shared/interfaces/Recipe.interface';
 
 interface IProps {
   children: any;
   filteredTags: IRecipeTags;
-  filterRecipes: () => void;
+  filterRecipes: (recipes: IRecipe[]) => void;
   imageUrl: string;
   categoryOptions: IRecipeTags[];
   dietTagOptions: IRecipeTags[];
@@ -122,7 +123,7 @@ const Layout: React.FC<IProps> = ({
               <Divider className={classes.divider} orientation="vertical" />
               {mdDevice && (
                 <RecipeSeachBar
-                  filterRecipes={filterRecipes}
+                  // filterRecipes={filterRecipes}
                   handleSearch={searchRecipes}
                   isSearching={isSearching}
                   emptySearch={emptySearch}

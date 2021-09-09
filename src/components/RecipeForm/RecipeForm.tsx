@@ -172,7 +172,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     setIngredients(newIngredients);
   };
 
-  const changeIngredientValue = (ingredientID: string, property: string, value: string) => {
+  const changeIngredientValue = (ingredientID: string, property: string, value: string | number | null) => {
     const alteredIngredient = ingredients.find((ingredient: IIngredient) => ingredientID === ingredient.id);
     
     if (alteredIngredient) {

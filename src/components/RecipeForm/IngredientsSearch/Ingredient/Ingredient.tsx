@@ -29,13 +29,9 @@ import useStyles from './Styles';
 import IIngredient from '../../../../shared/interfaces/Ingredient.interface';
 
 interface IProps {
-  ingredient: any;
+  ingredient: IIngredient;
   removeIngredient: (ingredient: IIngredient) => void;
-  changeIngredientValue: (
-    ingredientID: string,
-    type: string,
-    value: string | number | null
-  ) => void;
+  changeIngredientValue: (ingredientID: string, property: string, value: string | null | number) => void;
   handleCustomUnit: (ingredientID: string, state: any, value: string) => void;
 }
 
@@ -46,16 +42,16 @@ const Ingredient: React.FC<IProps> = ({
   handleCustomUnit,
 }) => {
   const classes = useStyles();
-  const [defaultUnit] = useState<string>(ingredient.unit);
-  const [units] = useState<string[]>(ingredient.units);
+  const [defaultUnit] = useState(ingredient.unit);
+  const [units] = useState(ingredient.units);
   const [editingComment, setEditingComment] = useState(false);
   const [commentAdded, setCommentAdded] = useState(!!ingredient.comment);
   const [quantityError, setQuantityError] = useState(false);
-  const [ingMenuAnchor, setIngMenuAnchor] = useState(null);
-  const [commentMenuAnchor, setCommentMenuAnchor] = useState(null);
+  const [ingMenuAnchor, setIngMenuAnchor] = React.useState<null | HTMLElement>(null);
+  const [commentMenuAnchor, setCommentMenuAnchor] = React.useState<null | HTMLElement>(null);
   const [customUnitMenuOpen, setCustomUnitMeuOpen] = useState(false);
-  const [customUnit, setCustomUnit] = useState<string>(ingredient.customUnit);
-  const [customUnitAdded, setCustomUnitAdded] = useState<boolean>(ingredient.customUnitAdded);
+  const [customUnit, setCustomUnit] = useState(ingredient.customUnit);
+  const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnitAdded);
 
   let commentField: any;
   let quantityField: any;
@@ -76,8 +72,8 @@ const Ingredient: React.FC<IProps> = ({
     setCommentAdded(false);
   };
 
-  const handleUnitChange = (value: string) => {
-    changeIngredientValue(ingredient.id, 'unit', value);
+  const handleUnitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    changeIngredientValue(ingredient.id, 'unit', event.target.value);
   };
 
   const handleQunatityChange = (value: number) => {
@@ -89,15 +85,15 @@ const Ingredient: React.FC<IProps> = ({
     }
   };
 
-  const handleCommentMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleCommentMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setCommentMenuAnchor(event.currentTarget);
   };
 
-  const handleIngMenuOpen = (event) => {
+  const handleIngMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setIngMenuAnchor(event.currentTarget);
   };
 
-  const handleMenuClose = (anchor) => {
+  const handleMenuClose = (anchor: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => {
     anchor(null);
   };
 
@@ -153,7 +149,7 @@ const Ingredient: React.FC<IProps> = ({
               variant="outlined"
               color="secondary"
               defaultValue={defaultUnit}
-              onChange={(e) => handleUnitChange(e.target.value)}
+              onChange={handleUnitChange}
             >
               {units.map((unit) => (
                 <MenuItem value={unit} key={`${ingredient}-${unit}`}>

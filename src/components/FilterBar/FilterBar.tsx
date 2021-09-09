@@ -8,10 +8,11 @@ import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
 import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
+import IRecipe from '../../shared/interfaces/Recipe.interface';
 
 interface IProps {
   options: IRecipeTags[];
-  filterRecipes: () => void;
+  filterRecipes: (recipes: IRecipe[]) => void;
   filteredTags: string[];
   tagTitle: string;
   tagGroup: number;

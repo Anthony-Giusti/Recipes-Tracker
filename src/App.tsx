@@ -1,6 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
-// @ts-nocheck
 
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -25,6 +24,7 @@ import IRecipe from './shared/interfaces/Recipe.interface';
 import IRecipeTags from './shared/interfaces/RecipeTags.interface';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
+import IIngredient from './shared/interfaces/Ingredient.interface';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -49,7 +49,7 @@ const App: React.FC = () => {
   const [userId, setUserId] = useState('');
   const [googleProfile, setGoogleProfile] = useState({});
 
-  const [ingredientsSearch, setIngredientsSearch] = useState([]);
+  const [ingredientsSearch, setIngredientsSearch] = useState<IRecipe[] | null>(null);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(true);
   const [bootUpWarning, setBootUpWarning] = useState(true);
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
@@ -320,7 +320,7 @@ const App: React.FC = () => {
     return formattedUnits;
   };
 
-  const addIngredient = (ingredient, ingredients) => {
+  const addIngredient = (ingredient: IIngredient, ingredients: IIngredient[]) => {
     if (ingredients.every((element) => element.id !== ingredient.id)) {
       return {
         id: ingredient.id,
@@ -342,7 +342,7 @@ const App: React.FC = () => {
     if (prevValues.includes(newValue)) {
       return prevValues.filter((category) => category !== newValue);
     }
-    setValues((prev) => [...prev, newValue]);
+    setValues((prev: string[]) => [...prev, newValue]);
   };
 
   const printRecipe = () => {
