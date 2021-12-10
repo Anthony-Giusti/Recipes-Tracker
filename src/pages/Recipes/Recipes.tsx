@@ -1,6 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 
 import React, { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';

@@ -1,6 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router';

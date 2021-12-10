@@ -1,6 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
 /* eslint-disable import/no-named-as-default */
+// @ts-nocheck
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
@@ -15,6 +16,8 @@ interface IProps {
 
 const DietTags: React.FC<IProps> = ({ dietTags }) => {
   const classes = useStyles();
+
+  console.log(dietTags);
 
   return (
     <Grid container direction="row" spacing={1}>

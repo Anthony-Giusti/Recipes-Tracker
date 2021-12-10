@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 import React from 'react';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';

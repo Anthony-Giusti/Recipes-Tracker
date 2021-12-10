@@ -1,5 +1,6 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
+// @ts-nocheck
 
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -33,9 +34,9 @@ const api = axios.create({
 });
 
 interface IFilteredTags {
-  categories: IRecipeTags[];
-  dietTags: IRecipeTags[];
-  intolerances: IRecipeTags[];
+  categories: string[];
+  dietTags: string[];
+  intolerances: string[];
 }
 
 const exampleId = () => {
