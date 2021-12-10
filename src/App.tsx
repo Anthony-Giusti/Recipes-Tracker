@@ -27,7 +27,6 @@ import IIngredient from './shared/interfaces/Ingredient.interface';
 import formatName from './shared/interfaces/Utility Functions/FormatName';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
-import IIngredient from './shared/interfaces/Ingredient.interface';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -52,11 +51,7 @@ const App: React.FC = () => {
   const [userId, setUserId] = useState('');
   const [googleProfile, setGoogleProfile] = useState({});
 
-<<<<<<< HEAD
   const [ingredientsSearch, setIngredientsSearch] = useState<IRecipe[]>([]);
-=======
-  const [ingredientsSearch, setIngredientsSearch] = useState<IRecipe[] | null>(null);
->>>>>>> 364d877d58a94412900a77039f05d37c3832cffa
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(true);
   const [bootUpWarning, setBootUpWarning] = useState(true);
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
