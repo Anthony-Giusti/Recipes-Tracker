@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
+
 import React, { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 
@@ -111,7 +111,7 @@ const Recipes: React.FC<IProps> = ({
     <PageContainer className={classes.container}>
       <FilterTagsDisplay
         className={classes.filterTags}
-        formatName={formatName}
+        // formatName={formatName}
         filterTags={filterTags}
         filteredTags={filteredTags}
         resetFilterTags={resetFilterTags}

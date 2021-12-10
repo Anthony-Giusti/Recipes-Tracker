@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { makeStyles } from '@material-ui/core';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 export default makeStyles((theme) => ({
   ingredient: {
@@ -89,7 +88,7 @@ export default makeStyles((theme) => ({
     width: '100%',
   },
   commentDisplay: {
-    flexGrow: '1',
+    flexGrow: 1,
     display: 'flex',
     alignItems: 'center',
     paddingLeft: '1em',

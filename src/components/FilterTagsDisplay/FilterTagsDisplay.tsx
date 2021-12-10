@@ -1,7 +1,6 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
 
 import React from 'react';
 
@@ -19,7 +18,7 @@ interface IProps {
   filteredTags: any;
   filterTags: (tag: string, category: string) => void;
   formatName: (name: string) => string;
-  resetFilterTags: (a: string, b: string) => void;
+  resetFilterTags: () => void;
 }
 
 const FilterTagsDisplay: React.FC<IProps> = ({

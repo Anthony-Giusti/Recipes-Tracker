@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
+
 import React from 'react';
 
 import FormControl from '@material-ui/core/FormControl';
@@ -28,7 +28,7 @@ const Steps: React.FC<IProps> = ({ stepType, handleStepsChange, steps, stepsErro
   let newStepField: any;
   const classes = useStyles();
 
-  const addNewStep = (newStep: IStep) => {
+  const addNewStep = (newStep: string) => {
     if (!newStep) {
       return;
     }

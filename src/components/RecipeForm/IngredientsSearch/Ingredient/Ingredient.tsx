@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -26,15 +26,13 @@ import { IconButtonWithBackground } from '../../../../Themes/Buttons/IconButtons
 
 import useStyles from './Styles';
 
+import IIngredient from '../../../../shared/interfaces/Ingredient.interface';
+
 interface IProps {
-  ingredient: any;
-  removeIngredient: () => void;
-  changeIngredientValue: (
-    ingredientID: string,
-    type: string,
-    value: string | number | null
-  ) => void;
-  handleCustomUnit: () => void;
+  ingredient: IIngredient;
+  removeIngredient: (ingredient: IIngredient) => void;
+  changeIngredientValue: (ingredientID: string, property: string, value: string | null | number) => void;
+  handleCustomUnit: (ingredientID: string, state: any, value: string) => void;
 }
 
 const Ingredient: React.FC<IProps> = ({
@@ -49,8 +47,8 @@ const Ingredient: React.FC<IProps> = ({
   const [editingComment, setEditingComment] = useState(false);
   const [commentAdded, setCommentAdded] = useState(!!ingredient.comment);
   const [quantityError, setQuantityError] = useState(false);
-  const [ingMenuAnchor, setIngMenuAnchor] = useState(null);
-  const [commentMenuAnchor, setCommentMenuAnchor] = useState(null);
+  const [ingMenuAnchor, setIngMenuAnchor] = React.useState<null | HTMLElement>(null);
+  const [commentMenuAnchor, setCommentMenuAnchor] = React.useState<null | HTMLElement>(null);
   const [customUnitMenuOpen, setCustomUnitMeuOpen] = useState(false);
   const [customUnit, setCustomUnit] = useState(ingredient.customUnit);
   const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnitAdded);
@@ -74,8 +72,8 @@ const Ingredient: React.FC<IProps> = ({
     setCommentAdded(false);
   };
 
-  const handleUnitChange = (value: string) => {
-    changeIngredientValue(ingredient.id, 'unit', value);
+  const handleUnitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    changeIngredientValue(ingredient.id, 'unit', event.target.value);
   };
 
   const handleQunatityChange = (value: number) => {
@@ -87,15 +85,15 @@ const Ingredient: React.FC<IProps> = ({
     }
   };
 
-  const handleCommentMenuOpen = (event) => {
+  const handleCommentMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setCommentMenuAnchor(event.currentTarget);
   };
 
-  const handleIngMenuOpen = (event) => {
+  const handleIngMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setIngMenuAnchor(event.currentTarget);
   };
 
-  const handleMenuClose = (anchor) => {
+  const handleMenuClose = (anchor: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => {
     anchor(null);
   };
 
@@ -117,7 +115,7 @@ const Ingredient: React.FC<IProps> = ({
     <Card raised className={classes.ingredient}>
       <Container className={classes.ingredientUpper}>
         <div className={classes.titleContainer}>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6">
             {ingredient.name}
           </Typography>
         </div>
@@ -151,7 +149,7 @@ const Ingredient: React.FC<IProps> = ({
               variant="outlined"
               color="secondary"
               defaultValue={defaultUnit}
-              onChange={(e) => handleUnitChange(e.target.value)}
+              onChange={handleUnitChange}
             >
               {units.map((unit) => (
                 <MenuItem value={unit} key={`${ingredient}-${unit}`}>

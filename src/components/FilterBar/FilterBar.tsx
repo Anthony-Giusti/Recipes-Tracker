@@ -1,7 +1,6 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react/prop-types */
-// @ts-nocheck
 
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
@@ -9,10 +8,11 @@ import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
 import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
+import IRecipe from '../../shared/interfaces/Recipe.interface';
 
 interface IProps {
   options: IRecipeTags[];
-  filterRecipes: () => void;
+  filterRecipes: (recipes: IRecipe[]) => void;
   filteredTags: string[];
   tagTitle: string;
   tagGroup: number;
