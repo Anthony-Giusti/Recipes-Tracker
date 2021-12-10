@@ -1,29 +1,33 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "esnext",
-    "lib": [
-      "es6",
-      "dom"
-    ],
     "jsx": "react-jsx",
+    "sourceMap": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "noEmit": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
-    "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
+    "isolatedModules": true
   },
-  "include": [
-    "src"
-  ],
   "exclude": [
-    "**/*.interface.ts"
+    "src/shared/interfaces/**/*",
+    "node_modules"
+  ],
+  "include": [
+    "src/**/*"
   ]
 }
