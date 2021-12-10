@@ -23,6 +23,9 @@ import Theme from './Themes/Theme';
 
 import IRecipe from './shared/interfaces/Recipe.interface';
 import IRecipeTags from './shared/interfaces/RecipeTags.interface';
+import IIngredient from './shared/interfaces/Ingredient.interface';
+
+import formatName from './shared/interfaces/Utility Functions/FormatName';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
@@ -49,7 +52,7 @@ const App: React.FC = () => {
   const [userId, setUserId] = useState('');
   const [googleProfile, setGoogleProfile] = useState({});
 
-  const [ingredientsSearch, setIngredientsSearch] = useState([]);
+  const [ingredientsSearch, setIngredientsSearch] = useState<IRecipe[]>([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(true);
   const [bootUpWarning, setBootUpWarning] = useState(true);
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
@@ -297,16 +300,15 @@ const App: React.FC = () => {
     history.push('/edit');
   };
 
-  const formatName = (name: string) => {
-    const words = name.split(' ');
-    if (name.length > 1) {
-      for (let i = 0; i < words.length; i += 1) {
-        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-      }
-      return words.join(' ');
-    }
-    return words;
-  };
+  // const formatName = (name: string): string => {
+  //   const words = name.split(' ');
+  //   if (name.length > 1) {
+  //     for (let i = 0; i < words.length; i += 1) {
+  //       words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+  //     }
+  //     return words.join(' ');
+  //   }
+  // };
 
   const formatUnits = (units: string[]) => {
     const formattedUnits: string[] = [];
@@ -320,7 +322,7 @@ const App: React.FC = () => {
     return formattedUnits;
   };
 
-  const addIngredient = (ingredient, ingredients) => {
+  const addIngredient = (ingredient: IIngredient, ingredients: IIngredient[]) => {
     if (ingredients.every((element) => element.id !== ingredient.id)) {
       return {
         id: ingredient.id,
