@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import useStyles from './Styles';
-import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
+import IRecipeTags from '../../shared/interfaces/RecipeTag.interface';
 
 interface IProps {
   dietTags: IRecipeTags;

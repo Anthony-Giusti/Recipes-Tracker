@@ -18,7 +18,7 @@ import {
   intoleranceOptions,
 } from '../../../data/_recipeTagOptions';
 
-import IRecipeTags from '../../../shared/interfaces/RecipeTags.interface';
+import IRecipeTags from '../../../shared/interfaces/RecipeTag.interface';
 
 interface IProps {
   categoryError: boolean;

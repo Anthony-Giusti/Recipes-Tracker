@@ -23,7 +23,7 @@ import FilterTagsDisplay from '../../components/FilterTagsDisplay/FilterTagsDisp
 
 import useStyles from './Styles';
 import IRecipe from '../../shared/interfaces/Recipe.interface';
-import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
+import IRecipeTags from '../../shared/interfaces/RecipeTag.interface';
 
 interface IProps {
   visibleRecipes: IRecipe[];
