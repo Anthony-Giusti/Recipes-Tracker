@@ -22,22 +22,17 @@ import Layout from './Layout/Layout';
 import Theme from './Themes/Theme';
 
 import IRecipe from './shared/interfaces/Recipe.interface';
-import IRecipeTags from './shared/interfaces/RecipeTags.interface';
+import IRecipeTags from './shared/interfaces/RecipeTag.interface';
 import IIngredient from './shared/interfaces/Ingredient.interface';
+import IFilteredTags from './shared/interfaces/FilteredTags.interface';
 
-import formatName from './shared/interfaces/Utility Functions/FormatName';
+import formatName from './shared/Utility Functions/FormatName';
 
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
 });
-
-interface IFilteredTags {
-  categories: string[];
-  dietTags: string[];
-  intolerances: string[];
-}
 
 const exampleId = () => {
   if (process.env.REACT_APP_EXAMPLE_USER_ID) {
@@ -226,9 +221,9 @@ const App: React.FC = () => {
     }
   };
 
-  const filterTags = (value: string, tagGroup: number) => {
+  const filterTags = (value: string, tagGroup: string): void => {
     const newTags = filteredTags;
-    if (filteredTags[tagGroup].includes(value)) {
+    if (filteredTags[tagGroup as keyof IFilteredTagsl].includes(value)) {
       newTags[tagGroup] = newTags[tagGroup].filter((tag) => tag !== value);
       setFilteredTags(newTags);
     } else {
@@ -402,7 +397,7 @@ const App: React.FC = () => {
       <>
         <Layout
           filteredTags={filteredTags}
-          filterRecipes={filterTags}
+          filterTags={filterTags}
           categoryOptions={categoryOptions}
           dietTagOptions={dietTagOptions}
           intoleranceOptions={intoleranceOptions}
