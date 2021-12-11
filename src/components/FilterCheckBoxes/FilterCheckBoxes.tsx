@@ -1,20 +1,22 @@
-/* eslint-disable react/prop-types */
 import { Checkbox, FormControlLabel, MenuItem } from '@material-ui/core';
 import React, { useState } from 'react';
 
+import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
+import IRecipeTag from '../../shared/interfaces/RecipeTag.interface';
+
 interface IProps {
-  filteredTags: any;
-  tagGroup: number;
-  option: any;
-  handleFilter: (optionValue: any, tagGroup: number) => void;
+  filteredTags: IFilteredTags;
+  tagGroup: string;
+  option: IRecipeTag;
+  filterTags: (optionValue: string, tagGroup: string) => void;
 }
 
-const FilterCheckBoxes: React.FC<IProps> = ({ filteredTags, tagGroup, option, handleFilter }) => {
-  const [checked, setChecked] = useState(filteredTags[tagGroup].includes(option.value));
+const FilterCheckBoxes: React.FC<IProps> = ({ filteredTags, tagGroup, option, filterTags }) => {
+  const [checked, setChecked] = useState(filteredTags[tagGroup as keyof IFilteredTags].includes(option.value));
 
   const handleClick = () => {
     setChecked((prevState: boolean) => !prevState);
-    handleFilter(option.value, tagGroup);
+    filterTags(option.value, tagGroup);
   };
 
   return (

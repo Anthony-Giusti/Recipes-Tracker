@@ -25,12 +25,13 @@ import IRecipe from '../../shared/interfaces/Recipe.interface';
 import IIngredient from '../../shared/interfaces/Ingredient.interface';
 
 import useStyles from './Styles';
+import { AxiosInstance } from 'axios';
 
 interface IProps {
   recipe: IRecipe | null;
   submit: (recipe: IRecipe) => void;
   submitBtnText: string;
-  api: () => void;
+  api: AxiosInstance;
 }
 
 const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) => {
@@ -151,7 +152,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleIngredientAdd = (ingredient: any) => {
+  const handleIngredientAdd = (ingredient: IIngredient) => {
     if (ingredients.every((element: any) => element.id !== ingredient.id)) {
       const newIngredient = {
         id: ingredient.id,
@@ -186,12 +187,12 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
 
   };
 
-  const handleCustomUnit = (ingredientID: string, state: any, value: string) => {
-    const alteredIngredient = ingredients.find((ingredient: any) => ingredientID === ingredient.id);
+  const handleCustomUnit = (ingredientID: string, isActive: any, value: string) => {
+    const alteredIngredient = ingredients.find((ingredient: IIngredient) => ingredientID === ingredient.id);
 
     if(alteredIngredient) {
       alteredIngredient.customUnit = value;
-      alteredIngredient.customUnitAdded = state;
+      alteredIngredient.customUnitAdded = isActive;
     }
   };
 

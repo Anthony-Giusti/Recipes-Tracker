@@ -1,9 +1,5 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable react/prop-types */
-
+//@ts-nocheck
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -21,15 +17,17 @@ import Ingredient from './Ingredient/Ingredient';
 import useStyles from './Styles';
 
 import IIngredient from '../../../shared/interfaces/Ingredient.interface';
+import IIngredientSearchResults from '../../../shared/interfaces/IngredientSearchResults.interface';
+import { AxiosInstance } from 'axios';
 
 interface IProps {
   ingredientsError: boolean;
-  ingredients: any;
-  handleIngredientAdd: (a: any, b: any) => void;
+  ingredients: IIngredient[];
+  handleIngredientAdd: (a: IIngredient) => void;
   handleIngredientRemove: (ingredient: IIngredient) => void;
   changeIngredientValue: (ingredientID: string, property: string, value: string | null | number) => void;
-  handleCustomUnit: (ingredientID: string, state: any, value: string) => void;
-  api: any;
+  handleCustomUnit: (ingredientID: string, isActive: boolean, value: string) => void;
+  api: AxiosInstance;
 }
 
 const IngredientsSearch: React.FC<IProps> = ({
@@ -42,7 +40,7 @@ const IngredientsSearch: React.FC<IProps> = ({
   api,
 }) => {
   const classes = useStyles();
-  const [ingredientsSearch, setIngredientsSearch] = useState([]);
+  const [ingredientsSearch, setIngredientsSearch] = useState<IIngredientSearchResults[] | null>(null);
   const [resultsFound, setResultsFound] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [emptyQuery, setEmptyQuery] = useState(true);
@@ -54,7 +52,7 @@ const IngredientsSearch: React.FC<IProps> = ({
     setIsSearching(true);
     setEmptyQuery(false);
 
-    await api.get(`/getIngredients?query=${query}`).then((response: any) => {
+    await api.get(`/getIngredients?query=${query}`).then((response) => {
       setIngredientsSearch(response.data);
 
       if (response.data.length === 0) {
@@ -67,8 +65,8 @@ const IngredientsSearch: React.FC<IProps> = ({
     setIsSearching(false);
   };
 
-  const handleAddingredient = (ingredient: any, ingredients: any) => {
-    handleIngredientAdd(ingredient, ingredients);
+  const handleAddingredient = (ingredient: IIngredient) => {
+    handleIngredientAdd(ingredient);
   };
 
   return (
@@ -91,13 +89,13 @@ const IngredientsSearch: React.FC<IProps> = ({
 
         {ingredientsError && <FormHelperText>You must have at least one ingredient</FormHelperText>}
         <Container className={classes.searchResults}>
-          {ingredientsSearch.map((ingredient: any) =>
+          {ingredientsSearch.map((ingredient: IIngredientSearchResults) =>
             ingredients.every((element: any) => element.id !== ingredient.id) ? (
               <Button
                 key={ingredient.name}
                 variant="contained"
                 className={classes.searchResultsItem}
-                onClick={() => handleAddingredient(ingredient, ingredients)}
+                onClick={() => handleAddingredient(ingredient)}
                 endIcon={<AddIcon />}
               >
                 {ingredient.name}
@@ -121,7 +119,7 @@ const IngredientsSearch: React.FC<IProps> = ({
 
       {/* INGREDIENTS WIDGETS */}
       <Grid /* className={classes.ingredients} */ container spacing={2}>
-        {ingredients.map((ingredient: any) => (
+        {ingredients.map((ingredient: IIngredient) => (
           <Grid item xs={12} md={6} key={ingredient.id}>
             <Ingredient
               handleCustomUnit={handleCustomUnit}

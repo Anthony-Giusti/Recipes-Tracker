@@ -1,10 +1,4 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable react/prop-types */
-// @ts-nocheck
-
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -33,7 +27,7 @@ interface IProps {
   ingredient: IIngredient;
   removeIngredient: (ingredient: IIngredient) => void;
   changeIngredientValue: (ingredientID: string, property: string, value: string | null | number) => void;
-  handleCustomUnit: (ingredientID: string, state: any, value: string) => void;
+  handleCustomUnit: (ingredientID: string, isActive: boolean, value: string) => void;
 }
 
 const Ingredient: React.FC<IProps> = ({
@@ -54,9 +48,9 @@ const Ingredient: React.FC<IProps> = ({
   const [customUnit, setCustomUnit] = useState(ingredient.customUnit);
   const [customUnitAdded, setCustomUnitAdded] = useState(ingredient.customUnitAdded);
 
-  let commentField: any;
-  let quantityField: any;
-  let customUnitField: any;
+  let commentField: HTMLTextAreaElement;
+  let quantityField: HTMLSelectElement;
+  let customUnitField: HTMLTextAreaElement;
 
   const addComment = (comment: string) => {
     if (comment === '') {
@@ -73,13 +67,13 @@ const Ingredient: React.FC<IProps> = ({
     setCommentAdded(false);
   };
 
-  const handleUnitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleUnitChange = (event: React.ChangeEvent<any>) => {
     changeIngredientValue(ingredient.id, 'unit', event.target.value);
   };
 
   const handleQunatityChange = (value: number) => {
     if (value < 0 || value > 9999) {
-      quantityField.value = 1;
+      quantityField.value = '1';
     } else {
       setQuantityError(false);
       changeIngredientValue(ingredient.id, 'quantity', value);
@@ -150,7 +144,7 @@ const Ingredient: React.FC<IProps> = ({
               variant="outlined"
               color="secondary"
               defaultValue={defaultUnit}
-              onChange={handleUnitChange}
+              onChange={(e) => handleUnitChange(e)}
             >
               {units.map((unit) => (
                 <MenuItem value={unit} key={`${ingredient}-${unit}`}>

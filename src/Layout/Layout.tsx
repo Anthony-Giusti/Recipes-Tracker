@@ -25,13 +25,14 @@ import FilterBar from '../components/FilterBar/FilterBar';
 import RecipeSeachBar from '../components/RecipeSearchBar/RecipeSearchBar';
 
 import useStyles from './Styles';
-import IRecipeTags from '../shared/interfaces/RecipeTags.interface';
+import IRecipeTags from '../shared/interfaces/RecipeTag.interface';
 import IRecipe from '../shared/interfaces/Recipe.interface';
+import IFilteredTags from '../shared/interfaces/FilteredTags.interface';
 
 interface IProps {
   children: any;
-  filteredTags: IRecipeTags;
-  filterRecipes: (recipes: IRecipe[]) => void;
+  filteredTags: IFilteredTags;
+  filterTags: (value: string, tagGroup: string) => void;
   imageUrl: string;
   categoryOptions: IRecipeTags[];
   dietTagOptions: IRecipeTags[];
@@ -124,7 +125,6 @@ const Layout: React.FC<IProps> = ({
               <Divider className={classes.divider} orientation="vertical" />
               {mdDevice && (
                 <RecipeSeachBar
-                  // filterRecipes={filterRecipes}
                   handleSearch={searchRecipes}
                   isSearching={isSearching}
                   emptySearch={emptySearch}
@@ -136,21 +136,21 @@ const Layout: React.FC<IProps> = ({
                   <FilterBar
                     options={categoryOptions}
                     filteredTags={filteredTags}
-                    filterRecipes={filterRecipes}
+                    filterTags={filterTags}
                     tagTitle="Category"
                     tagGroup="categories"
                   />
                   <FilterBar
                     options={dietTagOptions}
                     filteredTags={filteredTags}
-                    filterRecipes={filterRecipes}
+                    filterTags={filterTags}
                     tagTitle="Diet"
                     tagGroup="dietTags"
                   />
                   <FilterBar
                     options={intoleranceOptions}
                     filteredTags={filteredTags}
-                    filterRecipes={filterRecipes}
+                    filterTags={filterTags}
                     tagTitle="Intolerance"
                     tagGroup="intolerances"
                   />
@@ -188,7 +188,6 @@ const Layout: React.FC<IProps> = ({
         <Toolbar className={classes.drawer}>
           {!mdDevice && (
             <RecipeSeachBar
-              filterRecipes={filterRecipes}
               handleSearch={searchRecipes}
               isSearching={isSearching}
               emptySearch={emptySearch}
@@ -200,7 +199,7 @@ const Layout: React.FC<IProps> = ({
             className={classes.drawerFilterBtn}
             options={categoryOptions}
             filteredTags={filteredTags}
-            filterRecipes={filterRecipes}
+            filterTags={filterTags}
             tagTitle="Category"
             tagGroup="categories"
           />
@@ -208,7 +207,7 @@ const Layout: React.FC<IProps> = ({
             className={classes.drawerFilterBtn}
             options={dietTagOptions}
             filteredTags={filteredTags}
-            filterRecipes={filterRecipes}
+            filterTags={filterTags}
             tagTitle="Diet"
             tagGroup="dietTags"
           />
@@ -216,7 +215,7 @@ const Layout: React.FC<IProps> = ({
             className={classes.drawerFilterBtn}
             options={intoleranceOptions}
             filteredTags={filteredTags}
-            filterRecipes={filterRecipes}
+            filterTags={filterTags}
             tagTitle="Intolerance"
             tagGroup="intolerances"
           />

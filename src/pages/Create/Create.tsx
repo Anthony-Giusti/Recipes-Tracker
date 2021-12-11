@@ -8,10 +8,11 @@ import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
 import IRecipe from '../../shared/interfaces/Recipe.interface';
+import { AxiosInstance } from 'axios';
 
 interface IProps {
   addRecipe: (recipe: IRecipe) => void;
-  api: () => void;
+  api: AxiosInstance;
 }
 
 const Create: React.FC<IProps> = ({ addRecipe, api }) => {

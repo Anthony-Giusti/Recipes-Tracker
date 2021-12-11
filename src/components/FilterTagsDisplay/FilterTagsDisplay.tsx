@@ -8,6 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import useStyles from './Styles';
 
+import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
+
 import {
   CategoryButton,
   DietButton,
@@ -15,7 +17,7 @@ import {
 } from '../../Themes/Buttons/TagButtons/TagButtons';
 
 interface IProps {
-  filteredTags: any;
+  filteredTags: IFilteredTags;
   filterTags: (tag: string, category: string) => void;
   formatName: (name: string) => string;
   resetFilterTags: () => void;

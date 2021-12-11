@@ -1,26 +1,23 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable react/prop-types */
-
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
 import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
-import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
+import IRecipeTags from '../../shared/interfaces/RecipeTag.interface';
 import IRecipe from '../../shared/interfaces/Recipe.interface';
+import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
 
 interface IProps {
   options: IRecipeTags[];
-  filterRecipes: (recipes: IRecipe[]) => void;
-  filteredTags: string[];
+  filterTags: (value: string, tagGroup: string) => void;
+  filteredTags: IFilteredTags;
   tagTitle: string;
-  tagGroup: number;
+  tagGroup: string;
 }
 
 const FilterBar: React.FC<IProps> = ({
   options,
-  filterRecipes,
+  filterTags,
   filteredTags,
   tagTitle,
   tagGroup,
@@ -42,7 +39,7 @@ const FilterBar: React.FC<IProps> = ({
         className={classes.navBtn}
         variant="contained"
         onClick={handleFilterMenuOpen}
-        color={filteredTags[tagGroup].length > 0 ? 'secondary' : 'default'}
+        color={filteredTags[tagGroup as keyof IFilteredTags].length > 0 ? 'secondary' : 'default'}
       >
         Filter By {tagTitle}
       </Button>
@@ -59,7 +56,7 @@ const FilterBar: React.FC<IProps> = ({
               tagGroup={tagGroup}
               filteredTags={filteredTags}
               option={option}
-              handleFilter={filterRecipes}
+              filterTags={filterTags}
             />
           </div>
         ))}
