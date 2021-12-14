@@ -1,8 +1,3 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable react/prop-types */
-// @ts-nocheck
-
 import React, { useState } from 'react';
 import isURl from 'validator/lib/isURL';
 
@@ -17,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import CloseIcon from '@material-ui/icons/Close';
 
+import { AxiosInstance } from 'axios';
 import RecipeCheckBoxes from './RecipeCheckBoxes/RecipeCheckBoxes';
 import IngredientsSearch from './IngredientsSearch/IngredientsSearch';
 import Steps from './Steps/Steps';
@@ -25,7 +21,8 @@ import IRecipe from '../../shared/interfaces/Recipe.interface';
 import IIngredient from '../../shared/interfaces/Ingredient.interface';
 
 import useStyles from './Styles';
-import { AxiosInstance } from 'axios';
+import IIngredientSearchResult from '../../shared/interfaces/IngredientSearchResult.interface';
+import formatName from '../../shared/Utility Functions/FormatName';
 
 interface IProps {
   recipe: IRecipe | null;
@@ -67,17 +64,6 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
   let cookTimeMinutesField: any;
   let cookTimeHoursField: any;
   const imageURLFields: any = [];
-
-  const formatName = (name: string): string[] | string => {
-    const words = name.split(' ');
-    if (name.length > 1) {
-      for (let i = 0; i < words.length; i += 1) {
-        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-      }
-      return words.join(' ');
-    }
-    return words;
-  };
 
   const formatUnit = (unit: string): string[] | string => {
     if (unit.length < 3) {
@@ -152,7 +138,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleIngredientAdd = (ingredient: IIngredient) => {
+  const handleIngredientAdd = (ingredient: IIngredientSearchResult) => {
     if (ingredients.every((element: any) => element.id !== ingredient.id)) {
       const newIngredient = {
         id: ingredient.id,
@@ -169,14 +155,20 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleIngredientRemove = (ingredient: IIngredient) => {
-    const newIngredients = ingredients.filter((item) => item.id !== ingredient.id);
+  const handleIngredientRemove = (ingredientID: number): void => {
+    const newIngredients = ingredients.filter((item) => item.id !== ingredientID.toString());
     setIngredients(newIngredients);
   };
 
-  const changeIngredientValue = (ingredientID: string, property: string, value: string | number | null) => {
-    const alteredIngredient = ingredients.find((ingredient: IIngredient) => ingredientID === ingredient.id);
-    
+  const changeIngredientValue = (
+    ingredientID: string,
+    property: string,
+    value: string | number | null
+  ) => {
+    const alteredIngredient = ingredients.find(
+      (ingredient: IIngredient) => ingredientID === ingredient.id
+    );
+
     if (alteredIngredient) {
       alteredIngredient[property] = value;
       const newIngredients = ingredients;
@@ -184,13 +176,14 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
       newIngredients.splice(index, 1, alteredIngredient);
       setIngredients(newIngredients);
     }
-
   };
 
   const handleCustomUnit = (ingredientID: string, isActive: any, value: string) => {
-    const alteredIngredient = ingredients.find((ingredient: IIngredient) => ingredientID === ingredient.id);
+    const alteredIngredient = ingredients.find(
+      (ingredient: IIngredient) => ingredientID === ingredient.id
+    );
 
-    if(alteredIngredient) {
+    if (alteredIngredient) {
       alteredIngredient.customUnit = value;
       alteredIngredient.customUnitAdded = isActive;
     }
