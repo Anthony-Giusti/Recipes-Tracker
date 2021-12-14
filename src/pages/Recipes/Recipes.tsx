@@ -16,7 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import PageContainer from '../../Themes/Pages/Pages';
 
-import RecipeCard from '../../components/RecipeCard/RecipeCard.js';
+import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import RecipeModal from './RecipeModal/RecipeModal';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 import FilterTagsDisplay from '../../components/FilterTagsDisplay/FilterTagsDisplay';

@@ -4,11 +4,11 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
+import { AxiosInstance } from 'axios';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
 import IRecipe from '../../shared/interfaces/Recipe.interface';
-import { AxiosInstance } from 'axios';
 
 interface IProps {
   addRecipe: (recipe: IRecipe) => void;
