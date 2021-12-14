@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Button, Menu } from '@material-ui/core';
 import React, { useState } from 'react';
 import useStyles from './Styles';
@@ -15,13 +16,7 @@ interface IProps {
   tagGroup: string;
 }
 
-const FilterBar: React.FC<IProps> = ({
-  options,
-  filterTags,
-  filteredTags,
-  tagTitle,
-  tagGroup,
-}) => {
+const FilterBar: React.FC<IProps> = ({ options, filterTags, filteredTags, tagTitle, tagGroup }) => {
   const [filterMenuOpen, setFilterMenuOpen] = useState(null);
   const classes = useStyles();
 
@@ -39,7 +34,7 @@ const FilterBar: React.FC<IProps> = ({
         className={classes.navBtn}
         variant="contained"
         onClick={handleFilterMenuOpen}
-        color={filteredTags[tagGroup as keyof IFilteredTags].length > 0 ? 'secondary' : 'default'}
+        color={filteredTags[tagGroup].length > 0 ? 'secondary' : 'default'}
       >
         Filter By {tagTitle}
       </Button>

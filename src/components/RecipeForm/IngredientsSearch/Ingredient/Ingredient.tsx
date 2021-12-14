@@ -25,8 +25,12 @@ import IIngredient from '../../../../shared/interfaces/Ingredient.interface';
 
 interface IProps {
   ingredient: IIngredient;
-  removeIngredient: (ingredient: IIngredient) => void;
-  changeIngredientValue: (ingredientID: string, property: string, value: string | null | number) => void;
+  removeIngredient: (ingredientID: number) => void;
+  changeIngredientValue: (
+    ingredientID: string,
+    property: string,
+    value: string | null | number
+  ) => void;
   handleCustomUnit: (ingredientID: string, isActive: boolean, value: string) => void;
 }
 
@@ -110,9 +114,7 @@ const Ingredient: React.FC<IProps> = ({
     <Card raised className={classes.ingredient}>
       <Container className={classes.ingredientUpper}>
         <div className={classes.titleContainer}>
-          <Typography variant="h6">
-            {ingredient.name}
-          </Typography>
+          <Typography variant="h6">{ingredient.name}</Typography>
         </div>
         <FormControl className={classes.option}>
           <TextField
@@ -190,7 +192,9 @@ const Ingredient: React.FC<IProps> = ({
             Add Custom Unit
           </MenuItem>
         )}
-        <MenuItem onClick={() => removeIngredient(ingredient)}>Delete This Ingredient</MenuItem>
+        <MenuItem onClick={() => removeIngredient(parseInt(ingredient.id))}>
+          Delete This Ingredient
+        </MenuItem>
       </Menu>
 
       <Divider />
