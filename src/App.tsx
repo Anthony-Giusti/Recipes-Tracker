@@ -126,7 +126,7 @@ const App: React.FC = () => {
     setmaxRecipes(9);
   };
 
-  const addRecipe = async (recipe: IRecipe) => {
+  const addRecipe = async (recipe: IRecipe): void => {
     if (isSignedIn) {
       await api.post(`/addRecipe?userId=${userId}`, { recipe }).then((response) => {
         console.log(response);
@@ -158,7 +158,7 @@ const App: React.FC = () => {
     }
   };
 
-  const deleteRecipe = (recipeId: string) => {
+  const deleteRecipe = (recipeId: string): void => {
     if (isSignedIn) {
       api.get(`/removeRecipe?userId=${userId}&recipeId=${recipeId}`);
     }
@@ -169,7 +169,7 @@ const App: React.FC = () => {
     setSearchedRecipes(searchedRecipes.filter((recipe) => recipe.id !== recipeId));
   };
 
-  const filterRecipes = (recipes: IRecipe[]) => {
+  const filterRecipes = (recipes: IRecipe[]): void => {
     const filteredRecipes: IRecipe[] = [];
 
     recipes.forEach((recipe: IRecipe) => {
@@ -223,7 +223,7 @@ const App: React.FC = () => {
 
   const filterTags = (value: string, tagGroup: string): void => {
     const newTags = filteredTags;
-    if (filteredTags[tagGroup as keyof IFilteredTagsl].includes(value)) {
+    if (filteredTags[tagGroup as keyof IFilteredTags].includes(value)) {
       newTags[tagGroup] = newTags[tagGroup].filter((tag) => tag !== value);
       setFilteredTags(newTags);
     } else {
@@ -265,7 +265,7 @@ const App: React.FC = () => {
     setIsSearching(true);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     if (!recipeSearchText) {
       setSearchedRecipes(recipes);
       return;
@@ -280,32 +280,22 @@ const App: React.FC = () => {
     }
   };
 
-  const handleFilterAndSearch = () => {
+  const handleFilterAndSearch = (): void => {
     setFilteredRecipes(filteredRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
     setSearchedRecipes(searchedRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
     setVisibleRecipes(visibleRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
   };
 
-  const handleIngreidentSearch = (data: IRecipe[]) => {
+  const handleIngreidentSearch = (data: IRecipe[]): void => {
     setIngredientsSearch(data);
   };
 
-  const handleCurrentRecipe = (recipe: IRecipe) => {
+  const handleCurrentRecipe = (recipe: IRecipe): void => {
     setCurrentRecipe(recipe);
     history.push('/edit');
   };
 
-  // const formatName = (name: string): string => {
-  //   const words = name.split(' ');
-  //   if (name.length > 1) {
-  //     for (let i = 0; i < words.length; i += 1) {
-  //       words[i] = words[i][0].toUpperCase() + words[i].substr(1);
-  //     }
-  //     return words.join(' ');
-  //   }
-  // };
-
-  const formatUnits = (units: string[]) => {
+  const formatUnits = (units: string[]): void => {
     const formattedUnits: string[] = [];
     units.forEach((unit) => {
       if (unit.length < 3) {
