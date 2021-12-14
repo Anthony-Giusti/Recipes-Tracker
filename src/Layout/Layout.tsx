@@ -1,8 +1,4 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable react/prop-types */
 // @ts-nocheck
-
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -26,7 +22,6 @@ import RecipeSeachBar from '../components/RecipeSearchBar/RecipeSearchBar';
 
 import useStyles from './Styles';
 import IRecipeTags from '../shared/interfaces/RecipeTag.interface';
-import IRecipe from '../shared/interfaces/Recipe.interface';
 import IFilteredTags from '../shared/interfaces/FilteredTags.interface';
 
 interface IProps {
@@ -52,7 +47,7 @@ interface IProps {
 const Layout: React.FC<IProps> = ({
   children,
   filteredTags,
-  filterRecipes,
+  filterTags,
   categoryOptions,
   dietTagOptions,
   intoleranceOptions,
