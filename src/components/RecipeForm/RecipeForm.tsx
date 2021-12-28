@@ -162,7 +162,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
 
   const changeIngredientValue = (
     ingredientID: string,
-    property: string,
+    property: 'comment' | 'unit' | 'quantity',
     value: string | number | null
   ) => {
     const alteredIngredient = ingredients.find(
@@ -170,9 +170,23 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     );
 
     if (alteredIngredient) {
-      alteredIngredient[property] = value;
+      if (property === 'comment' && typeof value === 'string') {
+        alteredIngredient.comment = value;
+      }
+      if (property === 'comment' && !value) {
+        alteredIngredient.comment = null;
+      }
+      if (property === 'unit' && typeof value === 'string') {
+        alteredIngredient.unit = value;
+      }
+      if (property === 'quantity' && typeof value === 'number') {
+        alteredIngredient.quantity = value;
+      }
+
       const newIngredients = ingredients;
-      const index = ingredients.findIndex((ingredient: any) => ingredient.id === ingredientID);
+      const index = ingredients.findIndex(
+        (ingredient: IIngredient) => ingredient.id === ingredientID
+      );
       newIngredients.splice(index, 1, alteredIngredient);
       setIngredients(newIngredients);
     }

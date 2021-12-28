@@ -26,7 +26,7 @@ interface IProps {
   handleIngredientRemove: (ingredientID: number) => void;
   changeIngredientValue: (
     ingredientID: string,
-    property: string,
+    property: 'comment' | 'unit' | 'quantity',
     value: string | null | number
   ) => void;
   handleCustomUnit: (ingredientID: string, isActive: boolean, value: string) => void;
