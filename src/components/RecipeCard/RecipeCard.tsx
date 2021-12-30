@@ -1,6 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
 import React from 'react';
 
 import Card from '@material-ui/core/Card';
@@ -24,8 +21,8 @@ import IRecipe from '../../shared/interfaces/Recipe.interface';
 
 interface IProps {
   recipe: IRecipe;
-  handleModalOpen: (recipeID: string | null) => void;
-  handleDeleteOpen: (recipeID: string | null) => void;
+  handleModalOpen: (recipeID: string) => void;
+  handleDeleteOpen: (recipeID: string) => void;
 }
 
 const RecipeCard: React.FC<IProps> = ({ recipe, handleModalOpen, handleDeleteOpen }) => {

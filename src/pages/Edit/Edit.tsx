@@ -1,26 +1,26 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
-// @ts-nocheck
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import Typography from '@material-ui/core/Typography';
 
+import { AxiosInstance } from 'axios';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
 import IRecipe from '../../shared/interfaces/Recipe.interface';
+import IRecipeFormSubmission from '../../shared/interfaces/RecipeFormSubmission.interface';
 
 interface IProps {
-  currentRecipe: IRecipe;
+  currentRecipe: IRecipe | null;
   editRecipe: (recipe: IRecipe) => void;
-  api: () => void;
+  api: AxiosInstance;
 }
 
 const Edit: React.FC<IProps> = ({ currentRecipe, editRecipe, api }) => {
-  const submit = (recipe: IRecipe) => {
-    editRecipe(recipe);
+  const submit = (recipe: IRecipeFormSubmission): void => {
+    if (recipe.id) {
+      const editedRecipe: IRecipe = Object.assign(recipe);
+      editRecipe(editedRecipe);
+    }
   };
 
   return currentRecipe ? (
@@ -30,7 +30,9 @@ const Edit: React.FC<IProps> = ({ currentRecipe, editRecipe, api }) => {
       <RecipeForm recipe={currentRecipe} submit={submit} submitBtnText="Confirm Edit" api={api} />
     </PageContainer>
   ) : (
-    'Select a recipe first in order to Edit'
+    <PageContainer>
+      <Typography>'Select a recipe first in order to Edit'</Typography>
+    </PageContainer>
   );
 };
 

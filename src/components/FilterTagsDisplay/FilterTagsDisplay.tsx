@@ -1,7 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable react/prop-types */
-
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import useStyles from './Styles';
 
 import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
+import formatName from '../../shared/Utility Functions/FormatName';
 
 import {
   CategoryButton,
@@ -18,20 +15,14 @@ import {
 
 interface IProps {
   filteredTags: IFilteredTags;
-  filterTags: (tag: string, category: string) => void;
-  formatName: (name: string) => string;
+  filterTags: (tag: string, category: 'intolerances' | 'dietTags' | 'categories') => void;
   resetFilterTags: () => void;
 }
 
-const FilterTagsDisplay: React.FC<IProps> = ({
-  filteredTags,
-  filterTags,
-  formatName,
-  resetFilterTags,
-}) => {
+const FilterTagsDisplay: React.FC<IProps> = ({ filteredTags, filterTags, resetFilterTags }) => {
   const classes = useStyles();
 
-  const handleClick = (tag: string, category: string) => {
+  const handleClick = (tag: string, category: 'intolerances' | 'dietTags' | 'categories') => {
     filterTags(tag, category);
   };
 
@@ -41,11 +32,7 @@ const FilterTagsDisplay: React.FC<IProps> = ({
         <Grid className={classes.gridContainer} container spacing={1}>
           {filteredTags.categories.map((tag: string) => (
             <Grid item key={tag}>
-              <CategoryButton
-                variant="contained"
-                // className={classes.categoryBtn}
-                onClick={() => handleClick(tag, 'categories')}
-              >
+              <CategoryButton variant="contained" onClick={() => handleClick(tag, 'categories')}>
                 {formatName(tag)}
               </CategoryButton>
             </Grid>
@@ -56,11 +43,7 @@ const FilterTagsDisplay: React.FC<IProps> = ({
         <Grid className={classes.gridContainer} container spacing={1}>
           {filteredTags.dietTags.map((tag: string) => (
             <Grid item key={tag}>
-              <DietButton
-                variant="contained"
-                // className={classes.dietBtn}
-                onClick={() => handleClick(tag, 'dietTags')}
-              >
+              <DietButton variant="contained" onClick={() => handleClick(tag, 'dietTags')}>
                 {formatName(tag)}
               </DietButton>
             </Grid>
@@ -73,7 +56,6 @@ const FilterTagsDisplay: React.FC<IProps> = ({
             <Grid item key={tag}>
               <IntoleranceButton
                 variant="contained"
-                // className={classes.intoleranceBtn}
                 onClick={() => handleClick(tag, 'intolerances')}
               >
                 {formatName(tag)}

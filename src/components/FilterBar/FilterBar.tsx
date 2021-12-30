@@ -1,19 +1,18 @@
-// @ts-nocheck
-import { Button, Menu } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
 import React, { useState } from 'react';
 import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
 import IRecipeTags from '../../shared/interfaces/RecipeTag.interface';
-import IRecipe from '../../shared/interfaces/Recipe.interface';
 import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
 
 interface IProps {
   options: IRecipeTags[];
-  filterTags: (value: string, tagGroup: string) => void;
+  filterTags: (value: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
   filteredTags: IFilteredTags;
   tagTitle: string;
-  tagGroup: string;
+  tagGroup: 'intolerances' | 'dietTags' | 'categories';
 }
 
 const FilterBar: React.FC<IProps> = ({ options, filterTags, filteredTags, tagTitle, tagGroup }) => {

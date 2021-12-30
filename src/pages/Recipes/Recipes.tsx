@@ -1,8 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable react/prop-types */
-// @ts-nocheck
-
 import React, { useEffect, useState } from 'react';
 import Masonry from 'react-masonry-css';
 
@@ -18,25 +13,24 @@ import PageContainer from '../../Themes/Pages/Pages';
 
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
 import RecipeModal from './RecipeModal/RecipeModal';
-import RecipeForm from '../../components/RecipeForm/RecipeForm';
 import FilterTagsDisplay from '../../components/FilterTagsDisplay/FilterTagsDisplay';
 
 import useStyles from './Styles';
 import IRecipe from '../../shared/interfaces/Recipe.interface';
-import IRecipeTags from '../../shared/interfaces/RecipeTag.interface';
+import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
 
 interface IProps {
   visibleRecipes: IRecipe[];
   resetFilterTags: () => void;
   deleteRecipe: (recipeID: string) => void;
-  getIngredientObject: () => void;
-  handleCheckBoxValueChange: () => void;
-  handleCurrentRecipe: () => void;
+  // getIngredientObject: () => void;
+  // handleCheckBoxValueChange: () => void;
+  handleCurrentRecipe: (recipe: IRecipe) => void;
   fetchRecipes: () => void;
   isFetchingRecipes: boolean;
-  filteredTags: IRecipeTags;
-  filterTags: IRecipeTags;
-  formatName: IRecipeTags;
+  filteredTags: IFilteredTags;
+  filterTags: (value: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
+  // formatName: IRecipeTags;
   printRecipe: () => void;
   showMoreRecipes: (recipesToDisplay: number) => void;
   maxRecipes: number;
@@ -47,14 +41,13 @@ const Recipes: React.FC<IProps> = ({
   visibleRecipes,
   resetFilterTags,
   deleteRecipe,
-  getIngredientObject,
-  handleCheckBoxValueChange,
+  // getIngredientObject,
+  // handleCheckBoxValueChange,
   handleCurrentRecipe,
   fetchRecipes,
   isFetchingRecipes,
   filteredTags,
   filterTags,
-  formatName,
   printRecipe,
   showMoreRecipes,
   maxRecipes,
@@ -79,7 +72,7 @@ const Recipes: React.FC<IProps> = ({
     }
   };
 
-  const handleDeleteOpen = (id: string) => {
+  const handleDeleteOpen = (id: string): void => {
     setDeleteDialogOpen(true);
     setDeleteId(id);
   };
@@ -111,8 +104,7 @@ const Recipes: React.FC<IProps> = ({
   return (
     <PageContainer className={classes.container}>
       <FilterTagsDisplay
-        className={classes.filterTags}
-        // formatName={formatName}
+        // className={classes.filterTags}
         filterTags={filterTags}
         filteredTags={filteredTags}
         resetFilterTags={resetFilterTags}
@@ -135,7 +127,7 @@ const Recipes: React.FC<IProps> = ({
                 handleDeleteOpen={handleDeleteOpen}
                 handleModalOpen={handleModalOpen}
                 recipe={recipe}
-                handleDelete={handleDelete}
+                // handleDelete={handleDelete}
               />
             </div>
           ))}
@@ -152,17 +144,17 @@ const Recipes: React.FC<IProps> = ({
         <Typography>No Recipes Found</Typography>
       )}
 
-      {modalOpen && (
+      {modalOpen && displayedRecipe && (
         <RecipeModal
-          getIngredientObject={getIngredientObject}
+          // getIngredientObject={getIngredientObject}
           modalOpen={modalOpen}
           modalClose={handleModalClose}
           recipe={displayedRecipe}
-          handleCheckBoxValueChange={handleCheckBoxValueChange}
+          // handleCheckBoxValueChange={handleCheckBoxValueChange}
           handleCurrentRecipe={handleCurrentRecipe}
           printRecipe={printRecipe}
         >
-          <RecipeForm />
+          {/* <RecipeForm /> */}
         </RecipeModal>
       )}
 

@@ -23,10 +23,12 @@ import IIngredient from '../../shared/interfaces/Ingredient.interface';
 import useStyles from './Styles';
 import IIngredientSearchResult from '../../shared/interfaces/IngredientSearchResult.interface';
 import formatName from '../../shared/Utility Functions/FormatName';
+import INewRecipe from '../../shared/interfaces/NewRecipe.interface';
+import IRecipeFormSubmission from '../../shared/interfaces/RecipeFormSubmission.interface';
 
 interface IProps {
   recipe: IRecipe | null;
-  submit: (recipe: IRecipe) => void;
+  submit: (recipe: IRecipeFormSubmission) => void;
   submitBtnText: string;
   api: AxiosInstance;
 }
@@ -57,13 +59,13 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
 
   const classes = useStyles();
 
-  let recipeTitleField: any;
-  let recipeDetailsField: any;
-  let servingsField: any;
-  let sourceURLField: any;
-  let cookTimeMinutesField: any;
-  let cookTimeHoursField: any;
-  const imageURLFields: any = [];
+  let recipeTitleField: HTMLTextAreaElement;
+  let recipeDetailsField: HTMLTextAreaElement;
+  let servingsField: HTMLSelectElement;
+  let sourceURLField: HTMLTextAreaElement;
+  let cookTimeMinutesField: HTMLSelectElement;
+  let cookTimeHoursField: HTMLSelectElement;
+  const imageURLFields: boolean[] = [];
 
   const formatUnit = (unit: string): string[] | string => {
     if (unit.length < 3) {
@@ -213,17 +215,17 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
 
   const handleHoursChange = (value: number) => {
     if (value < 0) {
-      cookTimeHoursField.value = 1;
+      cookTimeHoursField.value = '1';
     } else if (value > 99) {
-      cookTimeHoursField.value = 99;
+      cookTimeHoursField.value = '99';
     }
   };
 
   const handleMinutesChange = (value: number) => {
     if (value < 0) {
-      cookTimeMinutesField.value = 1;
+      cookTimeMinutesField.value = '1';
     } else if (value > 59) {
-      cookTimeMinutesField.value = 59;
+      cookTimeMinutesField.value = '59';
     }
   };
 
@@ -231,7 +233,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     setErrorMessageOpen(true);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setTitleError(false);
     setDetailsError(false);
@@ -279,14 +281,17 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
 
     if (errors.length === 0) {
-      submit({
+      const editedRecipe: IRecipeFormSubmission = {
         title: recipeTitleField.value,
         details: recipeDetailsField.value,
         servings: servingsField.value,
         cookTime: {
-          hours: cookTimeHoursField.value,
-          minutes: cookTimeMinutesField.value,
-          formatted: formatCookTime(cookTimeHoursField.value, cookTimeMinutesField.value),
+          hours: parseInt(cookTimeHoursField.value),
+          minutes: parseInt(cookTimeMinutesField.value),
+          formatted: formatCookTime(
+            parseInt(cookTimeHoursField.value),
+            parseInt(cookTimeMinutesField.value)
+          ),
         },
         sourceURL: sourceURLField.value,
         imageURLs: imageURLFields.map((url: any) => url.value),
@@ -306,7 +311,9 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
         ingredients,
         steps,
         additionalNotes,
-      });
+      };
+
+      submit(editedRecipe);
     } else {
       handleErrors();
     }

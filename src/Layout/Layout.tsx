@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -27,8 +26,7 @@ import IFilteredTags from '../shared/interfaces/FilteredTags.interface';
 interface IProps {
   children: any;
   filteredTags: IFilteredTags;
-  filterTags: (value: string, tagGroup: string) => void;
-  imageUrl: string;
+  filterTags: (value: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
   categoryOptions: IRecipeTags[];
   dietTagOptions: IRecipeTags[];
   intoleranceOptions: IRecipeTags[];
@@ -63,7 +61,7 @@ const Layout: React.FC<IProps> = ({
   googleProfile,
 }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [loginMenuOpen, setLoginMenuOpen] = useState(false);
+  const [loginMenuOpen, setLoginMenuOpen] = useState<null | HTMLElement>(null);
 
   const classes = useStyles();
   const history = useHistory();
@@ -73,12 +71,12 @@ const Layout: React.FC<IProps> = ({
   const mdDevice = useMediaQuery(theme.breakpoints.up('md'));
   const smDevice = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const handleLoginMenuOpen = (e) => {
+  const handleLoginMenuOpen = (e: any) => {
     setLoginMenuOpen(e.currentTarget);
   };
 
   const handleLoginMenuClose = () => {
-    setLoginMenuOpen(false);
+    setLoginMenuOpen(null);
   };
 
   const handleDrawerOpen = () => {
@@ -90,12 +88,12 @@ const Layout: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    setLoginMenuOpen(false);
+    setLoginMenuOpen(null);
   }, [isSignedIn]);
 
   return (
     <div className={classes.root}>
-      <AppBar className={classes.appbar} elevation={0}>
+      <AppBar /* className={classes.appbar} */ elevation={0}>
         <Toolbar className={classes.toolbar}>
           <Button
             className={classes.navBtn}
@@ -152,7 +150,6 @@ const Layout: React.FC<IProps> = ({
                 </>
               ) : (
                 <Button
-                  className={classes.filterBtn}
                   onClick={handleDrawerOpen}
                   variant="contained"
                   color={isSearching || isFiltered ? 'secondary' : 'default'}
@@ -191,7 +188,7 @@ const Layout: React.FC<IProps> = ({
           )}
 
           <FilterBar
-            className={classes.drawerFilterBtn}
+            // className={classes.drawerFilterBtn}
             options={categoryOptions}
             filteredTags={filteredTags}
             filterTags={filterTags}
@@ -199,7 +196,7 @@ const Layout: React.FC<IProps> = ({
             tagGroup="categories"
           />
           <FilterBar
-            className={classes.drawerFilterBtn}
+            // className={classes.drawerFilterBtn}
             options={dietTagOptions}
             filteredTags={filteredTags}
             filterTags={filterTags}
@@ -207,7 +204,7 @@ const Layout: React.FC<IProps> = ({
             tagGroup="dietTags"
           />
           <FilterBar
-            className={classes.drawerFilterBtn}
+            // className={classes.drawerFilterBtn}
             options={intoleranceOptions}
             filteredTags={filteredTags}
             filterTags={filterTags}
@@ -223,7 +220,7 @@ const Layout: React.FC<IProps> = ({
             <GoogleLogout clientId={clientId} onLogoutSuccess={handleSignOut} />
           ) : (
             <GoogleLogin
-              className={classes.googleLogin}
+              // className={classes.googleLogin}
               cookiePolicy="single_host_origin"
               isSignedIn
               clientId={clientId}

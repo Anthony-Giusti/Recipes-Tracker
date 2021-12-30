@@ -1,5 +1,6 @@
-// @ts-nocheck
-import { Checkbox, FormControlLabel, MenuItem } from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 import React, { useState } from 'react';
 
 import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
@@ -7,9 +8,9 @@ import IRecipeTag from '../../shared/interfaces/RecipeTag.interface';
 
 interface IProps {
   filteredTags: IFilteredTags;
-  tagGroup: string;
+  tagGroup: 'intolerances' | 'dietTags' | 'categories';
   option: IRecipeTag;
-  filterTags: (optionValue: string, tagGroup: string) => void;
+  filterTags: (optionValue: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
 }
 
 const FilterCheckBoxes: React.FC<IProps> = ({ filteredTags, tagGroup, option, filterTags }) => {
