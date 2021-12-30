@@ -1,7 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
-// @ts-nocheck
-
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { IconButton, ThemeProvider } from '@material-ui/core/';
@@ -22,8 +18,7 @@ import Layout from './Layout/Layout';
 import Theme from './Themes/Theme';
 
 import IRecipe from './shared/interfaces/Recipe.interface';
-import IRecipeTags from './shared/interfaces/RecipeTag.interface';
-import IIngredient from './shared/interfaces/Ingredient.interface';
+import INewRecipe from './shared/interfaces/NewRecipe.interface';
 import IFilteredTags from './shared/interfaces/FilteredTags.interface';
 
 import formatName from './shared/Utility Functions/FormatName';
@@ -46,8 +41,9 @@ const App: React.FC = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [userId, setUserId] = useState('');
   const [googleProfile, setGoogleProfile] = useState({});
+  const [newOfflineRecipesAdded, setNewOfflineRecipesAdded] = useState(0);
 
-  const [ingredientsSearch, setIngredientsSearch] = useState<IRecipe[]>([]);
+  // const [ingredientsSearch, setIngredientsSearch] = useState<IRecipe[]>([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(true);
   const [bootUpWarning, setBootUpWarning] = useState(true);
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
@@ -126,14 +122,17 @@ const App: React.FC = () => {
     setmaxRecipes(9);
   };
 
-  const addRecipe = async (recipe: IRecipe): void => {
+  const addRecipe = async (recipe: INewRecipe): Promise<void> => {
     if (isSignedIn) {
       await api.post(`/addRecipe?userId=${userId}`, { recipe }).then((response) => {
         console.log(response);
         history.push('/');
       });
     } else {
-      recipes.push(recipe);
+      const newID = { id: newOfflineRecipesAdded.toString() };
+      const newRecipe: IRecipe = Object.assign(recipe, newID);
+      setNewOfflineRecipesAdded((prev) => prev + 1);
+      recipes.push(newRecipe);
     }
 
     history.push('/');
@@ -169,7 +168,7 @@ const App: React.FC = () => {
     setSearchedRecipes(searchedRecipes.filter((recipe) => recipe.id !== recipeId));
   };
 
-  const filterRecipes = (recipes: IRecipe[]): void => {
+  const filterRecipes = (recipes: IRecipe[]): IRecipe[] => {
     const filteredRecipes: IRecipe[] = [];
 
     recipes.forEach((recipe: IRecipe) => {
@@ -221,9 +220,12 @@ const App: React.FC = () => {
     }
   };
 
-  const filterTags = (value: string, tagGroup: string): void => {
+  const filterTags = (
+    value: string,
+    tagGroup: 'intolerances' | 'dietTags' | 'categories'
+  ): void => {
     const newTags = filteredTags;
-    if (filteredTags[tagGroup as keyof IFilteredTags].includes(value)) {
+    if (filteredTags[tagGroup].includes(value)) {
       newTags[tagGroup] = newTags[tagGroup].filter((tag) => tag !== value);
       setFilteredTags(newTags);
     } else {
@@ -286,51 +288,51 @@ const App: React.FC = () => {
     setVisibleRecipes(visibleRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
   };
 
-  const handleIngreidentSearch = (data: IRecipe[]): void => {
-    setIngredientsSearch(data);
-  };
+  // const handleIngreidentSearch = (data: IRecipe[]): void => {
+  //   setIngredientsSearch(data);
+  // };
 
   const handleCurrentRecipe = (recipe: IRecipe): void => {
     setCurrentRecipe(recipe);
     history.push('/edit');
   };
 
-  const formatUnits = (units: string[]): void => {
-    const formattedUnits: string[] = [];
-    units.forEach((unit) => {
-      if (unit.length < 3) {
-        formattedUnits.push(unit.toUpperCase());
-      } else {
-        formattedUnits.push(formatName(unit));
-      }
-    });
-    return formattedUnits;
-  };
+  // const formatUnits = (units: string[]): string[] => {
+  //   const formattedUnits: string[] = [];
+  //   units.forEach((unit) => {
+  //     if (unit.length < 3) {
+  //       formattedUnits.push(unit.toUpperCase());
+  //     } else {
+  //       formattedUnits.push(formatName(unit));
+  //     }
+  //   });
+  //   return formattedUnits;
+  // };
 
-  const addIngredient = (ingredient: IIngredient, ingredients: IIngredient[]) => {
-    if (ingredients.every((element) => element.id !== ingredient.id)) {
-      return {
-        id: ingredient.id,
-        category: ingredient.aisle,
-        name: formatName(ingredient.name),
-        units: formatUnits(ingredient.possibleUnits),
-        comment: null,
-        unit: ingredient.possibleUnits[0],
-        quantity: 1,
-      };
-    }
-  };
+  // const addIngredient = (ingredient: IIngredient, ingredients: IIngredient[]) => {
+  //   if (ingredients.every((element) => element.id !== ingredient.id)) {
+  //     return {
+  //       id: ingredient.id,
+  //       category: ingredient.aisle,
+  //       name: formatName(ingredient.name),
+  //       units: formatUnits(ingredient.possibleUnits),
+  //       comment: null,
+  //       unit: ingredient.possibleUnits[0],
+  //       quantity: 1,
+  //     };
+  //   }
+  // };
 
-  const handleCheckBoxValueChange = (
-    newValue: string,
-    prevValues: string[],
-    setValues: string[]
-  ) => {
-    if (prevValues.includes(newValue)) {
-      return prevValues.filter((category) => category !== newValue);
-    }
-    setValues((prev: string[]) => [...prev, newValue]);
-  };
+  // const handleCheckBoxValueChange = (
+  //   newValue: string,
+  //   prevValues: string[],
+  //   setValues: string[]
+  // ) => {
+  //   if (prevValues.includes(newValue)) {
+  //     return prevValues.filter((category) => category !== newValue);
+  //   }
+  //   setValues((prev: string[]) => [...prev, newValue]);
+  // };
 
   const printRecipe = () => {
     printJS('recipe-print', 'html');
@@ -401,25 +403,25 @@ const App: React.FC = () => {
           handleSignOut={handleSignOut}
           isSignedIn={isSignedIn}
           googleProfile={googleProfile}
-          isFetchingRecipes={isFetchingRecipes}
+          // isFetchingRecipes={isFetchingRecipes}
         >
           <Switch>
             <Route exact path="/">
               <Recipes
                 fetchRecipes={fetchRecipes}
                 isFetchingRecipes={isFetchingRecipes}
-                recipes={recipes}
+                // recipes={recipes}
                 visibleRecipes={visibleRecipes}
                 resetFilterTags={resetFilterTags}
                 deleteRecipe={deleteRecipe}
-                getIngredientObject={addIngredient}
-                ingredientsSearch={ingredientsSearch}
-                handleIngreidentSearch={handleIngreidentSearch}
-                handleCheckBoxValueChange={handleCheckBoxValueChange}
+                // getIngredientObject={addIngredient}
+                // ingredientsSearch={ingredientsSearch}
+                // handleIngreidentSearch={handleIngreidentSearch}
+                // handleCheckBoxValueChange={handleCheckBoxValueChange}
                 handleCurrentRecipe={handleCurrentRecipe}
                 filteredTags={filteredTags}
                 filterTags={filterTags}
-                formatName={formatName}
+                // formatName={formatName}
                 printRecipe={printRecipe}
                 showMoreRecipes={showMoreRecipes}
                 maxRecipes={maxRecipes}
@@ -429,8 +431,8 @@ const App: React.FC = () => {
             <Route path="/create">
               <Create
                 addRecipe={addRecipe}
-                ingredientsSearch={ingredientsSearch}
-                handleIngreidentSearch={handleIngreidentSearch}
+                // ingredientsSearch={ingredientsSearch}
+                // handleIngreidentSearch={handleIngreidentSearch}
                 api={api}
               />
             </Route>
