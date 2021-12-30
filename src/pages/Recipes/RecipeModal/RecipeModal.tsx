@@ -163,7 +163,7 @@ const RecipeModal: React.FC<IProps> = ({
               </Typography>
               <List>
                 {recipe.ingredients.map((ingredient: IIngredient) => (
-                  <ListItem divider key={ingredient.id}>
+                  <ListItem divider={recipe.ingredients.length > 1} key={ingredient.id}>
                     <ListItemText>
                       {ingredient.name} - {ingredient.quantity}{' '}
                       {ingredient.customUnitAdded ? ingredient.customUnit : ingredient.unit}{' '}
