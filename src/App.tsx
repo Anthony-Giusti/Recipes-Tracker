@@ -449,7 +449,7 @@ const App: React.FC = () => {
           open={bootUpWarning}
           onClose={() => setBootUpWarning(false)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          message="This app uses free options of Mongo and Heroku it may be slow initially if inactive for a few hours."
+          message="Typescript"
           action={
             <>
               <IconButton
