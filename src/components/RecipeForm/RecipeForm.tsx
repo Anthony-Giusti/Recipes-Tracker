@@ -25,6 +25,7 @@ import IIngredientSearchResult from '../../shared/interfaces/IngredientSearchRes
 import formatName from '../../shared/Utility Functions/FormatName';
 import INewRecipe from '../../shared/interfaces/NewRecipe.interface';
 import IRecipeFormSubmission from '../../shared/interfaces/RecipeFormSubmission.interface';
+import Istep from '../../shared/interfaces/Step.interface';
 
 interface IProps {
   recipe: IRecipe | null;
@@ -65,7 +66,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
   let sourceURLField: HTMLTextAreaElement;
   let cookTimeMinutesField: HTMLSelectElement;
   let cookTimeHoursField: HTMLSelectElement;
-  const imageURLFields: boolean[] = [];
+  const imageURLFields: HTMLTextAreaElement[] = [];
 
   const formatUnit = (unit: string): string[] | string => {
     if (unit.length < 3) {
@@ -90,9 +91,9 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     return null;
   };
 
-  const validateURLs = (urls: any) => {
+  const validateURLs = (urls: string | string[]): boolean[] => {
     if (Array.isArray(urls)) {
-      return urls.map((url) => !isURl(url.value));
+      return urls.map((url) => !isURl(url));
     }
     if (urls === '') {
       return [true];
@@ -100,7 +101,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     return [!isURl(urls)];
   };
 
-  const handleCheckBoxValueChange = (newValue: string, setValues: string) => {
+  const handleCheckBoxValueChange = (newValue: string, setValues: string): void => {
     let changeValue;
     let prevValues;
 
@@ -128,19 +129,19 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleImageURLBoxAdd = () => {
+  const handleImageURLBoxAdd = (): void => {
     if (imageURLBoxes < 6) {
       setImageURLBoxes(imageURLBoxes + 1);
     }
   };
 
-  const handleImageURlBoxRemove = () => {
+  const handleImageURlBoxRemove = (): void => {
     if (imageURLBoxes > 0) {
       setImageURLBoxes(imageURLBoxes - 1);
     }
   };
 
-  const handleIngredientAdd = (ingredient: IIngredientSearchResult) => {
+  const handleIngredientAdd = (ingredient: IIngredientSearchResult): void => {
     if (ingredients.every((element: any) => element.id !== ingredient.id)) {
       const newIngredient = {
         id: ingredient.id,
@@ -166,7 +167,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     ingredientID: string,
     property: 'comment' | 'unit' | 'quantity',
     value: string | number | null
-  ) => {
+  ): void => {
     const alteredIngredient = ingredients.find(
       (ingredient: IIngredient) => ingredientID === ingredient.id
     );
@@ -194,7 +195,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleCustomUnit = (ingredientID: string, isActive: any, value: string) => {
+  const handleCustomUnit = (ingredientID: string, isActive: any, value: string): void => {
     const alteredIngredient = ingredients.find(
       (ingredient: IIngredient) => ingredientID === ingredient.id
     );
@@ -205,15 +206,15 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleStepsChange = (newSteps: any) => {
+  const handleStepsChange = (newSteps: Istep[]): void => {
     setSteps(newSteps);
   };
 
-  const handleNotesChange = (newNotes: any) => {
+  const handleNotesChange = (newNotes: Istep[]): void => {
     setAddtionalNotes(newNotes);
   };
 
-  const handleHoursChange = (value: number) => {
+  const handleHoursChange = (value: number): void => {
     if (value < 0) {
       cookTimeHoursField.value = '1';
     } else if (value > 99) {
@@ -221,7 +222,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleMinutesChange = (value: number) => {
+  const handleMinutesChange = (value: number): void => {
     if (value < 0) {
       cookTimeMinutesField.value = '1';
     } else if (value > 59) {
@@ -229,11 +230,11 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
     }
   };
 
-  const handleErrors = () => {
+  const handleErrors = (): void => {
     setErrorMessageOpen(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     setTitleError(false);
     setDetailsError(false);
@@ -266,7 +267,7 @@ const RecipeForm: React.FC<IProps> = ({ recipe, submit, submitBtnText, api }) =>
       errors.push('Recipe needs at least one step.');
     }
 
-    const imageErrors = validateURLs(imageURLFields);
+    const imageErrors = validateURLs(imageURLFields.map((imageURLField) => imageURLField.value));
     if (imageErrors.some((test) => test)) {
       setImageURLErrors(imageErrors);
       errors.push(`1 or more image URLs are not valid.`);
