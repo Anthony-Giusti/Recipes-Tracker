@@ -15,13 +15,12 @@ interface IRecipe {
   categories: {
     raw: string[];
     formatted: string[];
-    // formatted: (string | string[])[];
   };
   dietTags: {
     raw: string[];
     formatted: string[];
   };
-  id: string | null;
+  id: string;
   intolerances: {
     raw: string[];
     formatted: string[];
