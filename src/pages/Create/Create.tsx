@@ -1,6 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable react/prop-types */
-/* eslint-disable import/no-named-as-default */
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
@@ -8,16 +5,20 @@ import { AxiosInstance } from 'axios';
 import RecipeForm from '../../components/RecipeForm/RecipeForm';
 
 import PageContainer from '../../Themes/Pages/Pages';
-import IRecipe from '../../shared/interfaces/Recipe.interface';
+import INewRecipe from '../../shared/interfaces/NewRecipe.interface';
+import IRecipeFormSubmission from '../../shared/interfaces/RecipeFormSubmission.interface';
 
 interface IProps {
-  addRecipe: (recipe: IRecipe) => void;
+  addRecipe: (recipe: INewRecipe) => void;
   api: AxiosInstance;
 }
 
 const Create: React.FC<IProps> = ({ addRecipe, api }) => {
-  const submit = (recipe: IRecipe) => {
-    addRecipe(recipe);
+  const submit = (recipe: IRecipeFormSubmission): void => {
+    if (!recipe.id) {
+      const newRecipe: INewRecipe = Object.assign(recipe);
+      addRecipe(newRecipe);
+    }
   };
 
   return (
