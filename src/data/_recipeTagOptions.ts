@@ -1,4 +1,6 @@
-const categoryOptions = [
+import IRecipeTagsOption from '../shared/interfaces/RecipeTagsOption.interface';
+
+const categoryOptions: IRecipeTagsOption[] = [
   { label: 'Main Course', value: 'main course' },
   { label: 'Dessert', value: 'dessert' },
   { label: 'Appertizer', value: 'appetizer' },
@@ -14,7 +16,7 @@ const categoryOptions = [
   { label: 'Drink', value: 'drink' },
 ];
 
-const dietTagOptions = [
+const dietTagOptions: IRecipeTagsOption[] = [
   { label: 'Gluten Free', value: 'gluten free' },
   { label: 'Ketogenic', value: 'ketogenic' },
   { label: 'Vegetarian', value: 'vegetarian' },
@@ -27,7 +29,7 @@ const dietTagOptions = [
   { label: 'Whole30', value: 'whole30' },
 ];
 
-const intoleranceOptions = [
+const intoleranceOptions: IRecipeTagsOption[] = [
   { label: 'Dairy', value: 'dairy' },
   { label: 'Egg', value: 'egg' },
   { label: 'Gluten', value: 'gluten' },
