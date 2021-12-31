@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { IconButton, ThemeProvider } from '@material-ui/core/';
+import { ThemeProvider } from '@material-ui/core/';
 
 import { useHistory } from 'react-router';
 import axios from 'axios';
-
 import printJS from 'print-js';
+import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 
-import Snackbar from '@material-ui/core/Snackbar';
-
-import CloseIcon from '@material-ui/icons/Close';
 import Recipes from './pages/Recipes/Recipes';
 import Create from './pages/Create/Create';
 import Edit from './pages/Edit/Edit';
 import Layout from './Layout/Layout';
-
 import Theme from './Themes/Theme';
 
 import IRecipe from './shared/interfaces/Recipe.interface';
 import INewRecipe from './shared/interfaces/NewRecipe.interface';
 import IFilteredTags from './shared/interfaces/FilteredTags.interface';
 
-import formatName from './shared/Utility Functions/FormatName';
-
 import { categoryOptions, dietTagOptions, intoleranceOptions } from './data/_recipeTagOptions';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: process.env.REACT_APP_BASE_URL
+    ? process.env.REACT_APP_BASE_URL
+    : 'http://localhost:5000/',
 });
 
 const exampleId = () => {
@@ -43,9 +39,7 @@ const App: React.FC = () => {
   const [googleProfile, setGoogleProfile] = useState({});
   const [newOfflineRecipesAdded, setNewOfflineRecipesAdded] = useState(0);
 
-  // const [ingredientsSearch, setIngredientsSearch] = useState<IRecipe[]>([]);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(true);
-  const [bootUpWarning, setBootUpWarning] = useState(true);
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<IRecipe[]>([]);
   const [searchedRecipes, setSearchedRecipes] = useState<IRecipe[]>([]);
@@ -71,14 +65,20 @@ const App: React.FC = () => {
     });
   };
 
-  const handleSignIn = (response: any) => {
-    if (!response && !isSignedIn && exampleId) {
-      setUserId(exampleId);
-      return;
+  const handleSignIn = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+    // the "code" property is undefined on a successfull login
+    if (!googleResponse.code) {
+      const googleLoginResponse: GoogleLoginResponse = Object.assign(googleResponse);
+      if (!isSignedIn && exampleId) {
+        setUserId(exampleId);
+      } else {
+        setIsSignedIn(true);
+        setGoogleProfile(googleLoginResponse.profileObj);
+        fetchUserId(googleLoginResponse.googleId);
+      }
+    } else {
+      console.log(googleResponse.code);
     }
-    setIsSignedIn(true);
-    setGoogleProfile(response.profileObj);
-    fetchUserId(response.googleId);
   };
 
   const handleSignOut = () => {
@@ -236,14 +236,14 @@ const App: React.FC = () => {
     handleFilter();
   };
 
-  const emptySearch = () => {
+  const emptySearch = (): void => {
     setIsSearching(false);
     setSearchedRecipes(recipes);
     setVisibleRecipes(filteredRecipes);
     setRecipeSearchText('');
   };
 
-  const searchRecipes = (query: string, recipes: IRecipe[]) => {
+  const searchRecipes = (query: string, recipes: IRecipe[]): IRecipe[] => {
     const searchResults: IRecipe[] = [];
     const search = query.toLowerCase();
 
@@ -256,7 +256,7 @@ const App: React.FC = () => {
     return searchResults;
   };
 
-  const handleQuery = (query: string) => {
+  const handleQuery = (query: string): void => {
     if (!query) {
       emptySearch();
       setIsSearching(false);
@@ -288,57 +288,16 @@ const App: React.FC = () => {
     setVisibleRecipes(visibleRecipes.filter((recipe) => recipe.id !== deleteRecipeId));
   };
 
-  // const handleIngreidentSearch = (data: IRecipe[]): void => {
-  //   setIngredientsSearch(data);
-  // };
-
   const handleCurrentRecipe = (recipe: IRecipe): void => {
     setCurrentRecipe(recipe);
     history.push('/edit');
   };
 
-  // const formatUnits = (units: string[]): string[] => {
-  //   const formattedUnits: string[] = [];
-  //   units.forEach((unit) => {
-  //     if (unit.length < 3) {
-  //       formattedUnits.push(unit.toUpperCase());
-  //     } else {
-  //       formattedUnits.push(formatName(unit));
-  //     }
-  //   });
-  //   return formattedUnits;
-  // };
-
-  // const addIngredient = (ingredient: IIngredient, ingredients: IIngredient[]) => {
-  //   if (ingredients.every((element) => element.id !== ingredient.id)) {
-  //     return {
-  //       id: ingredient.id,
-  //       category: ingredient.aisle,
-  //       name: formatName(ingredient.name),
-  //       units: formatUnits(ingredient.possibleUnits),
-  //       comment: null,
-  //       unit: ingredient.possibleUnits[0],
-  //       quantity: 1,
-  //     };
-  //   }
-  // };
-
-  // const handleCheckBoxValueChange = (
-  //   newValue: string,
-  //   prevValues: string[],
-  //   setValues: string[]
-  // ) => {
-  //   if (prevValues.includes(newValue)) {
-  //     return prevValues.filter((category) => category !== newValue);
-  //   }
-  //   setValues((prev: string[]) => [...prev, newValue]);
-  // };
-
-  const printRecipe = () => {
+  const printRecipe = (): void => {
     printJS('recipe-print', 'html');
   };
 
-  const showMoreRecipes = () => {
+  const showMoreRecipes = (): void => {
     setmaxRecipes(maxRecipes + 9);
   };
 
@@ -403,25 +362,18 @@ const App: React.FC = () => {
           handleSignOut={handleSignOut}
           isSignedIn={isSignedIn}
           googleProfile={googleProfile}
-          // isFetchingRecipes={isFetchingRecipes}
         >
           <Switch>
             <Route exact path="/">
               <Recipes
                 fetchRecipes={fetchRecipes}
                 isFetchingRecipes={isFetchingRecipes}
-                // recipes={recipes}
                 visibleRecipes={visibleRecipes}
                 resetFilterTags={resetFilterTags}
                 deleteRecipe={deleteRecipe}
-                // getIngredientObject={addIngredient}
-                // ingredientsSearch={ingredientsSearch}
-                // handleIngreidentSearch={handleIngreidentSearch}
-                // handleCheckBoxValueChange={handleCheckBoxValueChange}
                 handleCurrentRecipe={handleCurrentRecipe}
                 filteredTags={filteredTags}
                 filterTags={filterTags}
-                // formatName={formatName}
                 printRecipe={printRecipe}
                 showMoreRecipes={showMoreRecipes}
                 maxRecipes={maxRecipes}
@@ -429,12 +381,7 @@ const App: React.FC = () => {
               />
             </Route>
             <Route path="/create">
-              <Create
-                addRecipe={addRecipe}
-                // ingredientsSearch={ingredientsSearch}
-                // handleIngreidentSearch={handleIngreidentSearch}
-                api={api}
-              />
+              <Create addRecipe={addRecipe} api={api} />
             </Route>
             <Route path="/edit">
               <Edit currentRecipe={currentRecipe} editRecipe={editRecipe} api={api} />
@@ -442,28 +389,6 @@ const App: React.FC = () => {
           </Switch>
         </Layout>
       </>
-
-      {bootUpWarning && (
-        <Snackbar
-          autoHideDuration={8000}
-          open={bootUpWarning}
-          onClose={() => setBootUpWarning(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          message="Typescript"
-          action={
-            <>
-              <IconButton
-                size="small"
-                aria-label="close"
-                color="inherit"
-                onClick={() => setBootUpWarning(false)}
-              >
-                <CloseIcon fontSize="small" />
-              </IconButton>
-            </>
-          }
-        />
-      )}
     </ThemeProvider>
   );
 };
