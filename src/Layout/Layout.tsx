@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import {
+  GoogleLogin,
+  GoogleLogout,
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from 'react-google-login';
 
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
@@ -20,23 +25,23 @@ import FilterBar from '../components/FilterBar/FilterBar';
 import RecipeSeachBar from '../components/RecipeSearchBar/RecipeSearchBar';
 
 import useStyles from './Styles';
-import IRecipeTags from '../shared/interfaces/RecipeTag.interface';
+import IRecipesTagsOptions from '../shared/interfaces/RecipeTagsOption.interface';
 import IFilteredTags from '../shared/interfaces/FilteredTags.interface';
 
 interface IProps {
   children: any;
   filteredTags: IFilteredTags;
   filterTags: (value: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
-  categoryOptions: IRecipeTags[];
-  dietTagOptions: IRecipeTags[];
-  intoleranceOptions: IRecipeTags[];
+  categoryOptions: IRecipesTagsOptions[];
+  dietTagOptions: IRecipesTagsOptions[];
+  intoleranceOptions: IRecipesTagsOptions[];
   searchRecipes: (query: string) => void;
   isSearching: boolean;
   isFiltered: boolean;
   emptySearch: () => void;
   recipeSearchText: string;
   clientId: string;
-  handleSignIn: (a: any) => void;
+  handleSignIn: (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => void;
   handleSignOut: () => void;
   isSignedIn: boolean;
   googleProfile: any;
