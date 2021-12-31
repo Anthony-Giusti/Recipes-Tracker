@@ -1,7 +1,9 @@
 import IStep from './Step.interface';
 import IIngredient from './Ingredient.interface';
+import IRecipeTags from './RecipeTags.interface';
 
 interface IRecipe {
+  id: string;
   title: string;
   details: string;
   servings: string;
@@ -12,19 +14,9 @@ interface IRecipe {
   };
   sourceURL: string;
   imageURLs: string[];
-  categories: {
-    raw: string[];
-    formatted: string[];
-  };
-  dietTags: {
-    raw: string[];
-    formatted: string[];
-  };
-  id: string;
-  intolerances: {
-    raw: string[];
-    formatted: string[];
-  };
+  categories: IRecipeTags;
+  dietTags: IRecipeTags;
+  intolerances: IRecipeTags;
   ingredients: IIngredient[];
   steps: IStep[];
   additionalNotes: IStep[];
