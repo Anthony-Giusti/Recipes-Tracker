@@ -23,7 +23,6 @@ import IIngredient from '../../shared/interfaces/Ingredient.interface';
 import useStyles from './Styles';
 import IIngredientSearchResult from '../../shared/interfaces/IngredientSearchResult.interface';
 import formatName from '../../shared/Utility Functions/FormatName';
-import INewRecipe from '../../shared/interfaces/NewRecipe.interface';
 import IRecipeFormSubmission from '../../shared/interfaces/RecipeFormSubmission.interface';
 import Istep from '../../shared/interfaces/Step.interface';
 
