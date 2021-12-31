@@ -1,14 +1,10 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable import/no-named-as-default */
-// @ts-nocheck
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import useStyles from './Styles';
-import IRecipeTags from '../../shared/interfaces/RecipeTag.interface';
+import IRecipeTags from '../../shared/interfaces/RecipeTags.interface';
 
 interface IProps {
   intoleranceTags: IRecipeTags;

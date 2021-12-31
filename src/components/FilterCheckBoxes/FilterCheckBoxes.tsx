@@ -4,12 +4,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import React, { useState } from 'react';
 
 import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
-import IRecipeTag from '../../shared/interfaces/RecipeTag.interface';
+import IRecipeTagsOption from '../../shared/interfaces/RecipeTagsOption.interface';
 
 interface IProps {
   filteredTags: IFilteredTags;
   tagGroup: 'intolerances' | 'dietTags' | 'categories';
-  option: IRecipeTag;
+  option: IRecipeTagsOption;
   filterTags: (optionValue: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
 }
 

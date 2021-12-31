@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import useStyles from './Styles';
 
 import FilterCheckBoxes from '../FilterCheckBoxes/FilterCheckBoxes';
-import IRecipeTags from '../../shared/interfaces/RecipeTag.interface';
+import IRecipeTagsOption from '../../shared/interfaces/RecipeTagsOption.interface';
 import IFilteredTags from '../../shared/interfaces/FilteredTags.interface';
 
 interface IProps {
-  options: IRecipeTags[];
+  options: IRecipeTagsOption[];
   filterTags: (value: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
   filteredTags: IFilteredTags;
   tagTitle: string;
