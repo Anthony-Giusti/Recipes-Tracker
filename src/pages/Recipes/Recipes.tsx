@@ -8,7 +8,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
 
+import CloseIcon from '@material-ui/icons/Close';
+import { setTimeout } from 'timers';
 import PageContainer from '../../Themes/Pages/Pages';
 
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
@@ -23,14 +27,11 @@ interface IProps {
   visibleRecipes: IRecipe[];
   resetFilterTags: () => void;
   deleteRecipe: (recipeID: string) => void;
-  // getIngredientObject: () => void;
-  // handleCheckBoxValueChange: () => void;
   handleCurrentRecipe: (recipe: IRecipe) => void;
   fetchRecipes: () => void;
   isFetchingRecipes: boolean;
   filteredTags: IFilteredTags;
   filterTags: (value: string, tagGroup: 'intolerances' | 'dietTags' | 'categories') => void;
-  // formatName: IRecipeTags;
   printRecipe: () => void;
   showMoreRecipes: (recipesToDisplay: number) => void;
   maxRecipes: number;
@@ -41,8 +42,6 @@ const Recipes: React.FC<IProps> = ({
   visibleRecipes,
   resetFilterTags,
   deleteRecipe,
-  // getIngredientObject,
-  // handleCheckBoxValueChange,
   handleCurrentRecipe,
   fetchRecipes,
   isFetchingRecipes,
@@ -57,13 +56,30 @@ const Recipes: React.FC<IProps> = ({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [bootUpWarning, setBootUpWarning] = useState(false);
   const classes = useStyles();
+
+  const checkIfStillBootingUp = () => {
+    if (isFetchingRecipes) {
+      setBootUpWarning(true);
+    } else {
+      setBootUpWarning(false);
+    }
+  };
 
   useEffect(() => {
     resetFilterTags();
     emptySearch();
     fetchRecipes();
+
+    setTimeout(() => {
+      checkIfStillBootingUp();
+    }, 1500);
   }, []);
+
+  useEffect(() => {
+    checkIfStillBootingUp();
+  }, [isFetchingRecipes]);
 
   const handleDelete = () => {
     if (typeof deleteId === 'string') {
@@ -112,6 +128,25 @@ const Recipes: React.FC<IProps> = ({
       {isFetchingRecipes && (
         <div className={classes.searchingSpinner}>
           <CircularProgress color="primary" size="5em" />
+          <Snackbar
+            // autoHideDuration={8000}
+            open={bootUpWarning}
+            onClose={() => setBootUpWarning(false)}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            message="Booting up Heroku server after period of inactivity..."
+            action={
+              <>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={() => setBootUpWarning(false)}
+                >
+                  <CloseIcon fontSize="small" />
+                </IconButton>
+              </>
+            }
+          />
         </div>
       )}
 
@@ -127,7 +162,6 @@ const Recipes: React.FC<IProps> = ({
                 handleDeleteOpen={handleDeleteOpen}
                 handleModalOpen={handleModalOpen}
                 recipe={recipe}
-                // handleDelete={handleDelete}
               />
             </div>
           ))}
@@ -146,16 +180,12 @@ const Recipes: React.FC<IProps> = ({
 
       {modalOpen && displayedRecipe && (
         <RecipeModal
-          // getIngredientObject={getIngredientObject}
           modalOpen={modalOpen}
           modalClose={handleModalClose}
           recipe={displayedRecipe}
-          // handleCheckBoxValueChange={handleCheckBoxValueChange}
           handleCurrentRecipe={handleCurrentRecipe}
           printRecipe={printRecipe}
-        >
-          {/* <RecipeForm /> */}
-        </RecipeModal>
+        />
       )}
 
       <Dialog
