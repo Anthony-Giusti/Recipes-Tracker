@@ -69,13 +69,10 @@ const App: React.FC = () => {
     // the "code" property is undefined on a successfull login
     if (!googleResponse.code) {
       const googleLoginResponse: GoogleLoginResponse = Object.assign(googleResponse);
-      if (!isSignedIn && exampleId) {
-        setUserId(exampleId);
-      } else {
-        setIsSignedIn(true);
-        setGoogleProfile(googleLoginResponse.profileObj);
-        fetchUserId(googleLoginResponse.googleId);
-      }
+
+      setIsSignedIn(true);
+      setGoogleProfile(googleLoginResponse.profileObj);
+      fetchUserId(googleLoginResponse.googleId);
     } else {
       console.log(googleResponse.code);
     }
