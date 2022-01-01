@@ -67,15 +67,12 @@ const App: React.FC = () => {
 
   const handleSignIn = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
     // the "code" property is undefined on a successfull login
+    console.log(googleResponse);
     if (!googleResponse.code) {
       const googleLoginResponse: GoogleLoginResponse = Object.assign(googleResponse);
-      if (!isSignedIn && exampleId) {
-        setUserId(exampleId);
-      } else {
-        setIsSignedIn(true);
-        setGoogleProfile(googleLoginResponse.profileObj);
-        fetchUserId(googleLoginResponse.googleId);
-      }
+      setIsSignedIn(true);
+      setGoogleProfile(googleLoginResponse.profileObj);
+      fetchUserId(googleLoginResponse.googleId);
     } else {
       console.log(googleResponse.code);
     }
@@ -89,6 +86,7 @@ const App: React.FC = () => {
   const fetchGoogle = async () => {
     await api.get('/getGoogle').then((response) => {
       setClientId(response.data);
+      console.log(response);
     });
   };
 
