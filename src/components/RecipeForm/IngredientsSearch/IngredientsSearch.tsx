@@ -96,7 +96,9 @@ const IngredientsSearch: React.FC<IProps> = ({
         {ingredientsSearch && (
           <Container className={classes.searchResults}>
             {ingredientsSearch.map((ingredient: IIngredientSearchResult) =>
-              ingredients.every((element: any) => element.id !== ingredient.id) ? (
+              ingredients.every(
+                (element: IIngredient) => element.id !== ingredient.id.toString()
+              ) ? (
                 <Button
                   key={ingredient.name}
                   variant="contained"
