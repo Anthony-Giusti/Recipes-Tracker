@@ -10,7 +10,7 @@ They also have the ability to log in with their Google account. The app will cre
 
 The app also is able to let the user filter by certain "tags” which are attached to each recipe when it is created. You can also do a search based on recipe titles with or without using tag filters. For example you could search "pasta" with the vegetarian diet tag and a wheat intolerance tag selected and the app will filter out any recipes that don't meet all conditions.
 
-**On 1/1/2022 I merged the branch where I ahve been adding TypeScript support and working on a major refactor** 
+**On 1/1/2022 I finally finished implementing TypeScript support in addition to completing a major refactor!** 
 
 ## Main Technologies Used
 
