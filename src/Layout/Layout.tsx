@@ -96,6 +96,42 @@ const Layout: React.FC<IProps> = ({
     setLoginMenuOpen(null);
   }, [isSignedIn]);
 
+  const largeDeviceFilterButtons = (
+    <>
+      <FilterBar
+        options={categoryOptions}
+        filteredTags={filteredTags}
+        filterTags={filterTags}
+        tagTitle="Category"
+        tagGroup="categories"
+      />
+      <FilterBar
+        options={dietTagOptions}
+        filteredTags={filteredTags}
+        filterTags={filterTags}
+        tagTitle="Diet"
+        tagGroup="dietTags"
+      />
+      <FilterBar
+        options={intoleranceOptions}
+        filteredTags={filteredTags}
+        filterTags={filterTags}
+        tagTitle="Intolerance"
+        tagGroup="intolerances"
+      />
+    </>
+  );
+
+  const smallDeviceFilterBtns = (
+    <Button
+      onClick={handleDrawerOpen}
+      variant="contained"
+      color={isSearching || isFiltered ? 'secondary' : 'default'}
+    >
+      Filters
+    </Button>
+  );
+
   return (
     <div className={classes.root}>
       <AppBar /* className={classes.appbar} */ elevation={0}>
@@ -129,39 +165,7 @@ const Layout: React.FC<IProps> = ({
                   recipeSearchText={recipeSearchText}
                 />
               )}
-              {lgDevice ? (
-                <>
-                  <FilterBar
-                    options={categoryOptions}
-                    filteredTags={filteredTags}
-                    filterTags={filterTags}
-                    tagTitle="Category"
-                    tagGroup="categories"
-                  />
-                  <FilterBar
-                    options={dietTagOptions}
-                    filteredTags={filteredTags}
-                    filterTags={filterTags}
-                    tagTitle="Diet"
-                    tagGroup="dietTags"
-                  />
-                  <FilterBar
-                    options={intoleranceOptions}
-                    filteredTags={filteredTags}
-                    filterTags={filterTags}
-                    tagTitle="Intolerance"
-                    tagGroup="intolerances"
-                  />
-                </>
-              ) : (
-                <Button
-                  onClick={handleDrawerOpen}
-                  variant="contained"
-                  color={isSearching || isFiltered ? 'secondary' : 'default'}
-                >
-                  Filters
-                </Button>
-              )}
+              {lgDevice ? largeDeviceFilterButtons : smallDeviceFilterBtns}
             </>
           )}
           <IconButton onClick={handleLoginMenuOpen} className={classes.avatarIconBtn}>
