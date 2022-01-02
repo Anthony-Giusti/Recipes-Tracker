@@ -31,7 +31,7 @@ export default makeStyles({
     width: 'auto',
   },
   myMasonryGridColumn: {
-    paddingLeft: 10,
+    padding: 5,
     backgroundClip: 'padding-box',
   },
   masonryGridItem: {

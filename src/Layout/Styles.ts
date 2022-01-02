@@ -32,6 +32,7 @@ export default makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       flexWrap: 'wrap',
       justifyContent: 'space-between',
+      paddingBottom: 10,
     },
   },
   drawerFilterBtn: {
