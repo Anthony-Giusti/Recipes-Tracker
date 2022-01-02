@@ -1,6 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable react/prop-types */
-/* eslint-disable import/no-named-as-default */
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 
@@ -12,7 +9,7 @@ import { InputBaseProps } from '@material-ui/core';
 import makeStyles from './Styles';
 
 interface IProps {
-  handleSearch: (a: string) => void;
+  handleSearch: (query: string) => void;
   isSearching: boolean;
   emptySearch: () => void;
   recipeSearchText: string;
@@ -39,10 +36,10 @@ const RecipeSearchBar: React.FC<IProps> = ({
   };
 
   useEffect(() => {
-    if (location.pathname === '/' && !isSearching) {
+    if (!isSearching) {
       handleEmpty();
     }
-  }, [location]);
+  }, []);
 
   return (
     <span className={classes.searchBar}>
