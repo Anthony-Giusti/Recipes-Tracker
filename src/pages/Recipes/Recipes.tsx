@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import CloseIcon from '@material-ui/icons/Close';
-import { setTimeout } from 'timers';
 import PageContainer from '../../Themes/Pages/Pages';
 
 import RecipeCard from '../../components/RecipeCard/RecipeCard';
@@ -93,7 +92,7 @@ const Recipes: React.FC<IProps> = ({
     setDeleteId(id);
   };
 
-  const handleDeleteClose = () => {
+  const handleDeleteClose = (): void => {
     setDeleteDialogOpen(false);
     setDeleteId(null);
   };
@@ -103,11 +102,11 @@ const Recipes: React.FC<IProps> = ({
     setModalOpen(true);
   };
 
-  const handleModalClose = () => {
+  const handleModalClose = (): void => {
     setModalOpen(false);
   };
 
-  const handleMoreRecipes = () => {
+  const handleMoreRecipes = (): void => {
     showMoreRecipes(maxRecipes + 9);
   };
 
