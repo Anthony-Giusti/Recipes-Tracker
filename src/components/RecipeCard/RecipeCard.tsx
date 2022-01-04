@@ -8,13 +8,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import CardActions from '@material-ui/core/CardActions';
 
 import DeleteOutlined from '@material-ui/icons/DeleteOutlined';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 
 import Carousel from 'react-material-ui-carousel';
 
-import { CardActions } from '@material-ui/core';
 import useStyles from './Styles';
 
 import IRecipe from '../../shared/interfaces/Recipe.interface';
@@ -38,7 +38,7 @@ const RecipeCard: React.FC<IProps> = ({ recipe, handleModalOpen, handleDeleteOpe
           <CardMedia component="img" className={classes.image} image={recipe.imageURLs[0]} />
         )}
         {recipe.imageURLs.length > 1 && (
-          <Carousel autoPlay={false} timeout={300}>
+          <Carousel autoPlay={false} timeout={300} navButtonsAlwaysVisible>
             {recipe.imageURLs.map((url, index) => (
               <img alt="of" key={index} className={classes.image} src={url} />
             ))}
