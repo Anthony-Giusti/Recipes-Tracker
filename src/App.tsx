@@ -59,13 +59,13 @@ const App: React.FC = () => {
 
   const history = useHistory();
 
-  const fetchUserId = async (googleID: string) => {
+  const fetchUserId = async (googleID: string): Promise<void> => {
     await api.get(`/getUser?googleId=${googleID}`).then((response) => {
       setUserId(response.data);
     });
   };
 
-  const handleSignIn = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+  const handleSignIn = (googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline): void => {
     // the "code" property is undefined on a successfull login
     if (!googleResponse.code) {
       const googleLoginResponse: GoogleLoginResponse = Object.assign(googleResponse);
@@ -78,18 +78,18 @@ const App: React.FC = () => {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = (): void => {
     setIsSignedIn(false);
     setUserId(exampleId);
   };
 
-  const fetchGoogle = async () => {
+  const fetchGoogle = async (): Promise<void> => {
     await api.get('/getGoogle').then((response) => {
       setClientId(response.data);
     });
   };
 
-  const fetchRecipes = () => {
+  const fetchRecipes = (): void => {
     if (!userId) {
       return;
     }
@@ -189,14 +189,14 @@ const App: React.FC = () => {
     return filteredRecipes;
   };
 
-  const resetFilterTags = () => {
+  const resetFilterTags = (): void => {
     setFilteredTags({ categories: [], dietTags: [], intolerances: [] });
     setIsFiltered(false);
     setFilteredRecipes(recipes);
     setVisibleRecipes(searchedRecipes);
   };
 
-  const handleFilter = () => {
+  const handleFilter = (): void => {
     if (
       filteredTags.categories.length === 0 &&
       filteredTags.dietTags.length === 0 &&
